@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{80C0B2DC-79E5-49F5-B785-C455423F978D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Flinq</RootNamespace>
+    <AssemblyName>Flinq</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Flinq\Extensions\FlinqIEnumerableExtensions.cs" />
+    <Compile Include="Flinq\Extensions\FlinqListExtensions.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Aggregate.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_All.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Any.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Average.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_BuildString.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Contains.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Count.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_ElementAt.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_ElementAtOrDefault.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_First.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_FirstOrDefault.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_ForEach.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_HasDuplicates.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_HasDuplicatesBy.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Intersects.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_IntersectsBy.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Last.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_LastOrDefault.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_LongCount.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Max.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_MaxBy.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Min.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_MinBy.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_RandomElement.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_RandomElementByWeight.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_RandomElementByWeightOrDefault.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_RandomElementByWeightOrFirst.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_RandomElementOrDefault.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_SequenceEqual.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Single.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_SingleOrDefault.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_Sum.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_ToArray.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_ToDictionary.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_ToEnumerable.cs" />
+    <Compile Include="Flinq\Extensions\Query\Final\FlinqQueryExtensions_ToList.cs" />
+    <Compile Include="Flinq\Extensions\Query\FlinqQueryExtensions_AllOperations.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_Cast.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_DistinctBy.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_ExceptBy.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_GroupBy.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_GroupJoin.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_Join.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_OfType.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_OrderBy.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_OrderByDescending.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_Select.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_SelectMany.cs" />
+    <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_Zip.cs" />
+    <Compile Include="Flinq\FlinqGrouping.cs" />
+    <Compile Include="Flinq\FlinqPools.cs" />
+    <Compile Include="Flinq\FlinqQuery.cs" />
+    <Compile Include="Flinq\FlinqQueryEnumerator.cs" />
+    <Compile Include="Flinq\FlinqQueryResult.cs" />
+    <Compile Include="Flinq\FlinqRandomNumberGenerator.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Append.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Concat.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_DefaultIfEmpty.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_DefaultIfEmpty_WithDefaultValue.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Distinct.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Except.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_ExistIn.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_GetDuplicates.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_InRandomOrder.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_InRandomOrder_WithRandomNumberGenerator.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Intersect.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_LazyAppend.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_LazyPrepend.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Prepend.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Reverse.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Skip.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_SkipWhile.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_SkipWhile_WithIndex.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Take.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_TakeWhile.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_TakeWhile_WithIndex.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Union.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_UnionLeaveDuplicates.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Where.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation_Where_WithIndex.cs" />
+    <Compile Include="Flinq\Pools\FlinqDictionaryPool.cs" />
+    <Compile Include="Flinq\Pools\FlinqGroupingPool.cs" />
+    <Compile Include="Flinq\Pools\FlinqHashSetPool.cs" />
+    <Compile Include="Flinq\Pools\FlinqListPool.cs" />
+    <Compile Include="Flinq\Pools\FlinqObjectsArrayPool.cs" />
+    <Compile Include="Flinq\Pools\FlinqOperationPool.cs" />
+    <Compile Include="Flinq\Pools\FlinqQueryPool.cs" />
+    <Compile Include="Flinq\Pools\FlinqQueryResultPool.cs" />
+    <Compile Include="Flinq\Pools\FlinqStringBuilderPool.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
