@@ -1,7 +1,7 @@
 # About
 LINQ replacement suitable for realtime applications due to object pooling. FLINQ uses immediate execution.
 
-FLINQ usually beats LINQ performance-wise when query's complexity is at least linear (if it's not, then LINQ's deferred execution makes LINQ much faster). In game development, you usually want to iterate over all elements anyway which makes FLINQ a better choice, especially that no memory allocs take place.
+FLINQ usually beats LINQ performance-wise when query's complexity is at least linear (if it's not, then LINQ is much faster due to its deferred execution). In game development, you usually want to iterate over all elements anyway which makes FLINQ a better choice, especially that no memory allocs take place.
 
 FlinqPools.ReturnAllObjects() must be called each frame, or you can define NO_FLINQ_POOLS to disable object pooling.
 
