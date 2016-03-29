@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_TakeWhile<T> : FlinqOperation<T>
+public sealed class FlinqOperation_TakeWhile<T> : IFlinqOperation<T>
 {
 	private Predicate<T> predicate;
 
@@ -14,7 +14,7 @@ public class FlinqOperation_TakeWhile<T> : FlinqOperation<T>
 		this.predicate = predicate;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		int firstNotMatchingFromLeft = list.FindIndex(x => !predicate(x));
 
@@ -23,8 +23,6 @@ public class FlinqOperation_TakeWhile<T> : FlinqOperation<T>
 
 		list.RemoveRange(firstNotMatchingFromLeft, list.Count - firstNotMatchingFromLeft);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return false; } }
 }
 
 }

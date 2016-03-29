@@ -12,8 +12,7 @@ public static class FlinqQueryExtensions_HasDuplicates
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 		var hashSet = FlinqHashSetPool<T>.Get();
@@ -30,8 +29,7 @@ public static class FlinqQueryExtensions_HasDuplicates
 		}
 
 		FlinqHashSetPool<T>.Return(hashSet);
-
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return foundDuplicate;
 	}

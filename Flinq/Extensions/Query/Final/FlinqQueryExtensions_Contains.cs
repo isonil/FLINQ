@@ -12,13 +12,11 @@ public static class FlinqQueryExtensions_Contains
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		bool found = finalList.Contains(element);
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return found;
 	}

@@ -12,25 +12,23 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<decimal>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		decimal final = 0;
-		int count = finalList.Count;
 		
 		for(int i = 0; i < count; ++i)
 		{
 			final += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<decimal>.Return(finalList);
 
 		return final / count;
 	}
@@ -40,9 +38,7 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		decimal final = 0;
 		int count = finalList.Count;
@@ -59,7 +55,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<decimal>>.Return(finalList);
 
 		if(realCount == 0)
 			return null;
@@ -72,25 +68,23 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<double>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		double final = 0.0;
-		int count = finalList.Count;
 
 		for(int i = 0; i < count; ++i)
 		{
 			final += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<double>.Return(finalList);
 
 		return final / count;
 	}
@@ -100,9 +94,7 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		double final = 0.0;
 		int count = finalList.Count;
@@ -119,7 +111,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<double>>.Return(finalList);
 
 		if(realCount == 0)
 			return null;
@@ -132,25 +124,23 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<int>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		int final = 0;
-		int count = finalList.Count;
 
 		for(int i = 0; i < count; ++i)
 		{
 			final += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<int>.Return(finalList);
 
 		return final / (double)count;
 	}
@@ -160,9 +150,7 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int final = 0;
 		int count = finalList.Count;
@@ -179,7 +167,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<int>>.Return(finalList);
 
 		if(realCount == 0)
 			return null;
@@ -192,25 +180,23 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<long>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		long final = 0;
-		int count = finalList.Count;
 
 		for(int i = 0; i < count; ++i)
 		{
 			final += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<long>.Return(finalList);
 
 		return final / (double)count;
 	}
@@ -220,9 +206,7 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		long final = 0;
 		int count = finalList.Count;
@@ -239,7 +223,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<long>>.Return(finalList);
 
 		if(realCount == 0)
 			return null;
@@ -252,25 +236,23 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<float>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		float final = 0f;
-		int count = finalList.Count;
 
 		for(int i = 0; i < count; ++i)
 		{
 			final += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<float>.Return(finalList);
 
 		return final / count;
 	}
@@ -280,9 +262,7 @@ public static class FlinqQueryExtensions_Average
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		float final = 0f;
 		int count = finalList.Count;
@@ -299,7 +279,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<float>>.Return(finalList);
 
 		if(realCount == 0)
 			return null;
@@ -317,25 +297,23 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		decimal final = 0;
-		int count = finalList.Count;
 
 		for(int i = 0; i < count; ++i)
 		{
 			final += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return final / count;
 	}
@@ -348,9 +326,7 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		decimal final = 0;
 		int count = finalList.Count;
@@ -367,7 +343,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(realCount == 0)
 			return null;
@@ -383,25 +359,23 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		double final = 0.0;
-		int count = finalList.Count;
 
 		for(int i = 0; i < count; ++i)
 		{
 			final += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return final / count;
 	}
@@ -414,9 +388,7 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		double final = 0.0;
 		int count = finalList.Count;
@@ -433,7 +405,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(realCount == 0)
 			return null;
@@ -449,25 +421,23 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		int final = 0;
-		int count = finalList.Count;
 
 		for(int i = 0; i < count; ++i)
 		{
 			final += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return final / (double)count;
 	}
@@ -480,9 +450,7 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int final = 0;
 		int count = finalList.Count;
@@ -499,7 +467,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(realCount == 0)
 			return null;
@@ -515,25 +483,23 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		long final = 0;
-		int count = finalList.Count;
 
 		for(int i = 0; i < count; ++i)
 		{
 			final += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return final / (double)count;
 	}
@@ -546,9 +512,7 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		long final = 0;
 		int count = finalList.Count;
@@ -565,7 +529,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(realCount == 0)
 			return null;
@@ -581,25 +545,23 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
+		var finalList = query.Resolve();
+		int count = finalList.Count;
 
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		if(finalList.Count == 0)
+		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		float final = 0f;
-		int count = finalList.Count;
 
 		for(int i = 0; i < count; ++i)
 		{
 			final += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return final / count;
 	}
@@ -612,9 +574,7 @@ public static class FlinqQueryExtensions_Average
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		float final = 0f;
 		int count = finalList.Count;
@@ -631,7 +591,7 @@ public static class FlinqQueryExtensions_Average
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(realCount == 0)
 			return null;

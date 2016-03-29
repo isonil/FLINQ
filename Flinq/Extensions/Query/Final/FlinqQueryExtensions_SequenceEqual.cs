@@ -18,11 +18,8 @@ public static class FlinqQueryExtensions_SequenceEqual
 		if(query == other)
 			return true;
 
-		bool returnToPool;
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
-
-		bool otherReturnToPool;
-		var otherFinalList = other.Resolve(int.MaxValue, out otherReturnToPool);
+		var finalList = query.Resolve();
+		var otherFinalList = other.Resolve();
 
 		int count = finalList.Count;
 		int otherCount = otherFinalList.Count;
@@ -45,8 +42,8 @@ public static class FlinqQueryExtensions_SequenceEqual
 			}
 		}
 
-		other.CleanupAfterResolve(otherFinalList, otherReturnToPool);
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(otherFinalList);
+		FlinqListPool<T>.Return(finalList);
 
 		return result;
 	}

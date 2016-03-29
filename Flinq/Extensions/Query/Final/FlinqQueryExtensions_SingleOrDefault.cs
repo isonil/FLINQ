@@ -12,27 +12,25 @@ public static class FlinqQueryExtensions_SingleOrDefault
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(1, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
 		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			return default(T);
 		}
 
 		if(count != 1)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("The collection contains more than one element.");
 		}
 
 		var first = finalList[0];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return first;
 	}
@@ -45,9 +43,7 @@ public static class FlinqQueryExtensions_SingleOrDefault
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 		
 		int index = finalList.FindIndex(predicate);
 		int secondIndex = -1;
@@ -57,13 +53,13 @@ public static class FlinqQueryExtensions_SingleOrDefault
 
 		if(secondIndex >= 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("The collection contains more than one element.");
 		}
 
 		var elem = index < 0 ? default(T) : finalList[index];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return elem;
 	}

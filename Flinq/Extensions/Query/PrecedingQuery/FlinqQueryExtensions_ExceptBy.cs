@@ -11,7 +11,7 @@ public static class FlinqQueryExtensions_ExceptBy
 	{
 		public static readonly FlinqQuery<TFirst>.PrecedingQuery impl = Impl;
 
-		private static List<TFirst> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TFirst> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var first = (FlinqQuery<TFirst>)paramsArray[0];
@@ -19,8 +19,7 @@ public static class FlinqQueryExtensions_ExceptBy
 			var firstCompareBySelector = (Func<TFirst, TCompareBy>)paramsArray[2];
 			var secondCompareBySelector = (Func<TSecond, TCompareBy>)paramsArray[3];
 
-			bool secondReturnToPool;
-			var secondFinalList = second.Resolve(int.MaxValue, out secondReturnToPool);
+			var secondFinalList = second.Resolve();
 
 			var hashSet = FlinqHashSetPool<TCompareBy>.Get();
 
@@ -31,34 +30,23 @@ public static class FlinqQueryExtensions_ExceptBy
 				hashSet.Add(secondCompareBySelector(secondFinalList[i]));
 			}
 
-			second.CleanupAfterResolve(secondFinalList, secondReturnToPool);
+			FlinqListPool<TSecond>.Return(secondFinalList);
 
-			bool firstReturnToPool;
-			var firstFinalList = first.Resolve(int.MaxValue, out firstReturnToPool);
+			var firstFinalList = first.Resolve();
 
 			int firstCount = firstFinalList.Count;
 
 			var newList = FlinqListPool<TFirst>.Get();
-
-			int alreadyAdded = 0;
 
 			for(int i = 0; i < firstCount; ++i)
 			{
 				var elem = firstFinalList[i];
 
 				if(!hashSet.Contains(firstCompareBySelector(elem)))
-				{
 					newList.Add(elem);
-
-					++alreadyAdded;
-
-					if(alreadyAdded >= wantedElementsCount)
-						break;
-				}
 			}
 
-			first.CleanupAfterResolve(firstFinalList, firstReturnToPool);
-
+			FlinqListPool<TFirst>.Return(firstFinalList);
 			FlinqHashSetPool<TCompareBy>.Return(hashSet);
 
 			return newList;

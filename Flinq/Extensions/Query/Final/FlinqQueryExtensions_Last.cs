@@ -12,21 +12,19 @@ public static class FlinqQueryExtensions_Last
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
 		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
 		var last = finalList[count - 1];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return last;
 	}
@@ -39,21 +37,19 @@ public static class FlinqQueryExtensions_Last
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int index = finalList.FindLastIndex(predicate);
 
 		if(index < 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("No element matches predicate.");
 		}
 
 		var elem = finalList[index];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return elem;
 	}

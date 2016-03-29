@@ -11,39 +11,30 @@ public static class FlinqQueryExtensions_DistinctBy
 	{
 		public static readonly FlinqQuery<T>.PrecedingQuery impl = Impl;
 
-		private static List<T> Impl(int wantedElementsCount, object paramsPack)
+		private static List<T> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var compareBySelector = (Func<T, TCompareBy>)paramsArray[1];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			var newList = FlinqListPool<T>.Get();
 			var hashSet = FlinqHashSetPool<TCompareBy>.Get();
 
 			int count = finalList.Count;
-			int alreadyFound = 0;
 
 			for(int i = 0; i < count; ++i)
 			{
 				var elem = finalList[i];
 
 				if(hashSet.Add(compareBySelector(elem)))
-				{
 					newList.Add(elem);
-
-					++alreadyFound;
-
-					if(alreadyFound == wantedElementsCount)
-						break;
-				}
 			}
 
 			FlinqHashSetPool<TCompareBy>.Return(hashSet);
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}

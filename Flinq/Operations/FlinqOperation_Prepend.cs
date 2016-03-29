@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_Prepend<T> : FlinqOperation<T>
+public sealed class FlinqOperation_Prepend<T> : IFlinqOperation<T>
 {
 	private T element;
 
@@ -14,12 +14,10 @@ public class FlinqOperation_Prepend<T> : FlinqOperation<T>
 		this.element = element;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		list.Insert(0, element);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

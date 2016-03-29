@@ -15,13 +15,11 @@ public static class FlinqQueryExtensions_All
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		bool all = finalList.TrueForAll(predicate);
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return all;
 	}

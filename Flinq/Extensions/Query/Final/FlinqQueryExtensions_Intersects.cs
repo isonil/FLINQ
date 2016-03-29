@@ -15,11 +15,9 @@ public static class FlinqQueryExtensions_Intersects
 		if(other == null)
 			throw new ArgumentNullException("other");
 
-		bool returnToPool;
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
-		bool otherReturnToPool;
-		var otherFinalList = other.Resolve(int.MaxValue, out otherReturnToPool);
+		var otherFinalList = other.Resolve();
 
 		int count = finalList.Count;
 		var hashSet = FlinqHashSetPool<T>.Get();
@@ -29,7 +27,7 @@ public static class FlinqQueryExtensions_Intersects
 			hashSet.Add(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		count = otherFinalList.Count;
 
@@ -45,8 +43,7 @@ public static class FlinqQueryExtensions_Intersects
 		}
 
 		FlinqHashSetPool<T>.Return(hashSet);
-
-		other.CleanupAfterResolve(otherFinalList, otherReturnToPool);
+		FlinqListPool<T>.Return(otherFinalList);
 
 		return intersects;
 	}

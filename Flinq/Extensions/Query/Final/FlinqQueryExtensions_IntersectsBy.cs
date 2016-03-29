@@ -18,11 +18,9 @@ public static class FlinqQueryExtensions_IntersectsBy
 		if(compareBy == null)
 			throw new ArgumentNullException("compareBy");
 
-		bool returnToPool;
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
-		bool otherReturnToPool;
-		var otherFinalList = other.Resolve(int.MaxValue, out otherReturnToPool);
+		var otherFinalList = other.Resolve();
 
 		int count = finalList.Count;
 		var hashSet = FlinqHashSetPool<TCompareBy>.Get();
@@ -32,7 +30,7 @@ public static class FlinqQueryExtensions_IntersectsBy
 			hashSet.Add(compareBy(finalList[i]));
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		count = otherFinalList.Count;
 
@@ -48,8 +46,7 @@ public static class FlinqQueryExtensions_IntersectsBy
 		}
 
 		FlinqHashSetPool<TCompareBy>.Return(hashSet);
-
-		other.CleanupAfterResolve(otherFinalList, otherReturnToPool);
+		FlinqListPool<T>.Return(otherFinalList);
 
 		return intersects;
 	}
@@ -68,11 +65,8 @@ public static class FlinqQueryExtensions_IntersectsBy
 		if(secondCompareBy == null)
 			throw new ArgumentNullException("secondCompareBy");
 
-		bool firstReturnToPool;
-		var firstFinalList = first.Resolve(int.MaxValue, out firstReturnToPool);
-
-		bool secondReturnToPool;
-		var secondFinalList = second.Resolve(int.MaxValue, out secondReturnToPool);
+		var firstFinalList = first.Resolve();
+		var secondFinalList = second.Resolve();
 
 		int count = firstFinalList.Count;
 		var hashSet = FlinqHashSetPool<TCompareBy>.Get();
@@ -82,7 +76,7 @@ public static class FlinqQueryExtensions_IntersectsBy
 			hashSet.Add(firstCompareBy(firstFinalList[i]));
 		}
 
-		first.CleanupAfterResolve(firstFinalList, firstReturnToPool);
+		FlinqListPool<TFirst>.Return(firstFinalList);
 
 		count = secondFinalList.Count;
 
@@ -98,8 +92,7 @@ public static class FlinqQueryExtensions_IntersectsBy
 		}
 
 		FlinqHashSetPool<TCompareBy>.Return(hashSet);
-
-		second.CleanupAfterResolve(secondFinalList, secondReturnToPool);
+		FlinqListPool<TSecond>.Return(secondFinalList);
 
 		return intersects;
 	}

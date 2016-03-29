@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_LazyAppend<T> : FlinqOperation<T>
+public sealed class FlinqOperation_LazyAppend<T> : IFlinqOperation<T>
 {
 	private Func<T> elementGetter;
 
@@ -14,12 +14,10 @@ public class FlinqOperation_LazyAppend<T> : FlinqOperation<T>
 		this.elementGetter = elementGetter;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		list.Add(elementGetter());
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

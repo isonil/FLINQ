@@ -11,42 +11,13 @@ public static class FlinqIEnumerableExtensions
 	{
 		public static readonly FlinqQuery<T>.PrecedingQuery impl = Impl;
 
-		private static List<T> Impl(int wantedElementsCount, object param)
+		private static List<T> Impl(object param)
 		{
 			var enumerable = (IEnumerable<T>)param;
 
 			var newList = FlinqListPool<T>.Get();
 
-			var asIList = enumerable as IList<T>;
-
-			if(asIList != null)
-			{
-				int asListCount = asIList.Count;
-
-				if(wantedElementsCount >= asListCount)
-					newList.AddRange(enumerable);
-				else
-				{
-					for(int i = 0; i < asListCount; ++i)
-					{
-						newList.Add(asIList[i]);
-					}
-				}
-			}
-			else
-			{
-				int added = 0;
-
-				foreach(var elem in enumerable)
-				{
-					newList.Add(elem);
-
-					++added;
-
-					if(added >= wantedElementsCount)
-						break;
-				}
-			}
+			newList.AddRange(enumerable);
 
 			return newList;
 		}
@@ -68,6 +39,8 @@ public static class FlinqIEnumerableExtensions
 
 		return query;
 	}
+
+	// TODO: each FlinqQuery extension implemented like this: enumerable.AsFlinqQuery().Extention();
 }
 
 }

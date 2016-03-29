@@ -11,9 +11,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -36,7 +34,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -46,9 +44,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -71,7 +67,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -81,9 +77,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -106,7 +100,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -116,9 +110,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -141,7 +133,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -151,9 +143,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -176,7 +166,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -186,9 +176,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -211,7 +199,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -221,9 +209,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -246,7 +232,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -256,9 +242,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -281,7 +265,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -291,9 +275,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -316,7 +298,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -326,9 +308,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -351,7 +331,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -364,9 +344,7 @@ public static class FlinqQueryExtensions_MinBy
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -404,7 +382,7 @@ public static class FlinqQueryExtensions_MinBy
 
 		var ret = finalList[minIndex];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}

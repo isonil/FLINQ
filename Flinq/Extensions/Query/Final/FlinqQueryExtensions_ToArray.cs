@@ -12,13 +12,11 @@ public static class FlinqQueryExtensions_ToArray
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		var ret = finalList.ToArray();
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -31,22 +29,20 @@ public static class FlinqQueryExtensions_ToArray
 		if(toFill == null)
 			throw new ArgumentNullException("toFill");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
 		if(toFill.Length < count)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			throw new ArgumentException("Array is too small to hold all elements.");
 		}
 
 		finalList.CopyTo(toFill);
 		size = count;
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 	}
 }
 

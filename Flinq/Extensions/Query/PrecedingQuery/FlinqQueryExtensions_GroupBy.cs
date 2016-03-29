@@ -11,14 +11,13 @@ public static class FlinqQueryExtensions_GroupBy
 	{
 		public static readonly FlinqQuery<FlinqGrouping<TKey, T>>.PrecedingQuery impl = Impl;
 
-		private static List<FlinqGrouping<TKey, T>> Impl(int wantedElementsCount, object paramsPack)
+		private static List<FlinqGrouping<TKey, T>> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var keySelector = (Func<T, TKey>)paramsArray[1];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			int count = finalList.Count;
 
@@ -46,8 +45,6 @@ public static class FlinqQueryExtensions_GroupBy
 
 			var newList = FlinqListPool<FlinqGrouping<TKey, T>>.Get();
 
-			int alreadyAdded = 0;
-
 			foreach(var elem in dict)
 			{
 				var grouping = FlinqGroupingPool<TKey, T>.Get();
@@ -56,16 +53,11 @@ public static class FlinqQueryExtensions_GroupBy
 				grouping.OnInit(elem.Value);
 
 				newList.Add(grouping);
-
-				++alreadyAdded;
-
-				if(alreadyAdded == wantedElementsCount)
-					break;
 			}
 
 			FlinqDictionaryPool<TKey, List<T>>.Return(dict);
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}
@@ -95,15 +87,14 @@ public static class FlinqQueryExtensions_GroupBy
 	{
 		public static readonly FlinqQuery<FlinqGrouping<TKey, TElement>>.PrecedingQuery impl = Impl;
 
-		private static List<FlinqGrouping<TKey, TElement>> Impl(int wantedElementsCount, object paramsPack)
+		private static List<FlinqGrouping<TKey, TElement>> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var keySelector = (Func<T, TKey>)paramsArray[1];
 			var elementSelector = (Func<T, TElement>)paramsArray[2];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			int count = finalList.Count;
 
@@ -131,8 +122,6 @@ public static class FlinqQueryExtensions_GroupBy
 
 			var newList = FlinqListPool<FlinqGrouping<TKey, TElement>>.Get();
 
-			int alreadyAdded = 0;
-
 			foreach(var elem in dict)
 			{
 				var grouping = FlinqGroupingPool<TKey, TElement>.Get();
@@ -141,16 +130,11 @@ public static class FlinqQueryExtensions_GroupBy
 				grouping.OnInit(elem.Value);
 
 				newList.Add(grouping);
-
-				++alreadyAdded;
-
-				if(alreadyAdded == wantedElementsCount)
-					break;
 			}
 
 			FlinqDictionaryPool<TKey, List<TElement>>.Return(dict);
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}
@@ -184,15 +168,14 @@ public static class FlinqQueryExtensions_GroupBy
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var keySelector = (Func<T, TKey>)paramsArray[1];
 			var resultSelector = (Func<TKey, FlinqQuery<T>, TResult>)paramsArray[2];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			int count = finalList.Count;
 
@@ -220,8 +203,6 @@ public static class FlinqQueryExtensions_GroupBy
 
 			var newList = FlinqListPool<TResult>.Get();
 
-			int alreadyAdded = 0;
-
 			foreach(var elem in dict)
 			{
 				var singleQuery = FlinqQueryPool<T>.Get();
@@ -229,16 +210,11 @@ public static class FlinqQueryExtensions_GroupBy
 				singleQuery.OnInit(elem.Value);
 
 				newList.Add(resultSelector(elem.Key, singleQuery));
-
-				++alreadyAdded;
-
-				if(alreadyAdded == wantedElementsCount)
-					break;
 			}
 
 			FlinqDictionaryPool<TKey, List<T>>.Return(dict);
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}
@@ -272,7 +248,7 @@ public static class FlinqQueryExtensions_GroupBy
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
@@ -280,8 +256,7 @@ public static class FlinqQueryExtensions_GroupBy
 			var elementSelector = (Func<T, TElement>)paramsArray[2];
 			var resultSelector = (Func<TKey, FlinqQuery<TElement>, TResult>)paramsArray[3];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			int count = finalList.Count;
 
@@ -309,8 +284,6 @@ public static class FlinqQueryExtensions_GroupBy
 
 			var newList = FlinqListPool<TResult>.Get();
 
-			int alreadyAdded = 0;
-
 			foreach(var elem in dict)
 			{
 				var singleQuery = FlinqQueryPool<TElement>.Get();
@@ -318,16 +291,11 @@ public static class FlinqQueryExtensions_GroupBy
 				singleQuery.OnInit(elem.Value);
 
 				newList.Add(resultSelector(elem.Key, singleQuery));
-
-				++alreadyAdded;
-
-				if(alreadyAdded == wantedElementsCount)
-					break;
 			}
 
 			FlinqDictionaryPool<TKey, List<TElement>>.Return(dict);
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}

@@ -11,35 +11,33 @@ public static class FlinqQueryExtensions_OfType
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object param)
+		private static List<TResult> Impl(object param)
 		{
 			var query = (FlinqQuery<T>)param;
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
+			var sameType = finalList as List<TResult>;
 
-			var newList = FlinqListPool<TResult>.Get();
-
-			int count = finalList.Count;
-			int added = 0;
-
-			for(int i = 0; i < count; ++i)
+			if(sameType != null)
+				return sameType;
+			else
 			{
-				var newElem = finalList[i] as TResult;
+				var newList = FlinqListPool<TResult>.Get();
 
-				if(newElem != null)
+				int count = finalList.Count;
+
+				for(int i = 0; i < count; ++i)
 				{
-					newList.Add(newElem);
-					++added;
+					var newElem = finalList[i] as TResult;
 
-					if(added >= wantedElementsCount)
-						break;
+					if(newElem != null)
+						newList.Add(newElem);
 				}
+
+				FlinqListPool<T>.Return(finalList);
+
+				return newList;
 			}
-
-			query.CleanupAfterResolve(finalList, returnToPool);
-
-			return newList;
 		}
 	}
 

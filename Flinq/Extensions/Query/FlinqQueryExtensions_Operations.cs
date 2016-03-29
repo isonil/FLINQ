@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public static class FlinqQueryExtensions_AllOperations
+public static class FlinqQueryExtensions_Operations
 {
 	public static FlinqQuery<T> Where<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{

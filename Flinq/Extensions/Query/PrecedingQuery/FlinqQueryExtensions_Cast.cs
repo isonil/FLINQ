@@ -11,23 +11,22 @@ public static class FlinqQueryExtensions_Cast
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object queryParam)
+		private static List<TResult> Impl(object queryParam)
 		{
-			var query = (Flinq.FlinqQuery<T>)queryParam;
+			var query = (FlinqQuery<T>)queryParam;
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
-			var newList = Flinq.FlinqListPool<TResult>.Get();
+			var newList = FlinqListPool<TResult>.Get();
 
-			int count = Math.Min(wantedElementsCount, finalList.Count);
+			int count = finalList.Count;
 
 			for(int i = 0; i < count; ++i)
 			{
 				newList.Add((TResult)(object)finalList[i]);
 			}
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}

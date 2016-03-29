@@ -15,9 +15,7 @@ public static class FlinqQueryExtensions_ToDictionary
 		if(keySelector == null)
 			throw new ArgumentNullException("keySelector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		// note that we don't use pool here,
 		// because we return dictionary to the "world outside"
@@ -32,7 +30,7 @@ public static class FlinqQueryExtensions_ToDictionary
 			ret.Add(keySelector(elem), elem);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -48,9 +46,7 @@ public static class FlinqQueryExtensions_ToDictionary
 		if(elementSelector == null)
 			throw new ArgumentNullException("elementSelector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		// note that we don't use pool here,
 		// because we return dictionary to the "world outside"
@@ -65,7 +61,7 @@ public static class FlinqQueryExtensions_ToDictionary
 			ret.Add(keySelector(elem), elementSelector(elem));
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -83,9 +79,7 @@ public static class FlinqQueryExtensions_ToDictionary
 
 		toFill.Clear();
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -96,7 +90,7 @@ public static class FlinqQueryExtensions_ToDictionary
 			toFill.Add(keySelector(elem), elem);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 	}
 
 	public static void ToDictionary<T, TKey, TElement>(this FlinqQuery<T> query, Dictionary<TKey, TElement> toFill, Func<T, TKey> keySelector, Func<T, TElement> elementSelector)
@@ -115,9 +109,7 @@ public static class FlinqQueryExtensions_ToDictionary
 
 		toFill.Clear();
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -128,7 +120,7 @@ public static class FlinqQueryExtensions_ToDictionary
 			toFill.Add(keySelector(elem), elementSelector(elem));
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 	}
 }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_SkipWhile_WithIndex<T> : FlinqOperation<T>
+public sealed class FlinqOperation_SkipWhile_WithIndex<T> : IFlinqOperation<T>
 {
 	private Func<T, int, bool> predicate;
 
@@ -14,7 +14,7 @@ public class FlinqOperation_SkipWhile_WithIndex<T> : FlinqOperation<T>
 		this.predicate = predicate;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		int firstNotMatchingFromLeft = 0;
 
@@ -30,8 +30,6 @@ public class FlinqOperation_SkipWhile_WithIndex<T> : FlinqOperation<T>
 
 		list.RemoveRange(0, firstNotMatchingFromLeft);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

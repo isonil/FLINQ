@@ -14,15 +14,13 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 
 		if(weightSelector == null)
 			throw new ArgumentNullException("weightSelector");
-
-		bool returnToPool;
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
 		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			return default(T);
 		}
 
@@ -34,7 +32,7 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 
 			if(weight < 0f)
 			{
-				query.CleanupAfterResolve(finalList, returnToPool);
+				FlinqListPool<T>.Return(finalList);
 				throw new InvalidOperationException("Element with negative weight.");
 			}
 
@@ -43,7 +41,7 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 
 		if(sum == 0f)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			return default(T);
 		}
 
@@ -72,7 +70,7 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(!found)
 			throw new InvalidOperationException("Random number generator problem.");
@@ -90,15 +88,13 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 
 		if(float01 == null)
 			throw new ArgumentNullException("float01");
-
-		bool returnToPool;
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
 		if(count == 0)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			return default(T);
 		}
 
@@ -110,7 +106,7 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 
 			if(weight < 0f)
 			{
-				query.CleanupAfterResolve(finalList, returnToPool);
+				FlinqListPool<T>.Return(finalList);
 				throw new InvalidOperationException("Element with negative weight.");
 			}
 
@@ -119,7 +115,7 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 
 		if(sum == 0f)
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 			return default(T);
 		}
 
@@ -148,7 +144,7 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(!found)
 			throw new InvalidOperationException("Random number generator problem.");

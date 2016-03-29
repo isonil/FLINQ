@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_Union<T> : FlinqOperation<T>
+public sealed class FlinqOperation_Union<T> : IFlinqOperation<T>
 {
 	private FlinqQuery<T> query;
 
@@ -14,7 +14,7 @@ public class FlinqOperation_Union<T> : FlinqOperation<T>
 		this.query = query;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		var hashSet = FlinqHashSetPool<T>.Get();
 
@@ -28,8 +28,7 @@ public class FlinqOperation_Union<T> : FlinqOperation<T>
 				list.Add(elem);
 		}
 
-		bool returnToPool;
-		var queryFinalList = query.Resolve(int.MaxValue, out returnToPool);
+		var queryFinalList = query.Resolve();
 
 		int count2 = queryFinalList.Count;
 
@@ -41,14 +40,11 @@ public class FlinqOperation_Union<T> : FlinqOperation<T>
 				list.Add(elem);
 		}
 
-		query.CleanupAfterResolve(queryFinalList, returnToPool);
-
+		FlinqListPool<T>.Return(queryFinalList);
 		FlinqHashSetPool<T>.Return(hashSet);
 
 		list.RemoveRange(0, count);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

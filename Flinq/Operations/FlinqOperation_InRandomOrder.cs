@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_InRandomOrder<T> : FlinqOperation<T>
+public sealed class FlinqOperation_InRandomOrder<T> : IFlinqOperation<T>
 {
 	public void OnInit() { }
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		var randomNumberGenerator = FlinqRandomNumberGenerator.IntRangeInclusive;
 
@@ -24,8 +24,6 @@ public class FlinqOperation_InRandomOrder<T> : FlinqOperation<T>
 			list[rand] = tmp;
 		}
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

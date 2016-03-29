@@ -11,14 +11,13 @@ public static class FlinqQueryExtensions_OrderBy
 	{
 		public static readonly FlinqQuery<T>.PrecedingQuery impl = Impl;
 
-		private static List<T> Impl(int wantedElementsCount, object paramsPack)
+		private static List<T> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var keySelector = (Func<T, TKey>)paramsArray[1];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			int count = finalList.Count;
 
@@ -35,14 +34,12 @@ public static class FlinqQueryExtensions_OrderBy
 				
 			var newList = FlinqListPool<T>.Get();
 
-			int newListCount = Math.Min(wantedElementsCount, count);
-
-			for(int i = 0; i < newListCount; ++i)
+			for(int i = 0; i < count; ++i)
 			{
 				newList.Add(finalList[indices[i]]);
 			}
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}

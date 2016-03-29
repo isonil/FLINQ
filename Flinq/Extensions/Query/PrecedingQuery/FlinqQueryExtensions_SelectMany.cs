@@ -11,14 +11,13 @@ public static class FlinqQueryExtensions_SelectMany
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var selector = (Func<T, FlinqQuery<TResult>>)paramsArray[1];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			var newList = FlinqListPool<TResult>.Get();
 
@@ -27,16 +26,15 @@ public static class FlinqQueryExtensions_SelectMany
 			for(int i = 0; i < count; ++i)
 			{
 				var elemQuery = selector(finalList[i]);
-					
-				bool elemReturnToPool;
-				var elemFinalList = elemQuery.Resolve(int.MaxValue, out elemReturnToPool);
+				
+				var elemFinalList = elemQuery.Resolve();
 
 				newList.AddRange(elemFinalList);
 
-				elemQuery.CleanupAfterResolve(elemFinalList, elemReturnToPool);
+				FlinqListPool<TResult>.Return(elemFinalList);
 			}
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}
@@ -66,14 +64,13 @@ public static class FlinqQueryExtensions_SelectMany
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var selector = (Func<T, int, FlinqQuery<TResult>>)paramsArray[1];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			var newList = FlinqListPool<TResult>.Get();
 
@@ -82,16 +79,15 @@ public static class FlinqQueryExtensions_SelectMany
 			for(int i = 0; i < count; ++i)
 			{
 				var elemQuery = selector(finalList[i], i);
-					
-				bool elemReturnToPool;
-				var elemFinalList = elemQuery.Resolve(int.MaxValue, out elemReturnToPool);
+				
+				var elemFinalList = elemQuery.Resolve();
 
 				newList.AddRange(elemFinalList);
 
-				elemQuery.CleanupAfterResolve(elemFinalList, elemReturnToPool);
+				FlinqListPool<TResult>.Return(elemFinalList);
 			}
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}
@@ -121,15 +117,14 @@ public static class FlinqQueryExtensions_SelectMany
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var collectionSelector = (Func<T, FlinqQuery<TCollection>>)paramsArray[1];
 			var resultSelector = (Func<T, TCollection, TResult>)paramsArray[2];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			var newList = FlinqListPool<TResult>.Get();
 
@@ -139,9 +134,8 @@ public static class FlinqQueryExtensions_SelectMany
 			{
 				var elem = finalList[i];
 				var elemQuery = collectionSelector(elem);
-					
-				bool elemReturnToPool;
-				var elemFinalList = elemQuery.Resolve(int.MaxValue, out elemReturnToPool);
+				
+				var elemFinalList = elemQuery.Resolve();
 
 				int elemFinalListCount = elemFinalList.Count;
 
@@ -150,10 +144,10 @@ public static class FlinqQueryExtensions_SelectMany
 					newList.Add(resultSelector(elem, elemFinalList[j]));
 				}
 
-				elemQuery.CleanupAfterResolve(elemFinalList, elemReturnToPool);
+				FlinqListPool<TCollection>.Return(elemFinalList);
 			}
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}
@@ -187,15 +181,14 @@ public static class FlinqQueryExtensions_SelectMany
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var collectionSelector = (Func<T, int, FlinqQuery<TCollection>>)paramsArray[1];
 			var resultSelector = (Func<T, TCollection, TResult>)paramsArray[2];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			var newList = FlinqListPool<TResult>.Get();
 
@@ -205,9 +198,8 @@ public static class FlinqQueryExtensions_SelectMany
 			{
 				var elem = finalList[i];
 				var elemQuery = collectionSelector(elem, i);
-					
-				bool elemReturnToPool;
-				var elemFinalList = elemQuery.Resolve(int.MaxValue, out elemReturnToPool);
+				
+				var elemFinalList = elemQuery.Resolve();
 
 				int elemFinalListCount = elemFinalList.Count;
 
@@ -216,10 +208,10 @@ public static class FlinqQueryExtensions_SelectMany
 					newList.Add(resultSelector(elem, elemFinalList[j]));
 				}
 
-				elemQuery.CleanupAfterResolve(elemFinalList, elemReturnToPool);
+				FlinqListPool<TCollection>.Return(elemFinalList);
 			}
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 
 			return newList;
 		}

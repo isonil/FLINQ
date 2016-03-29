@@ -11,27 +11,37 @@ public static class FlinqQueryExtensions_Select
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var selector = (Func<T, TResult>)paramsArray[1];
 
-			bool returnToPool;
-			var finalList = query.Resolve(wantedElementsCount, out returnToPool);
-
+			var finalList = query.Resolve();
 			var newList = FlinqListPool<TResult>.Get();
-			
-			int count = Math.Min(wantedElementsCount, finalList.Count);
+			int count = finalList.Count;
 
-			for(int i = 0; i < count; ++i)
+			var sameTypeSelector = selector as Func<T, T>;
+			if(sameTypeSelector != null)
 			{
-				newList.Add(selector(finalList[i]));
-			}
-			
-			query.CleanupAfterResolve(finalList, returnToPool);
+				for(int i = 0; i < count; ++i)
+				{
+					finalList[i] = sameTypeSelector(finalList[i]);
+				}
 
-			return newList;
+				return (List<TResult>)(object)finalList;
+			}
+			else
+			{
+				for(int i = 0; i < count; ++i)
+				{
+					newList.Add(selector(finalList[i]));
+				}
+			
+				FlinqListPool<T>.Return(finalList);
+
+				return newList;
+			}
 		}
 	}
 
@@ -59,27 +69,37 @@ public static class FlinqQueryExtensions_Select
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var selector = (Func<T, int, TResult>)paramsArray[1];
 
-			bool returnToPool;
-			var finalList = query.Resolve(wantedElementsCount, out returnToPool);
-
+			var finalList = query.Resolve();
 			var newList = FlinqListPool<TResult>.Get();
-
-			int count = Math.Min(wantedElementsCount, finalList.Count);
-
-			for(int i = 0; i < count; ++i)
+			int count = finalList.Count;
+			
+			var sameTypeSelector = selector as Func<T, int, T>;
+			if(sameTypeSelector != null)
 			{
-				newList.Add(selector(finalList[i], i));
+				for(int i = 0; i < count; ++i)
+				{
+					finalList[i] = sameTypeSelector(finalList[i], i);
+				}
+
+				return (List<TResult>)(object)finalList;
 			}
+			else
+			{
+				for(int i = 0; i < count; ++i)
+				{
+					newList.Add(selector(finalList[i], i));
+				}
 
-			query.CleanupAfterResolve(finalList, returnToPool);
+				FlinqListPool<T>.Return(finalList);
 
-			return newList;
+				return newList;
+			}
 		}
 	}
 

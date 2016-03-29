@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_Take<T> : FlinqOperation<T>
+public sealed class FlinqOperation_Take<T> : IFlinqOperation<T>
 {
 	private int count;
 
@@ -14,7 +14,7 @@ public class FlinqOperation_Take<T> : FlinqOperation<T>
 		this.count = count;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		if(count <= 0)
 		{
@@ -27,12 +27,8 @@ public class FlinqOperation_Take<T> : FlinqOperation<T>
 		if(count >= listCount)
 			return;
 
-		int finalCount = Math.Min(wantedElementsCount, count);
-
-		list.RemoveRange(finalCount, listCount - finalCount);
+		list.RemoveRange(count, listCount - count);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return false; } }
 }
 
 }

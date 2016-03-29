@@ -12,13 +12,11 @@ public static class FlinqQueryExtensions_FirstOrDefault
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(1, out returnToPool);
+		var finalList = query.Resolve();
 
 		var first = finalList.Count == 0 ? default(T) : finalList[0];
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return first;
 	}
@@ -31,13 +29,11 @@ public static class FlinqQueryExtensions_FirstOrDefault
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		var elem = finalList.Find(predicate);
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return elem;
 	}

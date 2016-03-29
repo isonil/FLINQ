@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_GetDuplicates<T> : FlinqOperation<T>
+public sealed class FlinqOperation_GetDuplicates<T> : IFlinqOperation<T>
 {
 	public void OnInit() { }
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		var hashSet = FlinqHashSetPool<T>.Get();
 
@@ -27,8 +27,6 @@ public class FlinqOperation_GetDuplicates<T> : FlinqOperation<T>
 
 		list.RemoveRange(0, count);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

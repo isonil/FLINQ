@@ -15,9 +15,7 @@ public static class FlinqQueryExtensions_Aggregate
 		if(func == null)
 			throw new ArgumentNullException("func");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		if(finalList.Count == 0)
 			throw new InvalidOperationException("No elements.");
@@ -30,7 +28,7 @@ public static class FlinqQueryExtensions_Aggregate
 			final = func(final, finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return final;
 	}
@@ -43,9 +41,7 @@ public static class FlinqQueryExtensions_Aggregate
 		if(func == null)
 			throw new ArgumentNullException("func");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		TAccumulate final = seed;
 		int count = finalList.Count;
@@ -55,7 +51,7 @@ public static class FlinqQueryExtensions_Aggregate
 			final = func(final, finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return final;
 	}
@@ -71,9 +67,7 @@ public static class FlinqQueryExtensions_Aggregate
 		if(resultSelector == null)
 			throw new ArgumentNullException("resultSelector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		TAccumulate final = seed;
 		int count = finalList.Count;
@@ -83,7 +77,7 @@ public static class FlinqQueryExtensions_Aggregate
 			final = func(final, finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return resultSelector(final);
 	}

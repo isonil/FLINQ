@@ -12,16 +12,14 @@ public static class FlinqQueryExtensions_ToList
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		// note that we don't use pool here,
 		// because we return list to the "world outside"
 		var ret = new List<T>();
 		ret.AddRange(finalList);
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return ret;
 	}
@@ -36,13 +34,11 @@ public static class FlinqQueryExtensions_ToList
 
 		toFill.Clear();
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		toFill.AddRange(finalList);
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 	}
 }
 

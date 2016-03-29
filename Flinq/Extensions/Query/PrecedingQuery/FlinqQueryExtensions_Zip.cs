@@ -11,30 +11,27 @@ public static class FlinqQueryExtensions_Zip
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var first = (FlinqQuery<TFirst>)paramsArray[0];
 			var second = (FlinqQuery<TSecond>)paramsArray[1];
 			var resultSelector = (Func<TFirst, TSecond, TResult>)paramsArray[2];
 
-			bool firstReturnToPool;
-			var firstFinalList = first.Resolve(wantedElementsCount, out firstReturnToPool);
-
-			bool secondReturnToPool;
-			var secondFinalList = second.Resolve(wantedElementsCount, out secondReturnToPool);
+			var firstFinalList = first.Resolve();
+			var secondFinalList = second.Resolve();
 
 			var newList = FlinqListPool<TResult>.Get();
 
-			int count = Math.Min(Math.Min(wantedElementsCount, firstFinalList.Count), secondFinalList.Count);
+			int count = Math.Min(firstFinalList.Count, secondFinalList.Count);
 
 			for(int i = 0; i < count; ++i)
 			{
 				newList.Add(resultSelector(firstFinalList[i], secondFinalList[i]));
 			}
 
-			second.CleanupAfterResolve(secondFinalList, secondReturnToPool);
-			first.CleanupAfterResolve(firstFinalList, firstReturnToPool);
+			FlinqListPool<TSecond>.Return(secondFinalList);
+			FlinqListPool<TFirst>.Return(firstFinalList);
 
 			return newList;
 		}

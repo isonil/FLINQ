@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_DefaultIfEmpty_WithDefaultValue<T> : FlinqOperation<T>
+public sealed class FlinqOperation_DefaultIfEmpty_WithDefaultValue<T> : IFlinqOperation<T>
 {
 	private T defaultValue;
 
@@ -13,13 +13,11 @@ public class FlinqOperation_DefaultIfEmpty_WithDefaultValue<T> : FlinqOperation<
 		this.defaultValue = defaultValue;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		if(list.Count == 0)
 			list.Add(defaultValue);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return false; } }
 }
 
 }

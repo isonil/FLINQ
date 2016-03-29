@@ -7,8 +7,6 @@ namespace Flinq
 
 public static class FlinqListExtensions
 {
-	// conversions to FlinqQuery
-
 	public static FlinqQuery<T> AsFlinqQuery<T>(this List<T> list)
 	{
 		if(list == null)
@@ -21,103 +19,9 @@ public static class FlinqListExtensions
 		return query;
 	}
 
-	/*
-	public static FlinqQuery<T> AsFlinqQuery<TKey, T>(this Dictionary<TKey, T> dictionary)
-	{
-		if(dictionary == null)
-			return FlinqQuery<T>.Empty;
+	// TODO: each FlinqQuery operation extension
+	// TODO: each FlinqQuery non-operation extension implemented like this: list.AsFlinqQuery().Extention();
 
-		var query = FlinqQueryPool<T>.Get();
-
-		// since FlinqQuery uses list internally, we need to create preceding query which converts dictionary to list
-
-		query.OnInit(wantedElementsCount =>
-			{
-				var list = FlinqListPool<T>.Get();
-
-				int alreadyAdded = 0;
-
-				foreach(var elem in dictionary)
-				{
-					list.Add(elem.Value);
-
-					++alreadyAdded;
-
-					if(alreadyAdded == wantedElementsCount)
-						break;
-				}
-
-				return list;
-			});
-
-		return query;
-	}
-
-	public static FlinqQuery<T> AsFlinqQuery<T>(this HashSet<T> hashSet)
-	{
-		if(hashSet == null)
-			return FlinqQuery<T>.Empty;
-
-		var query = FlinqQueryPool<T>.Get();
-
-		// since FlinqQuery uses list internally, we need to create preceding query which converts hash set to list
-
-		query.OnInit(wantedElementsCount =>
-			{
-				var list = FlinqListPool<T>.Get();
-
-				int alreadyAdded = 0;
-
-				foreach(var elem in hashSet)
-				{
-					list.Add(elem);
-
-					++alreadyAdded;
-
-					if(alreadyAdded == wantedElementsCount)
-						break;
-				}
-
-				return list;
-			});
-
-		return query;
-	}
-
-	public static FlinqQuery<T> AsFlinqQuery<T>(this T[] array)
-	{
-		if(array == null)
-			return FlinqQuery<T>.Empty;
-
-		var query = FlinqQueryPool<T>.Get();
-
-		// since FlinqQuery uses list internally, we need to create preceding query which converts array to list
-
-		query.OnInit(wantedElementsCount =>
-			{
-				var list = FlinqListPool<T>.Get();
-
-				int arrayLength = array.Length;
-
-				// do a check, because AddRange is super fast
-				if(wantedElementsCount >= arrayLength)
-					list.AddRange(array);
-				else
-				{
-					int count = Math.Min(wantedElementsCount, arrayLength);
-
-					for(int i = 0; i < count; ++i)
-					{
-						list.Add(array[i]);
-					}
-				}
-
-				return list;
-			});
-
-		return query;
-	}
-	*/
 	// these will create preceding operations
 	// (they can't be normal operations because they depend on other types than T)
 
@@ -162,7 +66,6 @@ public static class FlinqListExtensions
 		return list.AsFlinqQuery().OrderByDescending(keySelector);
 	}
 
-	// chainable operations,
 	// note that we don't use, for example, list.AsLinqQuery().Where(...), because we can directly
 	// create FlinqQuery with the desired operation, which is slightly faster
 

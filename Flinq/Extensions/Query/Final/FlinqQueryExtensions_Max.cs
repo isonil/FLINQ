@@ -11,9 +11,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -30,7 +28,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<decimal>.Return(finalList);
 
 		return maxElem;
 	}
@@ -40,9 +38,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -65,7 +61,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<decimal>>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -78,9 +74,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -97,7 +91,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<double>.Return(finalList);
 
 		return maxElem;
 	}
@@ -107,9 +101,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -132,7 +124,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<double>>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -145,9 +137,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -164,7 +154,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<int>.Return(finalList);
 
 		return maxElem;
 	}
@@ -174,9 +164,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -199,7 +187,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<int>>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -212,9 +200,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -231,7 +217,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<long>.Return(finalList);
 
 		return maxElem;
 	}
@@ -241,9 +227,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -266,7 +250,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<long>>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -279,9 +263,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -298,7 +280,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<float>.Return(finalList);
 
 		return maxElem;
 	}
@@ -308,9 +290,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -333,7 +313,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<float>>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -346,9 +326,7 @@ public static class FlinqQueryExtensions_Max
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -389,7 +367,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -405,9 +383,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -448,7 +424,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -464,9 +440,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -483,7 +457,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return maxElem;
 	}
@@ -496,9 +470,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -521,7 +493,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -537,9 +509,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -556,7 +526,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return maxElem;
 	}
@@ -569,9 +539,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -594,7 +562,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -610,9 +578,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -629,7 +595,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return maxElem;
 	}
@@ -642,9 +608,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -667,7 +631,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -683,9 +647,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -702,7 +664,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return maxElem;
 	}
@@ -715,9 +677,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -740,7 +700,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(found)
 			return maxElem;
@@ -756,9 +716,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -775,7 +733,7 @@ public static class FlinqQueryExtensions_Max
 				maxElem = elem;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return maxElem;
 	}
@@ -788,9 +746,7 @@ public static class FlinqQueryExtensions_Max
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -813,7 +769,7 @@ public static class FlinqQueryExtensions_Max
 			}
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		if(found)
 			return maxElem;

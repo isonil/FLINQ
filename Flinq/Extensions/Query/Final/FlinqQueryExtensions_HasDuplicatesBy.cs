@@ -15,8 +15,7 @@ public static class FlinqQueryExtensions_HasDuplicatesBy
 		if(compareBy == null)
 			throw new ArgumentNullException("compareBy");
 
-		bool returnToPool;
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 		var hashSet = FlinqHashSetPool<TCompareBy>.Get();
@@ -33,8 +32,7 @@ public static class FlinqQueryExtensions_HasDuplicatesBy
 		}
 
 		FlinqHashSetPool<TCompareBy>.Return(hashSet);
-
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return foundDuplicate;
 	}

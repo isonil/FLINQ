@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_Where<T> : FlinqOperation<T>
+public sealed class FlinqOperation_Where<T> : IFlinqOperation<T>
 {
 	private Predicate<T> predicate;
 
@@ -14,34 +14,25 @@ public class FlinqOperation_Where<T> : FlinqOperation<T>
 		this.predicate = predicate;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		int count = list.Count;
 
 		// RemoveAll seems to be the fastest for large lists
 		// (probably because it has access to the internal array and it allows for better caching or maybe it's because it's one layer of indirection closer to the internal array?)
 
-		if(count > 500 && wantedElementsCount >= count)
+		if(count > 500)
 			list.RemoveAll(x => !predicate(x));
 		else
 		{
 			// for small lists this solution is 2 to 5 times faster than RemoveAll
-
-			int alreadyFound = 0;
 
 			for(int i = 0; i < count; ++i)
 			{
 				var elem = list[i];
 
 				if(predicate(elem))
-				{
 					list.Add(elem);
-
-					++alreadyFound;
-
-					if(alreadyFound == wantedElementsCount)
-						break;
-				}
 			}
 
 			list.RemoveRange(0, count);
@@ -69,8 +60,6 @@ public class FlinqOperation_Where<T> : FlinqOperation<T>
 		list.RemoveRange(firstNotMatchingFromLeft, list.Count - firstNotMatchingFromLeft);
 		*/
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_Skip<T> : FlinqOperation<T>
+public sealed class FlinqOperation_Skip<T> : IFlinqOperation<T>
 {
 	private int count;
 
@@ -14,23 +14,16 @@ public class FlinqOperation_Skip<T> : FlinqOperation<T>
 		this.count = count;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		if(count <= 0)
 			return;
 
-		int listCount = list.Count;
-
-		if(count >= listCount)
-		{
+		if(count >= list.Count)
 			list.Clear();
-			return;
-		}
-
-		list.RemoveRange(0, count);
+		else
+			list.RemoveRange(0, count);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

@@ -12,9 +12,7 @@ public static class FlinqQueryExtensions_ForEach
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -26,7 +24,7 @@ public static class FlinqQueryExtensions_ForEach
 		// we don't return anything to pool if there's an exception thrown,
 		// not a big deal, since we'll do a clean up at the end of the frame anyway
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 	}
 }
 

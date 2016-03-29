@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_InRandomOrder_WithRandomNumberGenerator<T> : FlinqOperation<T>
+public sealed class FlinqOperation_InRandomOrder_WithRandomNumberGenerator<T> : IFlinqOperation<T>
 {
 	public Func<int, int, int> intRangeInclusive;
 
@@ -14,7 +14,7 @@ public class FlinqOperation_InRandomOrder_WithRandomNumberGenerator<T> : FlinqOp
 		this.intRangeInclusive = intRangeInclusive;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		int count = list.Count;
 
@@ -27,8 +27,6 @@ public class FlinqOperation_InRandomOrder_WithRandomNumberGenerator<T> : FlinqOp
 			list[rand] = tmp;
 		}
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_Intersect<T> : FlinqOperation<T>
+public sealed class FlinqOperation_Intersect<T> : IFlinqOperation<T>
 {
 	private FlinqQuery<T> intersect;
 
@@ -14,12 +14,10 @@ public class FlinqOperation_Intersect<T> : FlinqOperation<T>
 		this.intersect = intersect;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		var hashSet = FlinqHashSetPool<T>.Get();
-
-		bool returnToPool;
-		var intersectFinalList = intersect.Resolve(int.MaxValue, out returnToPool);
+		var intersectFinalList = intersect.Resolve();
 
 		int intersectCount = intersectFinalList.Count;
 
@@ -28,10 +26,9 @@ public class FlinqOperation_Intersect<T> : FlinqOperation<T>
 			hashSet.Add(intersectFinalList[i]);
 		}
 
-		intersect.CleanupAfterResolve(intersectFinalList, returnToPool);
+		FlinqListPool<T>.Return(intersectFinalList);
 
 		int count = list.Count;
-		int alreadyFound = 0;
 
 		var hashSet2 = FlinqHashSetPool<T>.Get();
 
@@ -43,14 +40,7 @@ public class FlinqOperation_Intersect<T> : FlinqOperation<T>
 				continue;
 
 			if(hashSet2.Add(elem))
-			{
 				list.Add(elem);
-
-				++alreadyFound;
-
-				if(alreadyFound == wantedElementsCount)
-					break;
-			}
 		}
 
 		FlinqHashSetPool<T>.Return(hashSet2);
@@ -58,8 +48,6 @@ public class FlinqOperation_Intersect<T> : FlinqOperation<T>
 
 		list.RemoveRange(0, count);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

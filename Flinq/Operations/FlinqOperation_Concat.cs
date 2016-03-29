@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_Concat<T> : FlinqOperation<T>
+public sealed class FlinqOperation_Concat<T> : IFlinqOperation<T>
 {
 	private FlinqQuery<T> query;
 
@@ -14,17 +14,14 @@ public class FlinqOperation_Concat<T> : FlinqOperation<T>
 		this.query = query;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
-		bool returnToPool;
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		list.AddRange(finalList);
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

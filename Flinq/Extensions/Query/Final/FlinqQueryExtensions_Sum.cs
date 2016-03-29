@@ -12,9 +12,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -25,7 +23,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<decimal>.Return(finalList);
 
 		return sum;
 	}
@@ -35,9 +33,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -51,7 +47,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<decimal>>.Return(finalList);
 
 		return sum;
 	}
@@ -61,9 +57,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -74,7 +68,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<double>.Return(finalList);
 
 		return sum;
 	}
@@ -84,9 +78,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -100,7 +92,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<double>>.Return(finalList);
 
 		return sum;
 	}
@@ -110,9 +102,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -123,7 +113,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<int>.Return(finalList);
 
 		return sum;
 	}
@@ -133,9 +123,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -149,7 +137,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<int>>.Return(finalList);
 
 		return sum;
 	}
@@ -159,9 +147,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -172,7 +158,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<long>.Return(finalList);
 
 		return sum;
 	}
@@ -182,9 +168,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -198,7 +182,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<long>>.Return(finalList);
 
 		return sum;
 	}
@@ -208,9 +192,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -221,7 +203,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += finalList[i];
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<float>.Return(finalList);
 
 		return sum;
 	}
@@ -231,9 +213,7 @@ public static class FlinqQueryExtensions_Sum
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -247,7 +227,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<Nullable<float>>.Return(finalList);
 
 		return sum;
 	}
@@ -260,9 +240,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -273,7 +251,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}
@@ -286,9 +264,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -302,7 +278,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}
@@ -315,9 +291,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -328,7 +302,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}
@@ -341,9 +315,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -357,7 +329,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}
@@ -370,9 +342,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -383,7 +353,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}
@@ -396,9 +366,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -412,7 +380,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}
@@ -425,9 +393,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -438,7 +404,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}
@@ -451,9 +417,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -467,7 +431,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}
@@ -480,9 +444,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -493,7 +455,7 @@ public static class FlinqQueryExtensions_Sum
 			sum += selector(finalList[i]);
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}
@@ -506,9 +468,7 @@ public static class FlinqQueryExtensions_Sum
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		int count = finalList.Count;
 
@@ -522,7 +482,7 @@ public static class FlinqQueryExtensions_Sum
 				sum += elem.Value;
 		}
 
-		query.CleanupAfterResolve(finalList, returnToPool);
+		FlinqListPool<T>.Return(finalList);
 
 		return sum;
 	}

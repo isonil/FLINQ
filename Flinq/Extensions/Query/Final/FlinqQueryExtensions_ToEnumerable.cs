@@ -12,9 +12,7 @@ public static class FlinqQueryExtensions_ToEnumerable
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		bool returnToPool;
-
-		var finalList = query.Resolve(int.MaxValue, out returnToPool);
+		var finalList = query.Resolve();
 
 		try
 		{
@@ -27,7 +25,7 @@ public static class FlinqQueryExtensions_ToEnumerable
 		}
 		finally
 		{
-			query.CleanupAfterResolve(finalList, returnToPool);
+			FlinqListPool<T>.Return(finalList);
 		}
 	}
 }

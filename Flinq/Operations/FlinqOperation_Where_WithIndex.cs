@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public class FlinqOperation_Where_WithIndex<T> : FlinqOperation<T>
+public sealed class FlinqOperation_Where_WithIndex<T> : IFlinqOperation<T>
 {
 	private Func<T, int, bool> predicate;
 
@@ -14,33 +14,23 @@ public class FlinqOperation_Where_WithIndex<T> : FlinqOperation<T>
 		this.predicate = predicate;
 	}
 
-	public override void Transform(List<T> list, int wantedElementsCount)
+	public void Transform(List<T> list)
 	{
 		// unfortunately we can't use list.RemoveAll method here,
 		// because it doesn't accept a predicate with index
 
 		int count = list.Count;
-		int alreadyFound = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
 			var elem = list[i];
 
 			if(predicate(elem, i))
-			{
 				list.Add(elem);
-
-				++alreadyFound;
-
-				if(alreadyFound == wantedElementsCount)
-					break;
-			}
 		}
 
 		list.RemoveRange(0, count);
 	}
-
-	public override bool RequiresFullListToWorkOn { get { return true; } }
 }
 
 }

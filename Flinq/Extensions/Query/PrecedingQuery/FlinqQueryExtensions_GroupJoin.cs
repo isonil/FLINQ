@@ -11,7 +11,7 @@ public static class FlinqQueryExtensions_GroupJoin
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(int wantedElementsCount, object paramsPack)
+		private static List<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<TOuter>)paramsArray[0];
@@ -20,12 +20,11 @@ public static class FlinqQueryExtensions_GroupJoin
 			var innerKeySelector = (Func<TInner, TKey>)paramsArray[3];
 			var resultSelector = (Func<TOuter, FlinqQuery<TInner>, TResult>)paramsArray[4];
 
-			bool returnToPool;
-			var finalList = query.Resolve(int.MaxValue, out returnToPool);
+			var finalList = query.Resolve();
 
 			var dict = FlinqDictionaryPool<TKey, List<int>>.Get();
 
-			int count = Math.Min(finalList.Count, wantedElementsCount);
+			int count = finalList.Count;
 
 			List<int> list;
 
@@ -51,8 +50,7 @@ public static class FlinqQueryExtensions_GroupJoin
 				matching.Add(emptyList);
 			}
 
-			bool innerReturnToPool;
-			var innerFinalList = inner.Resolve(int.MaxValue, out innerReturnToPool);
+			var innerFinalList = inner.Resolve();
 
 			count = innerFinalList.Count;
 
@@ -82,7 +80,7 @@ public static class FlinqQueryExtensions_GroupJoin
 			}
 
 			// unfortunately we can't return all Lists<TInner>, because result selector could potentially
-			// save our new Flinq queries, so lists must be still alive
+			// store our new Flinq queries somewhere, so lists must be still alive
 
 			FlinqListPool<List<TInner>>.Return(matching);
 
@@ -93,8 +91,8 @@ public static class FlinqQueryExtensions_GroupJoin
 
 			FlinqDictionaryPool<TKey, List<int>>.Return(dict);
 
-			query.CleanupAfterResolve(finalList, returnToPool);
-			inner.CleanupAfterResolve(innerFinalList, innerReturnToPool);
+			FlinqListPool<TOuter>.Return(finalList);
+			FlinqListPool<TInner>.Return(innerFinalList);
 
 			return newList;
 		}
