@@ -16,33 +16,30 @@ public static class FlinqQueryExtensions_OfType
 			var query = (FlinqQuery<T>)param;
 
 			var finalList = query.Resolve();
-			var sameType = finalList as List<TResult>;
+			var newList = FlinqListPool<TResult>.Get();
+			int count = finalList.Count;
 
-			if(sameType != null)
-				return sameType;
-			else
+			for(int i = 0; i < count; ++i)
 			{
-				var newList = FlinqListPool<TResult>.Get();
+				var newElem = finalList[i] as TResult;
 
-				int count = finalList.Count;
-
-				for(int i = 0; i < count; ++i)
-				{
-					var newElem = finalList[i] as TResult;
-
-					if(newElem != null)
-						newList.Add(newElem);
-				}
-
-				FlinqListPool<T>.Return(finalList);
-
-				return newList;
+				if(newElem != null)
+					newList.Add(newElem);
 			}
+
+			FlinqListPool<T>.Return(finalList);
+
+			return newList;
 		}
 	}
 
 	public static FlinqQuery<TResult> OfType<T, TResult>(this FlinqQuery<T> query) where TResult : class
 	{
+		var sameType = query as FlinqQuery<TResult>;
+
+		if(sameType != null)
+			return sameType;
+
 		if(query == null)
 			throw new ArgumentNullException("query");
 

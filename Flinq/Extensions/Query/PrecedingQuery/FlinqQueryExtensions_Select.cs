@@ -18,7 +18,6 @@ public static class FlinqQueryExtensions_Select
 			var selector = (Func<T, TResult>)paramsArray[1];
 
 			var finalList = query.Resolve();
-			var newList = FlinqListPool<TResult>.Get();
 			int count = finalList.Count;
 
 			var sameTypeSelector = selector as Func<T, T>;
@@ -33,6 +32,8 @@ public static class FlinqQueryExtensions_Select
 			}
 			else
 			{
+				var newList = FlinqListPool<TResult>.Get();
+
 				for(int i = 0; i < count; ++i)
 				{
 					newList.Add(selector(finalList[i]));

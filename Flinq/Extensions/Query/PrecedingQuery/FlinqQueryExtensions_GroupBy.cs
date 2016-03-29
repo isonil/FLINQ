@@ -56,7 +56,6 @@ public static class FlinqQueryExtensions_GroupBy
 			}
 
 			FlinqDictionaryPool<TKey, List<T>>.Return(dict);
-
 			FlinqListPool<T>.Return(finalList);
 
 			return newList;
@@ -133,7 +132,6 @@ public static class FlinqQueryExtensions_GroupBy
 			}
 
 			FlinqDictionaryPool<TKey, List<TElement>>.Return(dict);
-
 			FlinqListPool<T>.Return(finalList);
 
 			return newList;
@@ -213,7 +211,6 @@ public static class FlinqQueryExtensions_GroupBy
 			}
 
 			FlinqDictionaryPool<TKey, List<T>>.Return(dict);
-
 			FlinqListPool<T>.Return(finalList);
 
 			return newList;
@@ -294,7 +291,6 @@ public static class FlinqQueryExtensions_GroupBy
 			}
 
 			FlinqDictionaryPool<TKey, List<TElement>>.Return(dict);
-
 			FlinqListPool<T>.Return(finalList);
 
 			return newList;
