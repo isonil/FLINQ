@@ -78,3 +78,9 @@ FLINQ supports the following operations:
 - Union
 - UnionLeaveDuplicates
 - Where
+
+# Usage
+
+- FlinqQuery<T> is like a IEnumerable<T> in LINQ
+- yield return syntax doesn't work with FLINQ
+- FlinqPools.ReturnAllObjects() must be called each frame
