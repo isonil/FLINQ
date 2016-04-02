@@ -79,8 +79,10 @@ FLINQ supports the following operations:
 - UnionLeaveDuplicates
 - Where
 
-# Usage
+# Usage notes
 
-- FlinqQuery<T> is like a IEnumerable<T> in LINQ
+- FlinqQuery<T> in FLINQ is like an IEnumerable<T> in LINQ
 - yield return syntax doesn't work with FLINQ
 - FlinqPools.ReturnAllObjects() must be called each frame
+- FLINQ uses immediate execution, this means that all elements will be iterated over even when running First()
+- FLINQ uses object pools which means it will allocate memory only on first usage
