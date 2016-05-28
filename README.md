@@ -9,7 +9,7 @@ The project has not beed fully tested yet and may contain bugs.
 
 # FLINQ enumerator
 
-FLINQ query enumerator always enumerates over a copy of the source collection elements (usually no memory allocations take place due to internal object pooling). This means it's perfectly fine to change source collection during enumeration of its elements:
+FLINQ query enumerator always enumerates over a copy of the source collection elements (usually no memory allocations take place due to internal object pooling). This means it's perfectly fine to change source collection during enumerating over its elements:
 
 ```C#
 foreach( var elem in list.AsFlinqQuery() )
