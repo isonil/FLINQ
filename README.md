@@ -5,7 +5,18 @@ FLINQ usually beats LINQ performance-wise when query's complexity is at least li
 
 FlinqPools.ReturnAllObjects() must be called each frame, or you can define NO_FLINQ_POOLS to disable object pooling.
 
-The project is not finished yet and may contain bugs.
+The project has not beed fully tested yet and may contain bugs.
+
+# FLINQ enumerator
+
+FLINQ query enumerator always enumerates over a copy of the source collection elements (usually no memory allocations take place due to internal object pooling). This means it's perfectly fine to change source collection during enumeration of its elements:
+
+```C#
+foreach( var elem in list.AsFlinqQuery() )
+{
+  list.RemoveAt(0);
+}
+```
 
 # Operations
 
