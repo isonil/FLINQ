@@ -69,7 +69,7 @@ FLINQ supports the following operations:
 - Select
 - SelectMany
 - Zip
-- Append
+- Appended
 - Concat
 - DefaultIfEmpty
 - Distinct
@@ -80,8 +80,8 @@ FLINQ supports the following operations:
 - Intersect
 - LazyAppend
 - LazyPrepend
-- Prepend
-- Reverse
+- Prepended
+- Reversed
 - Skip
 - SkipWhile
 - Take
