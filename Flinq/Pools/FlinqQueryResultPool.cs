@@ -62,8 +62,11 @@ public static class FlinqQueryResultPool<T>
 			{
 				elem.Clear();
 
-				pool[i] = pool[freeIndex - 1];
-				pool[freeIndex - 1] = elem;
+				if(i != freeIndex - 1)
+				{
+					pool[i] = pool[freeIndex - 1];
+					pool[freeIndex - 1] = elem;
+				}
 
 				--freeIndex;
 

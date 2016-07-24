@@ -63,8 +63,11 @@ public static class FlinqStringBuilderPool
 			{
 				elem.Length = 0;
 
-				pool[i] = pool[freeIndex - 1];
-				pool[freeIndex - 1] = elem;
+				if(i != freeIndex - 1)
+				{
+					pool[i] = pool[freeIndex - 1];
+					pool[freeIndex - 1] = elem;
+				}
 
 				--freeIndex;
 

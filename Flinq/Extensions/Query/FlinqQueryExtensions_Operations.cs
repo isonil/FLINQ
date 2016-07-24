@@ -99,12 +99,12 @@ public static class FlinqQueryExtensions_Operations
 		return newQuery;
 	}
 
-	public static FlinqQuery<T> Reverse<T>(this FlinqQuery<T> query)
+	public static FlinqQuery<T> Reversed<T>(this FlinqQuery<T> query)
 	{
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		var op = FlinqOperationPool<FlinqOperation_Reverse<T>>.Get();
+		var op = FlinqOperationPool<FlinqOperation_Reversed<T>>.Get();
 
 		op.OnInit();
 
@@ -188,12 +188,12 @@ public static class FlinqQueryExtensions_Operations
 		return newQuery;
 	}
 
-	public static FlinqQuery<T> Append<T>(this FlinqQuery<T> query, T element)
+	public static FlinqQuery<T> Appended<T>(this FlinqQuery<T> query, T element)
 	{
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		var op = FlinqOperationPool<FlinqOperation_Append<T>>.Get();
+		var op = FlinqOperationPool<FlinqOperation_Appended<T>>.Get();
 
 		op.OnInit(element);
 
@@ -223,12 +223,12 @@ public static class FlinqQueryExtensions_Operations
 		return newQuery;
 	}
 
-	public static FlinqQuery<T> Prepend<T>(this FlinqQuery<T> query, T element)
+	public static FlinqQuery<T> Prepended<T>(this FlinqQuery<T> query, T element)
 	{
 		if(query == null)
 			throw new ArgumentNullException("query");
 
-		var op = FlinqOperationPool<FlinqOperation_Prepend<T>>.Get();
+		var op = FlinqOperationPool<FlinqOperation_Prepended<T>>.Get();
 
 		op.OnInit(element);
 
@@ -444,6 +444,25 @@ public static class FlinqQueryExtensions_Operations
 		var op = FlinqOperationPool<FlinqOperation_GetDuplicates<T>>.Get();
 
 		op.OnInit();
+
+		var newQuery = FlinqQueryPool<T>.Get();
+
+		newQuery.OnInit(query, op);
+
+		return newQuery;
+	}
+	
+	public static FlinqQuery<T> GetDuplicatesBy<T, TCompareBy>(this FlinqQuery<T> query, Func<T, TCompareBy> selector)
+	{
+		if(query == null)
+			throw new ArgumentNullException("query");
+
+		if(selector == null)
+			throw new ArgumentNullException("selector");
+
+		var op = FlinqOperationPool<FlinqOperation_GetDuplicatesBy<T, TCompareBy>>.Get();
+
+		op.OnInit(selector);
 
 		var newQuery = FlinqQueryPool<T>.Get();
 

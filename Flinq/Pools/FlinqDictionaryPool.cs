@@ -55,8 +55,11 @@ public static class FlinqDictionaryPool<TKey, TElement>
 			{
 				elem.Clear();
 
-				pool[i] = pool[freeIndex - 1];
-				pool[freeIndex - 1] = elem;
+				if(i != freeIndex - 1)
+				{
+					pool[i] = pool[freeIndex - 1];
+					pool[freeIndex - 1] = elem;
+				}
 
 				--freeIndex;
 

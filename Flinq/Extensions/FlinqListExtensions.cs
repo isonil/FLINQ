@@ -19,55 +19,200 @@ public static class FlinqListExtensions
 		return query;
 	}
 
-	// TODO: each FlinqQuery operation extension
-	// TODO: each FlinqQuery non-operation extension implemented like this: list.AsFlinqQuery().Extention();
+	// Operations:
 
-	// these will create preceding operations
-	// (they can't be normal operations because they depend on other types than T)
-
-	public static FlinqQuery<TResult> Cast<T, TResult>(this List<T> list)
+	public static FlinqQuery<T> Appended<T>(this List<T> list, T element)
 	{
 		if(list == null)
 			throw new ArgumentNullException("list");
 
-		return list.AsFlinqQuery().Cast<T, TResult>();
+		var op = FlinqOperationPool<FlinqOperation_Appended<T>>.Get();
+
+		op.OnInit(element);
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
 	}
 
-	public static FlinqQuery<TResult> Select<T, TResult>(this List<T> list, Func<T, TResult> select)
+	public static FlinqQuery<T> Concat<T>(this List<T> list, FlinqQuery<T> otherQuery)
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+		
+		if(otherQuery == null)
+			throw new ArgumentNullException("otherQuery");
+
+		var op = FlinqOperationPool<FlinqOperation_Concat<T>>.Get();
+
+		op.OnInit(otherQuery);
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
+	}
+	
+	public static FlinqQuery<T> DefaultIfEmpty<T>(this List<T> list)
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+		
+		var op = FlinqOperationPool<FlinqOperation_DefaultIfEmpty<T>>.Get();
+
+		op.OnInit();
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
+	}
+
+	public static FlinqQuery<T> DefaultIfEmpty<T>(this List<T> list, T defaultValue)
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+		
+		var op = FlinqOperationPool<FlinqOperation_DefaultIfEmpty_WithDefaultValue<T>>.Get();
+
+		op.OnInit(defaultValue);
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
+	}
+	
+	public static FlinqQuery<T> Distinct<T>(this List<T> list)
 	{
 		if(list == null)
 			throw new ArgumentNullException("list");
 
-		if(select == null)
-			throw new ArgumentNullException("select");
+		var op = FlinqOperationPool<FlinqOperation_Distinct<T>>.Get();
 
-		return list.AsFlinqQuery().Select(select);
+		op.OnInit();
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
 	}
-
-	public static FlinqQuery<T> OrderBy<T, TKey>(this List<T> list, Func<T, TKey> keySelector) where TKey : IComparable<TKey>
+	
+	public static FlinqQuery<T> Except<T>(this List<T> list, FlinqQuery<T> except)
 	{
 		if(list == null)
 			throw new ArgumentNullException("list");
 
-		if(keySelector == null)
-			throw new ArgumentNullException("keySelector");
+		if(except == null)
+			throw new ArgumentNullException("except");
 
-		return list.AsFlinqQuery().OrderBy(keySelector);
+		var op = FlinqOperationPool<FlinqOperation_Except<T>>.Get();
+
+		op.OnInit(except);
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
 	}
-
-	public static FlinqQuery<T> OrderByDescending<T, TKey>(this List<T> list, Func<T, TKey> keySelector) where TKey : IComparable<TKey>
+	
+	public static FlinqQuery<T> ExistIn<T>(this List<T> list, FlinqQuery<T> intersect)
 	{
 		if(list == null)
 			throw new ArgumentNullException("list");
 
-		if(keySelector == null)
-			throw new ArgumentNullException("keySelector");
+		if(intersect == null)
+			throw new ArgumentNullException("intersect");
 
-		return list.AsFlinqQuery().OrderByDescending(keySelector);
+		var op = FlinqOperationPool<FlinqOperation_ExistIn<T>>.Get();
+
+		op.OnInit(intersect);
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
+	}
+	
+	public static FlinqQuery<T> GetDuplicates<T>(this List<T> list)
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+
+		var op = FlinqOperationPool<FlinqOperation_GetDuplicates<T>>.Get();
+
+		op.OnInit();
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
+	}
+	
+	public static FlinqQuery<T> GetDuplicatesBy<T, TCompareBy>(this List<T> list, Func<T, TCompareBy> selector)
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+
+		if(selector == null)
+			throw new ArgumentNullException("selector");
+
+		var op = FlinqOperationPool<FlinqOperation_GetDuplicatesBy<T, TCompareBy>>.Get();
+
+		op.OnInit(selector);
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
+	}
+	
+	public static FlinqQuery<T> InRandomOrder<T>(this List<T> list)
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+
+		var op = FlinqOperationPool<FlinqOperation_InRandomOrder<T>>.Get();
+
+		op.OnInit();
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
+	}
+	
+	public static FlinqQuery<T> InRandomOrder<T>(this List<T> list, Func<int, int, int> intRangeInclusive)
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+
+		if(intRangeInclusive == null)
+			throw new ArgumentNullException("intRangeInclusive");
+
+		var op = FlinqOperationPool<FlinqOperation_InRandomOrder_WithRandomNumberGenerator<T>>.Get();
+
+		op.OnInit(intRangeInclusive);
+
+		var query = FlinqQueryPool<T>.Get();
+
+		query.OnInit(list, op);
+
+		return query;
 	}
 
-	// note that we don't use, for example, list.AsLinqQuery().Where(...), because we can directly
-	// create FlinqQuery with the desired operation, which is slightly faster
+	///////
 
 	public static FlinqQuery<T> Where<T>(this List<T> list, Predicate<T> predicate)
 	{
@@ -123,12 +268,12 @@ public static class FlinqListExtensions
 		return query;
 	}
 
-	public static FlinqQuery<T> Reverse<T>(this List<T> list)
+	public static FlinqQuery<T> Reversed<T>(this List<T> list)
 	{
 		if(list == null)
 			throw new ArgumentNullException("list");
 
-		var op = FlinqOperationPool<FlinqOperation_Reverse<T>>.Get();
+		var op = FlinqOperationPool<FlinqOperation_Reversed<T>>.Get();
 
 		op.OnInit();
 
@@ -139,21 +284,58 @@ public static class FlinqListExtensions
 		return query;
 	}
 
-	public static FlinqQuery<T> Distinct<T>(this List<T> list)
+	// TODO: rest
+
+	// Preceding queries:
+
+	public static FlinqQuery<TResult> Cast<T, TResult>(this List<T> list)
 	{
 		if(list == null)
 			throw new ArgumentNullException("list");
 
-		var op = FlinqOperationPool<FlinqOperation_Distinct<T>>.Get();
-
-		op.OnInit();
-
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return list.AsFlinqQuery().Cast<T, TResult>();
 	}
+
+	public static FlinqQuery<TResult> Select<T, TResult>(this List<T> list, Func<T, TResult> select)
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+
+		return list.AsFlinqQuery().Select(select);
+	}
+
+	public static FlinqQuery<T> OrderBy<T, TKey>(this List<T> list, Func<T, TKey> keySelector) where TKey : IComparable<TKey>
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+
+		return list.AsFlinqQuery().OrderBy(keySelector);
+	}
+
+	public static FlinqQuery<T> OrderByDescending<T, TKey>(this List<T> list, Func<T, TKey> keySelector) where TKey : IComparable<TKey>
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+
+		return list.AsFlinqQuery().OrderByDescending(keySelector);
+	}
+
+	// TODO: rest
+
+	// Final operations:
+
+	public static bool Any<T>(this List<T> list, Predicate<T> predicate)
+	{
+		if(list == null)
+			throw new ArgumentNullException("list");
+
+		if(predicate == null)
+			throw new ArgumentNullException("predicate");
+
+		return list.FindIndex(predicate) != -1;
+	}
+
+	// TODO: rest
 
 	// some extra extensions, they don't use FlinqQuery (will be probably removed)
 

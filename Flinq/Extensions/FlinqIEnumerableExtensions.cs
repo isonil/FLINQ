@@ -34,13 +34,54 @@ public static class FlinqIEnumerableExtensions
 
 		if(asList != null) // is it already a list? great!
 			query.OnInit(asList);
-		else // since FlinqQuery uses list internally, we need to create preceding query which converts enumerable to list
+		else // since FlinqQuery uses list internally, we need to create a preceding query which converts enumerable to list
 			query.OnInit(ImplWrapper<T>.impl, enumerable);
 
 		return query;
 	}
 
 	// TODO: each FlinqQuery extension implemented like this: enumerable.AsFlinqQuery().Extention();
+	
+	public static FlinqQuery<TResult> Cast<T, TResult>(this IEnumerable<T> source)
+	{
+		if(source == null)
+			throw new ArgumentNullException("source");
+
+		return source.AsFlinqQuery().Cast<T, TResult>();
+	}
+
+	public static FlinqQuery<TResult> Select<T, TResult>(this IEnumerable<T> source, Func<T, TResult> select)
+	{
+		if(source == null)
+			throw new ArgumentNullException("source");
+
+		if(select == null)
+			throw new ArgumentNullException("select");
+
+		return source.AsFlinqQuery().Select(select);
+	}
+
+	public static FlinqQuery<T> OrderBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector) where TKey : IComparable<TKey>
+	{
+		if(source == null)
+			throw new ArgumentNullException("source");
+
+		if(keySelector == null)
+			throw new ArgumentNullException("keySelector");
+
+		return source.AsFlinqQuery().OrderBy(keySelector);
+	}
+
+	public static FlinqQuery<T> OrderByDescending<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector) where TKey : IComparable<TKey>
+	{
+		if(source == null)
+			throw new ArgumentNullException("source");
+
+		if(keySelector == null)
+			throw new ArgumentNullException("keySelector");
+
+		return source.AsFlinqQuery().OrderByDescending(keySelector);
+	}
 }
 
 }
