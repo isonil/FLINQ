@@ -76,6 +76,7 @@ FLINQ supports the following operations:
 - Except
 - ExistIn
 - GetDuplicates
+- GetDuplicatesBy
 - InRandomOrder
 - Intersect
 - LazyAppend
