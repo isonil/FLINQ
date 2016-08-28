@@ -9,14 +9,12 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 {
 	public static T RandomElementByWeightOrDefault<T>(this FlinqQuery<T> query, Func<T, float> weightSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(weightSelector == null)
 			throw new ArgumentNullException("weightSelector");
+
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -24,11 +22,13 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 			return default(T);
 		}
 
+		var array = finalList.array;
+
 		float sum = 0f;
 
 		for(int i = 0; i < count; ++i)
 		{
-			float weight = weightSelector(finalList[i]);
+			float weight = weightSelector(array[i]);
 
 			if(weight < 0f)
 			{
@@ -53,9 +53,9 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = finalList[i];
+			var element = array[i];
 
-			float weight = weightSelector(finalList[i]);
+			float weight = weightSelector(array[i]);
 
 			if(weight == 0f)
 				continue;
@@ -80,17 +80,15 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 
 	public static T RandomElementByWeightOrDefault<T>(this FlinqQuery<T> query, Func<T, float> weightSelector, Func<float> float01)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(weightSelector == null)
 			throw new ArgumentNullException("weightSelector");
 
 		if(float01 == null)
 			throw new ArgumentNullException("float01");
+
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -98,11 +96,13 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 			return default(T);
 		}
 
+		var array = finalList.array;
+
 		float sum = 0f;
 
 		for(int i = 0; i < count; ++i)
 		{
-			float weight = weightSelector(finalList[i]);
+			float weight = weightSelector(array[i]);
 
 			if(weight < 0f)
 			{
@@ -127,9 +127,9 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrDefault
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = finalList[i];
+			var element = array[i];
 
-			float weight = weightSelector(finalList[i]);
+			float weight = weightSelector(array[i]);
 
 			if(weight == 0f)
 				continue;

@@ -11,13 +11,13 @@ public static class FlinqArrayExtensions
 	{
 		public static readonly FlinqQuery<T>.PrecedingQuery impl = Impl;
 
-		private static List<T> Impl(object param)
+		private static FlinqList<T> Impl(object param)
 		{
 			var array = (T[])param;
 
 			var newList = FlinqListPool<T>.Get();
 
-			newList.AddRange(array);
+			newList.CopyFrom(array);
 
 			return newList;
 		}
@@ -28,11 +28,7 @@ public static class FlinqArrayExtensions
 		if(array == null)
 			return FlinqQuery<T>.Empty;
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(ImplWrapper<T>.impl, array);
-
-		return query;
+		return new FlinqQuery<T>(ImplWrapper<T>.impl, array);
 	}
 }
 

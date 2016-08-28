@@ -9,18 +9,15 @@ public static class FlinqQueryExtensions_Single
 {
 	public static T Single<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		if(finalList.Count != 0)
+		if(finalList.count != 0)
 		{
 			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("The collection does not contain exactly one element.");
 		}
 
-		var first = finalList[0];
+		var first = finalList.array[0];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -29,9 +26,6 @@ public static class FlinqQueryExtensions_Single
 
 	public static T Single<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 
@@ -40,7 +34,7 @@ public static class FlinqQueryExtensions_Single
 		int index = finalList.FindIndex(predicate);
 		int secondIndex = -1;
 		
-		if(index >= 0 && index + 1 < finalList.Count)
+		if(index >= 0 && index + 1 < finalList.count)
 			secondIndex = finalList.FindIndex(index + 1, predicate);
 
 		if(index < 0 || secondIndex >= 0)
@@ -49,7 +43,7 @@ public static class FlinqQueryExtensions_Single
 			throw new InvalidOperationException("The collection does not contain exactly one element.");
 		}
 
-		var elem = finalList[index];
+		var elem = finalList.array[index];
 
 		FlinqListPool<T>.Return(finalList);
 

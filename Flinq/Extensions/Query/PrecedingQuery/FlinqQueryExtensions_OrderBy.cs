@@ -11,7 +11,7 @@ public static class FlinqQueryExtensions_OrderBy
 	{
 		public static readonly FlinqQuery<T>.PrecedingQuery impl = Impl;
 
-		private static List<T> Impl(object paramsPack)
+		private static FlinqList<T> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
@@ -19,7 +19,8 @@ public static class FlinqQueryExtensions_OrderBy
 
 			var finalList = query.Resolve();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			var indices = FlinqListPool<int>.Get();
 			var keys = FlinqListPool<TKey>.Get();
@@ -27,19 +28,22 @@ public static class FlinqQueryExtensions_OrderBy
 			for(int i = 0; i < count; ++i)
 			{
 				indices.Add(i);
-				keys.Add(keySelector(finalList[i]));
+				keys.Add(keySelector(array[i]));
 			}
 
-			indices.Sort((a, b) => keys[a].CompareTo(keys[b]));
+			indices.Sort(keys);
+			var indicesArray = indices.array;
 				
 			var newList = FlinqListPool<T>.Get();
 
 			for(int i = 0; i < count; ++i)
 			{
-				newList.Add(finalList[indices[i]]);
+				newList.Add(array[indicesArray[i]]);
 			}
 
 			FlinqListPool<T>.Return(finalList);
+			FlinqListPool<int>.Return(indices);
+			FlinqListPool<TKey>.Return(keys);
 
 			return newList;
 		}
@@ -47,9 +51,6 @@ public static class FlinqQueryExtensions_OrderBy
 
 	public static FlinqQuery<T> OrderBy<T, TKey>(this FlinqQuery<T> query, Func<T, TKey> keySelector) where TKey : IComparable<TKey>
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(keySelector == null)
 			throw new ArgumentNullException("keySelector");
 
@@ -58,11 +59,7 @@ public static class FlinqQueryExtensions_OrderBy
 		paramsPack[0] = query;
 		paramsPack[1] = keySelector;
 
-		var newQuery = FlinqQueryPool<T>.Get();
-
-		newQuery.OnInit(ImplWrapper<T, TKey>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<T>(ImplWrapper<T, TKey>.impl, paramsPack);
 	}
 }
 

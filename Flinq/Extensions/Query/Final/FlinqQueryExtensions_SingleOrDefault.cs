@@ -9,12 +9,9 @@ public static class FlinqQueryExtensions_SingleOrDefault
 {
 	public static T SingleOrDefault<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -28,7 +25,7 @@ public static class FlinqQueryExtensions_SingleOrDefault
 			throw new InvalidOperationException("The collection contains more than one element.");
 		}
 
-		var first = finalList[0];
+		var first = finalList.array[0];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -37,9 +34,6 @@ public static class FlinqQueryExtensions_SingleOrDefault
 
 	public static T SingleOrDefault<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 
@@ -48,7 +42,7 @@ public static class FlinqQueryExtensions_SingleOrDefault
 		int index = finalList.FindIndex(predicate);
 		int secondIndex = -1;
 		
-		if(index >= 0 && index + 1 < finalList.Count)
+		if(index >= 0 && index + 1 < finalList.count)
 			secondIndex = finalList.FindIndex(index + 1, predicate);
 
 		if(secondIndex >= 0)
@@ -57,7 +51,7 @@ public static class FlinqQueryExtensions_SingleOrDefault
 			throw new InvalidOperationException("The collection contains more than one element.");
 		}
 
-		var elem = index < 0 ? default(T) : finalList[index];
+		var elem = index < 0 ? default(T) : finalList.array[index];
 
 		FlinqListPool<T>.Return(finalList);
 

@@ -9,9 +9,6 @@ public static class FlinqQueryExtensions_All
 {
 	public static bool All<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 

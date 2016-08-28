@@ -7,9 +7,12 @@ namespace Flinq
 
 public sealed class FlinqOperation_Reversed<T> : IFlinqOperation<T>
 {
-	public void OnInit() { }
+	public void OnInit()
+	{
+		parent = null;
+	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		list.Reverse();
 	}

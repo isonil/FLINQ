@@ -11,13 +11,13 @@ public static class FlinqIEnumerableExtensions
 	{
 		public static readonly FlinqQuery<T>.PrecedingQuery impl = Impl;
 
-		private static List<T> Impl(object param)
+		private static FlinqList<T> Impl(object param)
 		{
 			var enumerable = (IEnumerable<T>)param;
 
 			var newList = FlinqListPool<T>.Get();
 
-			newList.AddRange(enumerable);
+			newList.CopyFrom(enumerable);
 
 			return newList;
 		}
@@ -28,16 +28,12 @@ public static class FlinqIEnumerableExtensions
 		if(enumerable == null)
 			return FlinqQuery<T>.Empty;
 
-		var query = FlinqQueryPool<T>.Get();
-
 		var asList = enumerable as List<T>;
 
 		if(asList != null) // is it already a list? great!
-			query.OnInit(asList);
+			return new FlinqQuery<T>(asList);
 		else // since FlinqQuery uses list internally, we need to create a preceding query which converts enumerable to list
-			query.OnInit(ImplWrapper<T>.impl, enumerable);
-
-		return query;
+			return new FlinqQuery<T>(ImplWrapper<T>.impl, enumerable);
 	}
 
 	// TODO: each FlinqQuery extension implemented like this: enumerable.AsFlinqQuery().Extention();

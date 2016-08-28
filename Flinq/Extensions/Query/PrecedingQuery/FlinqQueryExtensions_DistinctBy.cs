@@ -11,7 +11,7 @@ public static class FlinqQueryExtensions_DistinctBy
 	{
 		public static readonly FlinqQuery<T>.PrecedingQuery impl = Impl;
 
-		private static List<T> Impl(object paramsPack)
+		private static FlinqList<T> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
@@ -22,11 +22,12 @@ public static class FlinqQueryExtensions_DistinctBy
 			var newList = FlinqListPool<T>.Get();
 			var hashSet = FlinqHashSetPool<TCompareBy>.Get();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var elem = finalList[i];
+				var elem = array[i];
 
 				if(hashSet.Add(compareBySelector(elem)))
 					newList.Add(elem);
@@ -42,9 +43,6 @@ public static class FlinqQueryExtensions_DistinctBy
 
 	public static FlinqQuery<T> DistinctBy<T, TCompareBy>(this FlinqQuery<T> query, Func<T, TCompareBy> compareBySelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(compareBySelector == null)
 			throw new ArgumentNullException("compareBySelector");
 
@@ -53,11 +51,7 @@ public static class FlinqQueryExtensions_DistinctBy
 		paramsPack[0] = query;
 		paramsPack[1] = compareBySelector;
 
-		var newQuery = FlinqQueryPool<T>.Get();
-
-		newQuery.OnInit(ImplWrapper<T, TCompareBy>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<T>(ImplWrapper<T, TCompareBy>.impl, paramsPack);
 	}
 }
 

@@ -11,25 +11,13 @@ public sealed class FlinqOperation_Where_WithIndex<T> : IFlinqOperation<T>
 
 	public void OnInit(Func<T, int, bool> predicate)
 	{
+		parent = null;
 		this.predicate = predicate;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
-		// unfortunately we can't use list.RemoveAll method here,
-		// because it doesn't accept a predicate with index
-
-		int count = list.Count;
-
-		for(int i = 0; i < count; ++i)
-		{
-			var elem = list[i];
-
-			if(predicate(elem, i))
-				list.Add(elem);
-		}
-
-		list.RemoveRange(0, count);
+		list.KeepWhere(predicate);
 	}
 }
 

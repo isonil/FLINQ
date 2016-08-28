@@ -11,10 +11,11 @@ public sealed class FlinqOperation_LazyAppend<T> : IFlinqOperation<T>
 
 	public void OnInit(Func<T> elementGetter)
 	{
+		parent = null;
 		this.elementGetter = elementGetter;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		list.Add(elementGetter());
 	}

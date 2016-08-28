@@ -3,7 +3,7 @@
 namespace Flinq
 {
 
-public sealed class FlinqGrouping<TKey, T> : FlinqQuery<T>
+public sealed class FlinqGrouping<TKey, T>// : FlinqQuery<T>
 {
 	public TKey Key { get; internal set; }
 }

@@ -6,10 +6,10 @@ using System.Linq;
 namespace Flinq
 {
 
-public class FlinqQuery<T>
+public struct FlinqQuery<T> : IEquatable<FlinqQuery<T>>
 {
-	// always returns a list from pool
-	internal delegate List<T> PrecedingQuery(object param);
+	// always returns a flinq list from pool
+	internal delegate FlinqList<T> PrecedingQuery(object param);
 
 	private static class ImplsWrapper
 	{
@@ -19,12 +19,12 @@ public class FlinqQuery<T>
 		public static readonly PrecedingQuery implRepeat = ImplRepeat;
 		public static readonly PrecedingQuery implCreate = ImplCreate;
 
-		private static List<T> ImplEmpty(object unused)
+		private static FlinqList<T> ImplEmpty(object unused)
 		{
 			return FlinqListPool<T>.Get();
 		}
 
-		private static List<T> ImplFromSingleElement(object param)
+		private static FlinqList<T> ImplFromSingleElement(object param)
 		{
 			var list = FlinqListPool<T>.Get();
 
@@ -33,7 +33,7 @@ public class FlinqQuery<T>
 			return list;
 		}
 
-		private static List<int> ImplRange(object paramsPack)
+		private static FlinqList<int> ImplRange(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var start = (int)paramsArray[0];
@@ -51,7 +51,7 @@ public class FlinqQuery<T>
 			return list;
 		}
 
-		private static List<T> ImplRepeat(object paramsPack)
+		private static FlinqList<T> ImplRepeat(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var element = (T)paramsArray[0];
@@ -66,8 +66,8 @@ public class FlinqQuery<T>
 
 			return list;
 		}
-		
-		private static List<T> ImplCreate(object param)
+
+		private static FlinqList<T> ImplCreate(object param)
 		{
 			var list = FlinqListPool<T>.Get();
 
@@ -86,34 +86,72 @@ public class FlinqQuery<T>
 	// original list
 	private object precedingQueryOrList;
 
-	// param passed to the preceding query
+	//private int precedingQueryArgIndex;
 	private object precedingQueryParam;
 
-	// operation to be applied on the list (operations like Where)
-	private IFlinqOperation<T> operation;
-
-	// parent query
-	private FlinqQuery<T> parent;
+	private IFlinqOperation<T> lastOperation;
 
 	public static FlinqQuery<T> Empty
 	{
 		get
 		{
-			var query = FlinqQueryPool<T>.Get();
-
-			query.OnInit(ImplsWrapper.implEmpty, null);
-
-			return query;
+			return new FlinqQuery<T>(ImplsWrapper.implEmpty, null);
 		}
+	}
+
+	internal FlinqQuery(List<T> list)
+	{
+		precedingQueryOrList = list;
+		//precedingQueryArgIndex = -1;
+		precedingQueryParam = null;
+		lastOperation = null;
+	}
+
+	internal FlinqQuery(List<T> list, IFlinqOperation<T> operation)
+	{
+		precedingQueryOrList = list;
+		//precedingQueryArgIndex = -1;
+		precedingQueryParam = null;
+		lastOperation = operation;
+	}
+
+	internal FlinqQuery(FlinqQuery<T> query, IFlinqOperation<T> operation)
+	{
+		operation.parent = query.lastOperation;
+
+		precedingQueryOrList = query.precedingQueryOrList;
+		//precedingQueryArgIndex = query.precedingQueryArgIndex;
+		precedingQueryParam = query.precedingQueryParam;
+		lastOperation = operation;
+	}
+
+	internal FlinqQuery(PrecedingQuery precedingQuery, object precedingQueryParam)
+	{
+		precedingQueryOrList = precedingQuery;
+		this.precedingQueryParam = precedingQueryParam;
+		lastOperation = null;
+	}
+
+	public static bool operator ==(FlinqQuery<T> lhs, FlinqQuery<T> rhs)
+	{
+		return lhs.precedingQueryOrList == rhs.precedingQueryOrList
+			&& lhs.precedingQueryParam == rhs.precedingQueryParam
+			&& lhs.lastOperation == rhs.lastOperation;
+	}
+
+	public static bool operator !=(FlinqQuery<T> lhs, FlinqQuery<T> rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	public static implicit operator FlinqQuery<T>(List<T> list)
+	{
+		return list.AsFlinqQuery();
 	}
 
 	public static FlinqQuery<T> FromSingleElement(T element)
 	{
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(ImplsWrapper.implFromSingleElement, element);
-
-		return query;
+		return new FlinqQuery<T>(ImplsWrapper.implFromSingleElement, element);
 	}
 
 	public static FlinqQuery<int> Range(int start, int count)
@@ -126,11 +164,7 @@ public class FlinqQuery<T>
 		paramsPack[0] = start;
 		paramsPack[1] = count;
 
-		var query = FlinqQueryPool<int>.Get();
-
-		query.OnInit(ImplsWrapper.implRange, paramsPack);
-
-		return query;
+		return new FlinqQuery<int>(ImplsWrapper.implRange, paramsPack);
 	}
 
 	public static FlinqQuery<T> Repeat(T element, int count)
@@ -143,11 +177,7 @@ public class FlinqQuery<T>
 		paramsPack[0] = element;
 		paramsPack[1] = count;
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(ImplsWrapper.implRepeat, paramsPack);
-
-		return query;
+		return new FlinqQuery<T>(ImplsWrapper.implRepeat, paramsPack);
 	}
 
 	public static FlinqQuery<T> Create(Action<Action<T>> initializer)
@@ -155,61 +185,34 @@ public class FlinqQuery<T>
 		if(initializer == null)
 			throw new ArgumentNullException("initializer");
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(ImplsWrapper.implCreate, initializer);
-
-		return query;
+		return new FlinqQuery<T>(ImplsWrapper.implCreate, initializer);
 	}
 
-	public static implicit operator FlinqQuery<T>(List<T> list)
+	public override int GetHashCode()
 	{
-		return list.AsFlinqQuery();
+		return precedingQueryOrList.GetHashCode()
+			^ (precedingQueryParam == null ? 0 : precedingQueryParam.GetHashCode())
+			^ (lastOperation == null ? 0 : lastOperation.GetHashCode());
 	}
 
-	// OnInit functions
-	// must be called after getting query from the pool
-	// (called internally by Flinq, not by Flinq user)
-
-	internal void OnInit(List<T> list)
+	public override bool Equals(object obj)
 	{
-		precedingQueryOrList = list;
-		precedingQueryParam = null;
-		operation = null;
-		parent = null;
+		if( !(obj is FlinqQuery<T>) )
+			return false;
+
+		return this == (FlinqQuery<T>)obj;
 	}
 
-	internal void OnInit(List<T> list, IFlinqOperation<T> operation)
+	public bool Equals(FlinqQuery<T> other)
 	{
-		precedingQueryOrList = list;
-		precedingQueryParam = null;
-		this.operation = operation;
-		parent = null;
-	}
-
-	internal void OnInit(FlinqQuery<T> query, IFlinqOperation<T> operation)
-	{
-		precedingQueryOrList = query.precedingQueryOrList;
-		precedingQueryParam = query.precedingQueryParam;
-		this.operation = operation;
-		parent = query;
-	}
-
-	internal void OnInit(PrecedingQuery precedingQuery, object precedingQueryParam)
-	{
-		this.precedingQueryOrList = precedingQuery;
-		this.precedingQueryParam = precedingQueryParam;
-		operation = null;
-		parent = null;
+		return this == other;
 	}
 
 	public FlinqQueryResult<T> GetResult()
 	{
-		var result = FlinqQueryResultPool<T>.Get();
-
 		var finalList = Resolve();
 
-		result.AddRange(finalList);
+		var result = new FlinqQueryResult<T>(finalList);
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -225,10 +228,10 @@ public class FlinqQuery<T>
 	// returned list should be returned to pool,
 	// note that the list returned from Resolve shouldn't be passed to the user,
 	// it's just a local result of all transformations applied to the list and shouldn't leave this object
-
-	internal List<T> Resolve()
+	
+	internal FlinqList<T> Resolve()
 	{
-		List<T> finalList;
+		FlinqList<T> finalList;
 
 		var list = precedingQueryOrList as List<T>;
 
@@ -237,7 +240,7 @@ public class FlinqQuery<T>
 			// create a list copy on which we will be applying transformations
 
 			finalList = FlinqListPool<T>.Get();
-			finalList.AddRange(list);
+			finalList.CopyFrom(list);
 		}
 		else
 		{
@@ -246,18 +249,19 @@ public class FlinqQuery<T>
 			finalList = ((PrecedingQuery)precedingQueryOrList)(precedingQueryParam);
 		}
 
-		ApplyTransformOperations(finalList, this);
+		ApplyTransformOperations(finalList, lastOperation);
 
 		return finalList;
 	}
 
-	private static void ApplyTransformOperations(List<T> list, FlinqQuery<T> query)
+	private static void ApplyTransformOperations(FlinqList<T> list, IFlinqOperation<T> operation)
 	{
-		if(query.parent != null)
-			ApplyTransformOperations(list, query.parent);
+		if(operation == null)
+			return;
 
-		if(query.operation != null)
-			query.operation.Transform(list);
+		ApplyTransformOperations(list, operation.parent);
+
+		operation.Transform(list);
 	}
 }
 

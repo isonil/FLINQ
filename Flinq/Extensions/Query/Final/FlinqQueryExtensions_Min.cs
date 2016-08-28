@@ -8,21 +8,20 @@ public static class FlinqQueryExtensions_Min
 {
 	public static decimal Min(this FlinqQuery<decimal> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		decimal minElem = finalList[0];
+		var array = finalList.array;
+
+		decimal minElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem < minElem)
 				minElem = elem;
@@ -35,19 +34,17 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<decimal> Min(this FlinqQuery<Nullable<decimal>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		decimal minElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -71,21 +68,20 @@ public static class FlinqQueryExtensions_Min
 
 	public static double Min(this FlinqQuery<double> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		double minElem = finalList[0];
+		var array = finalList.array;
+
+		double minElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem < minElem)
 				minElem = elem;
@@ -98,19 +94,17 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<double> Min(this FlinqQuery<Nullable<double>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		double minElem = 0.0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -134,21 +128,20 @@ public static class FlinqQueryExtensions_Min
 
 	public static int Min(this FlinqQuery<int> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		int minElem = finalList[0];
+		var array = finalList.array;
+
+		int minElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem < minElem)
 				minElem = elem;
@@ -161,19 +154,17 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<int> Min(this FlinqQuery<Nullable<int>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		int minElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -197,21 +188,20 @@ public static class FlinqQueryExtensions_Min
 
 	public static long Min(this FlinqQuery<long> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		long minElem = finalList[0];
+		var array = finalList.array;
+
+		long minElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem < minElem)
 				minElem = elem;
@@ -224,19 +214,17 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<long> Min(this FlinqQuery<Nullable<long>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		long minElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -260,21 +248,20 @@ public static class FlinqQueryExtensions_Min
 
 	public static float Min(this FlinqQuery<float> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		float minElem = finalList[0];
+		var array = finalList.array;
+
+		float minElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem < minElem)
 				minElem = elem;
@@ -287,19 +274,17 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<float> Min(this FlinqQuery<Nullable<float>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		float minElem = 0f;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -323,19 +308,17 @@ public static class FlinqQueryExtensions_Min
 
 	public static T Min<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		T minElem = default(T);
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem != null)
 			{
@@ -377,22 +360,20 @@ public static class FlinqQueryExtensions_Min
 	
 	public static TResult Min<T, TResult>(this FlinqQuery<T> query, Func<T, TResult> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		TResult minElem = default(TResult);
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem != null)
 			{
@@ -434,24 +415,23 @@ public static class FlinqQueryExtensions_Min
 
 	public static decimal Min<T>(this FlinqQuery<T> query, Func<T, decimal> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		decimal minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		decimal minElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 				minElem = elem;
@@ -464,22 +444,20 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<decimal> Min<T>(this FlinqQuery<T> query, Func<T, Nullable<decimal>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		decimal minElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{
@@ -503,24 +481,23 @@ public static class FlinqQueryExtensions_Min
 
 	public static double Min<T>(this FlinqQuery<T> query, Func<T, double> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		double minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		double minElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 				minElem = elem;
@@ -533,22 +510,20 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<double> Min<T>(this FlinqQuery<T> query, Func<T, Nullable<double>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		double minElem = 0.0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{
@@ -572,24 +547,23 @@ public static class FlinqQueryExtensions_Min
 
 	public static int Min<T>(this FlinqQuery<T> query, Func<T, int> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		int minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		int minElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 				minElem = elem;
@@ -602,22 +576,20 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<int> Min<T>(this FlinqQuery<T> query, Func<T, Nullable<int>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		int minElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{
@@ -641,24 +613,23 @@ public static class FlinqQueryExtensions_Min
 
 	public static long Min<T>(this FlinqQuery<T> query, Func<T, long> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		long minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		long minElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 				minElem = elem;
@@ -671,22 +642,20 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<long> Min<T>(this FlinqQuery<T> query, Func<T, Nullable<long>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		long minElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{
@@ -710,24 +679,23 @@ public static class FlinqQueryExtensions_Min
 
 	public static float Min<T>(this FlinqQuery<T> query, Func<T, float> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		float minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		float minElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 				minElem = elem;
@@ -740,22 +708,20 @@ public static class FlinqQueryExtensions_Min
 
 	public static Nullable<float> Min<T>(this FlinqQuery<T> query, Func<T, Nullable<float>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		float minElem = 0f;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{

@@ -9,20 +9,14 @@ public static class FlinqQueryExtensions_SequenceEqual
 {
 	public static bool SequenceEqual<T>(this FlinqQuery<T> query, FlinqQuery<T> other)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
-		if(other == null)
-			throw new ArgumentNullException("other");
-
 		if(query == other)
 			return true;
 
 		var finalList = query.Resolve();
 		var otherFinalList = other.Resolve();
 
-		int count = finalList.Count;
-		int otherCount = otherFinalList.Count;
+		int count = finalList.count;
+		int otherCount = otherFinalList.count;
 
 		bool result = true;
 
@@ -30,11 +24,14 @@ public static class FlinqQueryExtensions_SequenceEqual
 			result = false;
 		else
 		{
+			var array = finalList.array;
+			var otherArray = otherFinalList.array;
+
 			var eq = EqualityComparer<T>.Default;
 
 			for(int i = 0; i < count; ++i)
 			{
-				if(!eq.Equals(finalList[i], otherFinalList[i]))
+				if(!eq.Equals(array[i], otherArray[i]))
 				{
 					result = false;
 					break;

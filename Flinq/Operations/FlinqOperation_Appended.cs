@@ -11,10 +11,11 @@ public sealed class FlinqOperation_Appended<T> : IFlinqOperation<T>
 
 	public void OnInit(T element)
 	{
+		parent = null;
 		this.element = element;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		list.Add(element);
 	}

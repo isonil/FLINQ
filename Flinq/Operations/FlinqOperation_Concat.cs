@@ -11,10 +11,11 @@ public sealed class FlinqOperation_Concat<T> : IFlinqOperation<T>
 
 	public void OnInit(FlinqQuery<T> query)
 	{
+		parent = null;
 		this.query = query;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		var finalList = query.Resolve();
 

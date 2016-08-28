@@ -6,11 +6,14 @@ namespace Flinq
 
 public sealed class FlinqOperation_DefaultIfEmpty<T> : IFlinqOperation<T>
 {
-	public void OnInit() { }
-
-	public void Transform(List<T> list)
+	public void OnInit()
 	{
-		if(list.Count == 0)
+		parent = null;
+	}
+
+	public override void Transform(FlinqList<T> list)
+	{
+		if(list.count == 0)
 			list.Add(default(T));
 	}
 }

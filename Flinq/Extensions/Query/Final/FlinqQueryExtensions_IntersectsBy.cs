@@ -9,12 +9,6 @@ public static class FlinqQueryExtensions_IntersectsBy
 {
 	public static bool IntersectsBy<T, TCompareBy>(this FlinqQuery<T> query, FlinqQuery<T> other, Func<T, TCompareBy> compareBy)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
-		if(other == null)
-			throw new ArgumentNullException("other");
-
 		if(compareBy == null)
 			throw new ArgumentNullException("compareBy");
 
@@ -22,23 +16,25 @@ public static class FlinqQueryExtensions_IntersectsBy
 
 		var otherFinalList = other.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		var hashSet = FlinqHashSetPool<TCompareBy>.Get();
 
 		for(int i = 0; i < count; ++i)
 		{
-			hashSet.Add(compareBy(finalList[i]));
+			hashSet.Add(compareBy(array[i]));
 		}
 
 		FlinqListPool<T>.Return(finalList);
 
-		count = otherFinalList.Count;
+		count = otherFinalList.count;
+		var otherArray = otherFinalList.array;
 
 		bool intersects = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			if(hashSet.Contains(compareBy(otherFinalList[i])))
+			if(hashSet.Contains(compareBy(otherArray[i])))
 			{
 				intersects = true;
 				break;
@@ -53,12 +49,6 @@ public static class FlinqQueryExtensions_IntersectsBy
 
 	public static bool IntersectsBy<TFirst, TSecond, TCompareBy>(this FlinqQuery<TFirst> first, FlinqQuery<TSecond> second, Func<TFirst, TCompareBy> firstCompareBy, Func<TSecond, TCompareBy> secondCompareBy)
 	{
-		if(first == null)
-			throw new ArgumentNullException("first");
-
-		if(second == null)
-			throw new ArgumentNullException("second");
-
 		if(firstCompareBy == null)
 			throw new ArgumentNullException("firstCompareBy");
 
@@ -68,23 +58,25 @@ public static class FlinqQueryExtensions_IntersectsBy
 		var firstFinalList = first.Resolve();
 		var secondFinalList = second.Resolve();
 
-		int count = firstFinalList.Count;
+		int count = firstFinalList.count;
+		var firstArray = firstFinalList.array;
 		var hashSet = FlinqHashSetPool<TCompareBy>.Get();
 
 		for(int i = 0; i < count; ++i)
 		{
-			hashSet.Add(firstCompareBy(firstFinalList[i]));
+			hashSet.Add(firstCompareBy(firstArray[i]));
 		}
 
 		FlinqListPool<TFirst>.Return(firstFinalList);
 
-		count = secondFinalList.Count;
+		count = secondFinalList.count;
+		var secondArray = secondFinalList.array;
 
 		bool intersects = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			if(hashSet.Contains(secondCompareBy(secondFinalList[i])))
+			if(hashSet.Contains(secondCompareBy(secondArray[i])))
 			{
 				intersects = true;
 				break;

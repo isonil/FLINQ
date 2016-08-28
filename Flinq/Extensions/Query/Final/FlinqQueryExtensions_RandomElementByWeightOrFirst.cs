@@ -9,14 +9,12 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrFirst
 {
 	public static T RandomElementByWeightOrFirst<T>(this FlinqQuery<T> query, Func<T, float> weightSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(weightSelector == null)
 			throw new ArgumentNullException("weightSelector");
+
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -24,11 +22,13 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrFirst
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		float sum = 0f;
 
 		for(int i = 0; i < count; ++i)
 		{
-			float weight = weightSelector(finalList[i]);
+			float weight = weightSelector(array[i]);
 
 			if(weight < 0f)
 			{
@@ -41,7 +41,7 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrFirst
 
 		if(sum == 0f)
 		{
-			var first = finalList[0];
+			var first = array[0];
 			FlinqListPool<T>.Return(finalList);
 
 			return first;
@@ -55,9 +55,9 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrFirst
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = finalList[i];
+			var element = array[i];
 
-			float weight = weightSelector(finalList[i]);
+			float weight = weightSelector(array[i]);
 
 			if(weight == 0f)
 				continue;
@@ -82,17 +82,15 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrFirst
 
 	public static T RandomElementByWeightOrFirst<T>(this FlinqQuery<T> query, Func<T, float> weightSelector, Func<float> float01)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(weightSelector == null)
 			throw new ArgumentNullException("weightSelector");
 
 		if(float01 == null)
 			throw new ArgumentNullException("float01");
+
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -100,11 +98,13 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrFirst
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		float sum = 0f;
 
 		for(int i = 0; i < count; ++i)
 		{
-			float weight = weightSelector(finalList[i]);
+			float weight = weightSelector(array[i]);
 
 			if(weight < 0f)
 			{
@@ -117,7 +117,7 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrFirst
 
 		if(sum == 0f)
 		{
-			var first = finalList[0];
+			var first = array[0];
 			FlinqListPool<T>.Return(finalList);
 
 			return first;
@@ -131,9 +131,9 @@ public static class FlinqQueryExtensions_RandomElementByWeightOrFirst
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = finalList[i];
+			var element = array[i];
 
-			float weight = weightSelector(finalList[i]);
+			float weight = weightSelector(array[i]);
 
 			if(weight == 0f)
 				continue;

@@ -13,41 +13,26 @@ public sealed class FlinqOperation_ExistIn<T> : IFlinqOperation<T>
 
 	public void OnInit(FlinqQuery<T> intersect)
 	{
+		parent = null;
 		this.intersect = intersect;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		var hashSet = FlinqHashSetPool<T>.Get();
 		var intersectFinalList = intersect.Resolve();
 
-		int intersectCount = intersectFinalList.Count;
+		int intersectCount = intersectFinalList.count;
+		var intersectArray = intersectFinalList.array;
 
 		for(int i = 0; i < intersectCount; ++i)
 		{
-			hashSet.Add(intersectFinalList[i]);
+			hashSet.Add(intersectArray[i]);
 		}
 
 		FlinqListPool<T>.Return(intersectFinalList);
 
-		int count = list.Count;
-
-		// RemoveAll is faster for large lists, see FlinqOperation_Where for more information
-
-		if(count > 500)
-			list.RemoveAll(x => !hashSet.Contains(x));
-		else
-		{
-			for(int i = 0; i < count; ++i)
-			{
-				var elem = list[i];
-
-				if(hashSet.Contains(elem))
-					list.Add(elem);
-			}
-
-			list.RemoveRange(0, count);
-		}
+		list.KeepWhereHashSetContains(hashSet);
 
 		FlinqHashSetPool<T>.Return(hashSet);
 	}

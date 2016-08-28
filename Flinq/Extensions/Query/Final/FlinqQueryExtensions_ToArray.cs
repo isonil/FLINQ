@@ -9,12 +9,12 @@ public static class FlinqQueryExtensions_ToArray
 {
 	public static T[] ToArray<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		var ret = finalList.ToArray();
+		int count = finalList.count;
+
+		var ret = new T[count];
+		Array.Copy(finalList.array, ret, count);
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -23,15 +23,12 @@ public static class FlinqQueryExtensions_ToArray
 
 	public static void ToArray<T>(this FlinqQuery<T> query, T[] toFill, out int size)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(toFill == null)
 			throw new ArgumentNullException("toFill");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(toFill.Length < count)
 		{
@@ -39,7 +36,7 @@ public static class FlinqQueryExtensions_ToArray
 			throw new ArgumentException("Array is too small to hold all elements.");
 		}
 
-		finalList.CopyTo(toFill);
+		Array.Copy(finalList.array, toFill, count);
 		size = count;
 
 		FlinqListPool<T>.Return(finalList);

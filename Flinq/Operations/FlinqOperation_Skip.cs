@@ -11,15 +11,16 @@ public sealed class FlinqOperation_Skip<T> : IFlinqOperation<T>
 
 	public void OnInit(int count)
 	{
+		parent = null;
 		this.count = count;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		if(count <= 0)
 			return;
 
-		if(count >= list.Count)
+		if(count >= list.count)
 			list.Clear();
 		else
 			list.RemoveRange(0, count);

@@ -11,27 +11,30 @@ public sealed class FlinqOperation_UnionLeaveDuplicates<T> : IFlinqOperation<T>
 
 	public void OnInit(FlinqQuery<T> query)
 	{
+		parent = null;
 		this.query = query;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		var hashSet = FlinqHashSetPool<T>.Get();
 
-		int count = list.Count;
+		int count = list.count;
+		var array = list.array;
 
 		for(int i = 0; i < count; ++i)
 		{
-			hashSet.Add(list[i]);
+			hashSet.Add(array[i]);
 		}
 
 		var queryFinalList = query.Resolve();
 
-		int count2 = queryFinalList.Count;
+		int queryFinalCount = queryFinalList.count;
+		var queryFinalArray = queryFinalList.array;
 
-		for(int i = 0; i < count2; ++i)
+		for(int i = 0; i < queryFinalCount; ++i)
 		{
-			var elem = queryFinalList[i];
+			var elem = queryFinalArray[i];
 
 			if(hashSet.Add(elem))
 				list.Add(elem);

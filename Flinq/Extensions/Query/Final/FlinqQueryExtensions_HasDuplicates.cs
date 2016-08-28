@@ -9,19 +9,17 @@ public static class FlinqQueryExtensions_HasDuplicates
 {
 	public static bool HasDuplicates<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		var hashSet = FlinqHashSetPool<T>.Get();
 
 		bool foundDuplicate = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			if(!hashSet.Add(finalList[i]))
+			if(!hashSet.Add(array[i]))
 			{
 				foundDuplicate = true;
 				break;

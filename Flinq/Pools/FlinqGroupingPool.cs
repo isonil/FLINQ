@@ -5,9 +5,10 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
+
 public static class FlinqGroupingPool<TKey, T>
 {
-	private static List<FlinqGrouping<TKey, T>> pool = new List<FlinqGrouping<TKey, T>>();
+	private static FlinqList<FlinqGrouping<TKey, T>> pool = new FlinqList<FlinqGrouping<TKey, T>>();
 	private static int freeIndex;
 
 	static FlinqGroupingPool()
@@ -26,10 +27,10 @@ public static class FlinqGroupingPool<TKey, T>
 	public static FlinqGrouping<TKey, T> Get()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex >= pool.Count)
+		if(freeIndex >= pool.count)
 			pool.Add(new FlinqGrouping<TKey, T>());
 		
-		return pool[freeIndex++];
+		return pool.array[freeIndex++];
 #else
 		return new FlinqGrouping<TKey, T>();
 #endif

@@ -8,7 +8,7 @@ namespace Flinq
 
 public static class FlinqStringBuilderPool
 {
-	private static List<StringBuilder> pool = new List<StringBuilder>();
+	private static FlinqList<StringBuilder> pool = new FlinqList<StringBuilder>();
 	private static int freeIndex;
 	private static int maxFreeIndexThisFrame;
 
@@ -30,7 +30,7 @@ public static class FlinqStringBuilderPool
 	public static StringBuilder Get()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex >= pool.Count)
+		if(freeIndex >= pool.count)
 			pool.Add(new StringBuilder());
 
 		int index = freeIndex++;
@@ -38,7 +38,7 @@ public static class FlinqStringBuilderPool
 		if(freeIndex > maxFreeIndexThisFrame)
 			maxFreeIndexThisFrame = freeIndex;
 
-		var ret = pool[index];
+		var ret = pool.array[index];
 
 		if(ret.Length != 0)
 		{
@@ -55,9 +55,11 @@ public static class FlinqStringBuilderPool
 	public static void Return(StringBuilder builder)
 	{
 #if !NO_FLINQ_POOLS
+		var poolArray = pool.array;
+
 		for(int i = freeIndex - 1; i >= 0; --i)
 		{
-			var elem = pool[i];
+			var elem = poolArray[i];
 
 			if(elem == builder)
 			{
@@ -65,8 +67,8 @@ public static class FlinqStringBuilderPool
 
 				if(i != freeIndex - 1)
 				{
-					pool[i] = pool[freeIndex - 1];
-					pool[freeIndex - 1] = elem;
+					poolArray[i] = poolArray[freeIndex - 1];
+					poolArray[freeIndex - 1] = elem;
 				}
 
 				--freeIndex;
@@ -82,18 +84,20 @@ public static class FlinqStringBuilderPool
 	public static void ReturnAllObjects()
 	{
 #if !NO_FLINQ_POOLS
-		int count = pool.Count;
+		int count = pool.count;
+		var poolArray = pool.array;
 
 		for(int i = 0; i < maxFreeIndexThisFrame; )
 		{
-			var elem = pool[i];
+			var elem = poolArray[i];
 
 			if(elem.Capacity > MaxStringBuilderCapacity)
 			{
-				pool[i] = pool[count - 1];
-				pool[count - 1] = elem;
+				poolArray[i] = poolArray[count - 1];
+				poolArray[count - 1] = elem;
 
 				pool.RemoveAt(count - 1);
+				poolArray = pool.array; // could change
 
 				--count;
 

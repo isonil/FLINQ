@@ -7,17 +7,20 @@ namespace Flinq
 
 public sealed class FlinqOperation_Distinct<T> : IFlinqOperation<T>
 {
-	public void OnInit() { }
+	public void OnInit()
+	{
+		parent = null;
+	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		var hashSet = FlinqHashSetPool<T>.Get();
 
-		int count = list.Count;
+		int count = list.count;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = list[i];
+			var elem = list.array[i]; // list.array can change
 
 			if(hashSet.Add(elem))
 				list.Add(elem);

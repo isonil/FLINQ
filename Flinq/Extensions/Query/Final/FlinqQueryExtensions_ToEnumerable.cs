@@ -9,18 +9,16 @@ public static class FlinqQueryExtensions_ToEnumerable
 {
 	public static IEnumerable<T> ToEnumerable<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
 		try
 		{
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			for(int i = 0; i < count; ++i)
 			{
-				yield return finalList[i];
+				yield return array[i];
 			}
 		}
 		finally

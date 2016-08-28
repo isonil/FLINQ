@@ -11,7 +11,7 @@ public static class FlinqQueryExtensions_SelectMany
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object paramsPack)
+		private static FlinqList<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
@@ -21,11 +21,12 @@ public static class FlinqQueryExtensions_SelectMany
 
 			var newList = FlinqListPool<TResult>.Get();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var elemQuery = selector(finalList[i]);
+				var elemQuery = selector(array[i]);
 				
 				var elemFinalList = elemQuery.Resolve();
 
@@ -42,9 +43,6 @@ public static class FlinqQueryExtensions_SelectMany
 
 	public static FlinqQuery<TResult> SelectMany<T, TResult>(this FlinqQuery<T> query, Func<T, FlinqQuery<TResult>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
@@ -53,18 +51,14 @@ public static class FlinqQueryExtensions_SelectMany
 		paramsPack[0] = query;
 		paramsPack[1] = selector;
 
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper1<T, TResult>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper1<T, TResult>.impl, paramsPack);
 	}
 
 	private static class ImplWrapper2<T, TResult>
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object paramsPack)
+		private static FlinqList<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
@@ -74,11 +68,12 @@ public static class FlinqQueryExtensions_SelectMany
 
 			var newList = FlinqListPool<TResult>.Get();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var elemQuery = selector(finalList[i], i);
+				var elemQuery = selector(array[i], i);
 				
 				var elemFinalList = elemQuery.Resolve();
 
@@ -95,9 +90,6 @@ public static class FlinqQueryExtensions_SelectMany
 
 	public static FlinqQuery<TResult> SelectMany<T, TResult>(this FlinqQuery<T> query, Func<T, int, FlinqQuery<TResult>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
@@ -106,18 +98,14 @@ public static class FlinqQueryExtensions_SelectMany
 		paramsPack[0] = query;
 		paramsPack[1] = selector;
 
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper2<T, TResult>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper2<T, TResult>.impl, paramsPack);
 	}
 
 	private static class ImplWrapper3<T, TCollection, TResult>
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object paramsPack)
+		private static FlinqList<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
@@ -128,20 +116,22 @@ public static class FlinqQueryExtensions_SelectMany
 
 			var newList = FlinqListPool<TResult>.Get();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var elem = finalList[i];
+				var elem = array[i];
 				var elemQuery = collectionSelector(elem);
 				
 				var elemFinalList = elemQuery.Resolve();
 
-				int elemFinalListCount = elemFinalList.Count;
+				int elemFinalListCount = elemFinalList.count;
+				var elemFinalListArray = elemFinalList.array;
 
 				for(int j = 0; j < elemFinalListCount; ++j)
 				{
-					newList.Add(resultSelector(elem, elemFinalList[j]));
+					newList.Add(resultSelector(elem, elemFinalListArray[j]));
 				}
 
 				FlinqListPool<TCollection>.Return(elemFinalList);
@@ -155,9 +145,6 @@ public static class FlinqQueryExtensions_SelectMany
 
 	public static FlinqQuery<TResult> SelectMany<T, TCollection, TResult>(this FlinqQuery<T> query, Func<T, FlinqQuery<TCollection>> collectionSelector, Func<T, TCollection, TResult> resultSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(collectionSelector == null)
 			throw new ArgumentNullException("collectionSelector");
 
@@ -170,18 +157,14 @@ public static class FlinqQueryExtensions_SelectMany
 		paramsPack[1] = collectionSelector;
 		paramsPack[2] = resultSelector;
 
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper3<T, TCollection, TResult>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper3<T, TCollection, TResult>.impl, paramsPack);
 	}
 
 	private static class ImplWrapper4<T, TCollection, TResult>
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object paramsPack)
+		private static FlinqList<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
@@ -192,20 +175,22 @@ public static class FlinqQueryExtensions_SelectMany
 
 			var newList = FlinqListPool<TResult>.Get();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var elem = finalList[i];
+				var elem = array[i];
 				var elemQuery = collectionSelector(elem, i);
 				
 				var elemFinalList = elemQuery.Resolve();
 
-				int elemFinalListCount = elemFinalList.Count;
+				int elemFinalListCount = elemFinalList.count;
+				var elemFinalListArray = elemFinalList.array;
 
 				for(int j = 0; j < elemFinalListCount; ++j)
 				{
-					newList.Add(resultSelector(elem, elemFinalList[j]));
+					newList.Add(resultSelector(elem, elemFinalListArray[j]));
 				}
 
 				FlinqListPool<TCollection>.Return(elemFinalList);
@@ -219,9 +204,6 @@ public static class FlinqQueryExtensions_SelectMany
 	
 	public static FlinqQuery<TResult> SelectMany<T, TCollection, TResult>(this FlinqQuery<T> query, Func<T, int, FlinqQuery<TCollection>> collectionSelector, Func<T, TCollection, TResult> resultSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(collectionSelector == null)
 			throw new ArgumentNullException("collectionSelector");
 
@@ -234,11 +216,7 @@ public static class FlinqQueryExtensions_SelectMany
 		paramsPack[1] = collectionSelector;
 		paramsPack[2] = resultSelector;
 
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper4<T, TCollection, TResult>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper4<T, TCollection, TResult>.impl, paramsPack);
 	}
 }
 

@@ -11,7 +11,7 @@ public static class FlinqQueryExtensions_ExceptBy
 	{
 		public static readonly FlinqQuery<TFirst>.PrecedingQuery impl = Impl;
 
-		private static List<TFirst> Impl(object paramsPack)
+		private static FlinqList<TFirst> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var first = (FlinqQuery<TFirst>)paramsArray[0];
@@ -23,24 +23,26 @@ public static class FlinqQueryExtensions_ExceptBy
 
 			var hashSet = FlinqHashSetPool<TCompareBy>.Get();
 
-			int secondCount = secondFinalList.Count;
+			int secondCount = secondFinalList.count;
+			var secondArray = secondFinalList.array;
 
 			for(int i = 0; i < secondCount; ++i)
 			{
-				hashSet.Add(secondCompareBySelector(secondFinalList[i]));
+				hashSet.Add(secondCompareBySelector(secondArray[i]));
 			}
 
 			FlinqListPool<TSecond>.Return(secondFinalList);
 
 			var firstFinalList = first.Resolve();
 
-			int firstCount = firstFinalList.Count;
+			int firstCount = firstFinalList.count;
+			var firstArray = firstFinalList.array;
 
 			var newList = FlinqListPool<TFirst>.Get();
 
 			for(int i = 0; i < firstCount; ++i)
 			{
-				var elem = firstFinalList[i];
+				var elem = firstArray[i];
 
 				if(!hashSet.Contains(firstCompareBySelector(elem)))
 					newList.Add(elem);
@@ -55,12 +57,6 @@ public static class FlinqQueryExtensions_ExceptBy
 
 	public static FlinqQuery<TFirst> ExceptBy<TFirst, TSecond, TCompareBy>(this FlinqQuery<TFirst> first, FlinqQuery<TSecond> second, Func<TFirst, TCompareBy> firstCompareBySelector, Func<TSecond, TCompareBy> secondCompareBySelector)
 	{
-		if(first == null)
-			throw new ArgumentNullException("first");
-
-		if(second == null)
-			throw new ArgumentNullException("second");
-
 		if(firstCompareBySelector == null)
 			throw new ArgumentNullException("firstCompareBySelector");
 
@@ -74,11 +70,7 @@ public static class FlinqQueryExtensions_ExceptBy
 		paramsPack[2] = firstCompareBySelector;
 		paramsPack[3] = secondCompareBySelector;
 
-		var query = FlinqQueryPool<TFirst>.Get();
-
-		query.OnInit(ImplWrapper<TFirst, TSecond, TCompareBy>.impl, paramsPack);
-
-		return query;
+		return new FlinqQuery<TFirst>(ImplWrapper<TFirst, TSecond, TCompareBy>.impl, paramsPack);
 	}
 }
 

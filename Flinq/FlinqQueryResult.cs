@@ -5,11 +5,19 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqQueryResult<T> : List<T>, IDisposable
+public struct FlinqQueryResult<T> : IDisposable
 {
+	private FlinqList<T> result;
+
+	public FlinqQueryResult(FlinqList<T> result)
+	{
+		this.result = FlinqListPool<T>.Get();
+		this.result.CopyFrom(result);
+	}
+
 	public void Dispose()
 	{
-		FlinqQueryResultPool<T>.Return(this);
+		FlinqListPool<T>.Return(result);
 	}
 }
 

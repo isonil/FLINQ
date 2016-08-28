@@ -9,12 +9,9 @@ public static class FlinqQueryExtensions_FirstOrDefault
 {
 	public static T FirstOrDefault<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		var first = finalList.Count == 0 ? default(T) : finalList[0];
+		var first = finalList.count == 0 ? default(T) : finalList.array[0];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -23,9 +20,6 @@ public static class FlinqQueryExtensions_FirstOrDefault
 
 	public static T FirstOrDefault<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 

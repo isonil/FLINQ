@@ -11,41 +11,26 @@ public sealed class FlinqOperation_Except<T> : IFlinqOperation<T>
 
 	public void OnInit(FlinqQuery<T> except)
 	{
+		parent = null;
 		this.except = except;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		var hashSet = FlinqHashSetPool<T>.Get();
 		var exceptFinalList = except.Resolve();
 
-		int exceptCount = exceptFinalList.Count;
+		int exceptCount = exceptFinalList.count;
+		var exceptArray = exceptFinalList.array;
 
 		for(int i = 0; i < exceptCount; ++i)
 		{
-			hashSet.Add(exceptFinalList[i]);
+			hashSet.Add(exceptArray[i]);
 		}
 
 		FlinqListPool<T>.Return(exceptFinalList);
 
-		int count = list.Count;
-
-		// RemoveAll is faster for large lists, see FlinqOperation_Where for more information
-
-		if(count > 500)
-			list.RemoveAll(x => hashSet.Contains(x));
-		else
-		{
-			for(int i = 0; i < count; ++i)
-			{
-				var elem = list[i];
-
-				if(!hashSet.Contains(elem))
-					list.Add(elem);
-			}
-
-			list.RemoveRange(0, count);
-		}
+		list.RemoveWhereHashSetContains(hashSet);
 
 		FlinqHashSetPool<T>.Return(hashSet);
 	}

@@ -10,12 +10,13 @@ public sealed class FlinqOperation_DefaultIfEmpty_WithDefaultValue<T> : IFlinqOp
 
 	public void OnInit(T defaultValue)
 	{
+		parent = null;
 		this.defaultValue = defaultValue;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
-		if(list.Count == 0)
+		if(list.count == 0)
 			list.Add(defaultValue);
 	}
 }

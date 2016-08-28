@@ -11,17 +11,18 @@ public static class FlinqQueryExtensions_OfType
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object param)
+		private static FlinqList<TResult> Impl(object param)
 		{
 			var query = (FlinqQuery<T>)param;
 
 			var finalList = query.Resolve();
 			var newList = FlinqListPool<TResult>.Get();
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var newElem = finalList[i] as TResult;
+				var newElem = array[i] as TResult;
 
 				if(newElem != null)
 					newList.Add(newElem);
@@ -35,19 +36,10 @@ public static class FlinqQueryExtensions_OfType
 
 	public static FlinqQuery<TResult> OfType<T, TResult>(this FlinqQuery<T> query) where TResult : class
 	{
-		var sameType = query as FlinqQuery<TResult>;
+		if(query is FlinqQuery<TResult>)
+			return (FlinqQuery<TResult>)(object)query;
 
-		if(sameType != null)
-			return sameType;
-
-		if(query == null)
-			throw new ArgumentNullException("query");
-
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper<T, TResult>.impl, query);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper<T, TResult>.impl, query);
 	}
 }
 

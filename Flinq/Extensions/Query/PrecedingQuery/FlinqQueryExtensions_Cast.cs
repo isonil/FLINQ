@@ -11,7 +11,7 @@ public static class FlinqQueryExtensions_Cast
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object queryParam)
+		private static FlinqList<TResult> Impl(object queryParam)
 		{
 			var query = (FlinqQuery<T>)queryParam;
 
@@ -19,11 +19,12 @@ public static class FlinqQueryExtensions_Cast
 
 			var newList = FlinqListPool<TResult>.Get();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			for(int i = 0; i < count; ++i)
 			{
-				newList.Add((TResult)(object)finalList[i]);
+				newList.Add((TResult)(object)array[i]);
 			}
 
 			FlinqListPool<T>.Return(finalList);
@@ -34,19 +35,10 @@ public static class FlinqQueryExtensions_Cast
 
 	public static FlinqQuery<TResult> Cast<T, TResult>(this FlinqQuery<T> query)
 	{
-		var sameType = query as FlinqQuery<TResult>;
+		if(query is FlinqQuery<TResult>)
+			return (FlinqQuery<TResult>)(object)query;
 
-		if(sameType != null)
-			return sameType;
-
-		if(query == null)
-			throw new ArgumentNullException("query");
-
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper<T, TResult>.impl, query);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper<T, TResult>.impl, query);
 	}
 }
 	

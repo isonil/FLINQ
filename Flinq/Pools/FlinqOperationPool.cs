@@ -6,7 +6,7 @@ namespace Flinq
 
 public static class FlinqOperationPool<T> where T : new()
 {
-	private static List<T> pool = new List<T>();
+	private static FlinqList<T> pool = new FlinqList<T>();
 	private static int freeIndex;
 
 	static FlinqOperationPool()
@@ -25,10 +25,10 @@ public static class FlinqOperationPool<T> where T : new()
 	public static T Get()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex >= pool.Count)
+		if(freeIndex >= pool.count)
 			pool.Add(new T());
 
-		return pool[freeIndex++];
+		return pool.array[freeIndex++];
 #else
 		return new T();
 #endif

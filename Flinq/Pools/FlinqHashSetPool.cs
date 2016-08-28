@@ -7,7 +7,7 @@ namespace Flinq
 
 public static class FlinqHashSetPool<T>
 {
-	private static List<HashSet<T>> pool = new List<HashSet<T>>();
+	private static FlinqList<HashSet<T>> pool = new FlinqList<HashSet<T>>();
 	private static int freeIndex;
 
 	static FlinqHashSetPool()
@@ -26,11 +26,11 @@ public static class FlinqHashSetPool<T>
 	public static HashSet<T> Get()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex >= pool.Count)
+		if(freeIndex >= pool.count)
 			pool.Add(new HashSet<T>());
 
 		int index = freeIndex++;
-		var ret = pool[index];
+		var ret = pool.array[index];
 
 		if(ret.Count != 0)
 		{
@@ -47,9 +47,11 @@ public static class FlinqHashSetPool<T>
 	public static void Return(HashSet<T> hashSet)
 	{
 #if !NO_FLINQ_POOLS
+		var poolArray = pool.array;
+
 		for(int i = freeIndex - 1; i >= 0; --i)
 		{
-			var elem = pool[i];
+			var elem = poolArray[i];
 
 			if(elem == hashSet)
 			{
@@ -57,8 +59,8 @@ public static class FlinqHashSetPool<T>
 
 				if(i != freeIndex - 1)
 				{
-					pool[i] = pool[freeIndex - 1];
-					pool[freeIndex - 1] = elem;
+					poolArray[i] = poolArray[freeIndex - 1];
+					poolArray[freeIndex - 1] = elem;
 				}
 
 				--freeIndex;
@@ -74,9 +76,11 @@ public static class FlinqHashSetPool<T>
 	public static void ReturnAllObjects()
 	{
 #if !NO_FLINQ_POOLS
+		var poolArray = pool.array;
+
 		for(int i = 0; i < freeIndex; ++i)
 		{
-			pool[i].Clear();
+			poolArray[i].Clear();
 		}
 
 		freeIndex = 0;

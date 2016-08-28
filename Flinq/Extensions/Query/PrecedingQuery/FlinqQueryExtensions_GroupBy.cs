@@ -11,15 +11,19 @@ public static class FlinqQueryExtensions_GroupBy
 	{
 		public static readonly FlinqQuery<FlinqGrouping<TKey, T>>.PrecedingQuery impl = Impl;
 
-		private static List<FlinqGrouping<TKey, T>> Impl(object paramsPack)
+		private static FlinqList<FlinqGrouping<TKey, T>> Impl(object paramsPack)
 		{
+			return null;
+
+			/*
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var keySelector = (Func<T, TKey>)paramsArray[1];
 
 			var finalList = query.Resolve();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			var dict = FlinqDictionaryPool<TKey, List<T>>.Get();
 
@@ -27,7 +31,7 @@ public static class FlinqQueryExtensions_GroupBy
 
 			for(int i = 0; i < count; ++i)
 			{
-				var elem = finalList[i];
+				var elem = array[i];
 
 				var key = keySelector(elem);
 
@@ -58,15 +62,12 @@ public static class FlinqQueryExtensions_GroupBy
 			FlinqDictionaryPool<TKey, List<T>>.Return(dict);
 			FlinqListPool<T>.Return(finalList);
 
-			return newList;
+			return newList;*/
 		}
 	}
 
 	public static FlinqQuery<FlinqGrouping<TKey, T>> GroupBy<T, TKey>(this FlinqQuery<T> query, Func<T, TKey> keySelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(keySelector == null)
 			throw new ArgumentNullException("keySelector");
 
@@ -74,20 +75,19 @@ public static class FlinqQueryExtensions_GroupBy
 
 		paramsPack[0] = query;
 		paramsPack[1] = keySelector;
-		
-		var newQuery = FlinqQueryPool<FlinqGrouping<TKey, T>>.Get();
 
-		newQuery.OnInit(ImplWrapper1<T, TKey>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<FlinqGrouping<TKey, T>>(ImplWrapper1<T, TKey>.impl, paramsPack);
 	}
 
 	private static class ImplWrapper2<T, TKey, TElement>
 	{
 		public static readonly FlinqQuery<FlinqGrouping<TKey, TElement>>.PrecedingQuery impl = Impl;
 
-		private static List<FlinqGrouping<TKey, TElement>> Impl(object paramsPack)
+		private static FlinqList<FlinqGrouping<TKey, TElement>> Impl(object paramsPack)
 		{
+			return null;
+
+			/*
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var keySelector = (Func<T, TKey>)paramsArray[1];
@@ -95,15 +95,16 @@ public static class FlinqQueryExtensions_GroupBy
 
 			var finalList = query.Resolve();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
-			var dict = FlinqDictionaryPool<TKey, List<TElement>>.Get();
+			var dict = FlinqDictionaryPool<TKey, FlinqList<TElement>>.Get();
 
-			List<TElement> fromDict;
+			FlinqList<TElement> fromDict;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var elem = finalList[i];
+				var elem = array[i];
 
 				var key = keySelector(elem);
 
@@ -131,18 +132,15 @@ public static class FlinqQueryExtensions_GroupBy
 				newList.Add(grouping);
 			}
 
-			FlinqDictionaryPool<TKey, List<TElement>>.Return(dict);
+			FlinqDictionaryPool<TKey, FlinqList<TElement>>.Return(dict);
 			FlinqListPool<T>.Return(finalList);
 
-			return newList;
+			return newList;*/
 		}
 	}
 	
 	public static FlinqQuery<FlinqGrouping<TKey, TElement>> GroupBy<T, TKey, TElement>(this FlinqQuery<T> query, Func<T, TKey> keySelector, Func<T, TElement> elementSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(keySelector == null)
 			throw new ArgumentNullException("keySelector");
 
@@ -155,19 +153,18 @@ public static class FlinqQueryExtensions_GroupBy
 		paramsPack[1] = keySelector;
 		paramsPack[2] = elementSelector;
 
-		var newQuery = FlinqQueryPool<FlinqGrouping<TKey, TElement>>.Get();
-
-		newQuery.OnInit(ImplWrapper2<T, TKey, TElement>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<FlinqGrouping<TKey, TElement>>(ImplWrapper2<T, TKey, TElement>.impl, paramsPack);
 	}
 
 	private static class ImplWrapper3<T, TKey, TResult>
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object paramsPack)
+		private static FlinqList<TResult> Impl(object paramsPack)
 		{
+			return null;
+
+			/*
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var keySelector = (Func<T, TKey>)paramsArray[1];
@@ -175,7 +172,8 @@ public static class FlinqQueryExtensions_GroupBy
 
 			var finalList = query.Resolve();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			var dict = FlinqDictionaryPool<TKey, List<T>>.Get();
 
@@ -183,7 +181,7 @@ public static class FlinqQueryExtensions_GroupBy
 
 			for(int i = 0; i < count; ++i)
 			{
-				var elem = finalList[i];
+				var elem = array[i];
 
 				var key = keySelector(elem);
 
@@ -213,15 +211,12 @@ public static class FlinqQueryExtensions_GroupBy
 			FlinqDictionaryPool<TKey, List<T>>.Return(dict);
 			FlinqListPool<T>.Return(finalList);
 
-			return newList;
+			return newList;*/
 		}
 	}
 
 	public static FlinqQuery<TResult> GroupBy<T, TKey, TResult>(this FlinqQuery<T> query, Func<T, TKey> keySelector, Func<TKey, FlinqQuery<T>, TResult> resultSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(keySelector == null)
 			throw new ArgumentNullException("keySelector");
 
@@ -234,19 +229,18 @@ public static class FlinqQueryExtensions_GroupBy
 		paramsPack[1] = keySelector;
 		paramsPack[2] = resultSelector;
 
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper3<T, TKey, TResult>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper3<T, TKey, TResult>.impl, paramsPack);
 	}
 
 	private static class ImplWrapper4<T, TKey, TElement, TResult>
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object paramsPack)
+		private static FlinqList<TResult> Impl(object paramsPack)
 		{
+			return null;
+
+			/*
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<T>)paramsArray[0];
 			var keySelector = (Func<T, TKey>)paramsArray[1];
@@ -255,7 +249,8 @@ public static class FlinqQueryExtensions_GroupBy
 
 			var finalList = query.Resolve();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
 			var dict = FlinqDictionaryPool<TKey, List<TElement>>.Get();
 
@@ -263,7 +258,7 @@ public static class FlinqQueryExtensions_GroupBy
 
 			for(int i = 0; i < count; ++i)
 			{
-				var elem = finalList[i];
+				var elem = array[i];
 
 				var key = keySelector(elem);
 
@@ -293,15 +288,12 @@ public static class FlinqQueryExtensions_GroupBy
 			FlinqDictionaryPool<TKey, List<TElement>>.Return(dict);
 			FlinqListPool<T>.Return(finalList);
 
-			return newList;
+			return newList;*/
 		}
 	}
 	
 	public static FlinqQuery<TResult> GroupBy<T, TKey, TElement, TResult>(this FlinqQuery<T> query, Func<T, TKey> keySelector, Func<T, TElement> elementSelector, Func<TKey, FlinqQuery<TElement>, TResult> resultSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(keySelector == null)
 			throw new ArgumentNullException("keySelector");
 
@@ -318,11 +310,7 @@ public static class FlinqQueryExtensions_GroupBy
 		paramsPack[2] = elementSelector;
 		paramsPack[3] = resultSelector;
 
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper4<T, TKey, TElement, TResult>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper4<T, TKey, TElement, TResult>.impl, paramsPack);
 	}
 }
 

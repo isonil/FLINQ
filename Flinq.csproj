@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -97,6 +98,7 @@
     <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_Select.cs" />
     <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_SelectMany.cs" />
     <Compile Include="Flinq\Extensions\Query\PrecedingQuery\FlinqQueryExtensions_Zip.cs" />
+    <Compile Include="Flinq\FlinqArgList.cs" />
     <Compile Include="Flinq\FlinqGrouping.cs" />
     <Compile Include="Flinq\FlinqList.cs" />
     <Compile Include="Flinq\FlinqPools.cs" />
@@ -137,8 +139,6 @@
     <Compile Include="Flinq\Pools\FlinqListPool.cs" />
     <Compile Include="Flinq\Pools\FlinqObjectsArrayPool.cs" />
     <Compile Include="Flinq\Pools\FlinqOperationPool.cs" />
-    <Compile Include="Flinq\Pools\FlinqQueryPool.cs" />
-    <Compile Include="Flinq\Pools\FlinqQueryResultPool.cs" />
     <Compile Include="Flinq\Pools\FlinqStringBuilderPool.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

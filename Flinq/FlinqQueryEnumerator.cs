@@ -7,18 +7,16 @@ namespace Flinq
 
 public struct FlinqQueryEnumerator<T> : IEnumerator<T>, IDisposable
 {
-	private List<T> result;
+	private FlinqList<T> result;
 	private int index;
-	private int count;
 
-	public T Current { get { return result[index]; } }
+	public T Current { get { return result.array[index]; } }
 	object IEnumerator.Current { get { return Current; } }
 
-	public FlinqQueryEnumerator(List<T> result)
+	public FlinqQueryEnumerator(FlinqList<T> result)
 	{
 		this.result = result;
 		index = -1;
-		count = result.Count;
 	}
 
 	public void Dispose()
@@ -28,7 +26,7 @@ public struct FlinqQueryEnumerator<T> : IEnumerator<T>, IDisposable
 
 	public bool MoveNext()
 	{
-		return ++index < count;
+		return ++index < result.count;
 	}
 
 	public void Reset()

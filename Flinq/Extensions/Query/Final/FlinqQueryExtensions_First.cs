@@ -9,18 +9,15 @@ public static class FlinqQueryExtensions_First
 {
 	public static T First<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		if(finalList.Count == 0)
+		if(finalList.count == 0)
 		{
 			FlinqListPool<T>.Return(finalList);
 			throw new InvalidOperationException("No elements.");
 		}
 
-		var first = finalList[0];
+		var first = finalList.array[0];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -29,9 +26,6 @@ public static class FlinqQueryExtensions_First
 
 	public static T First<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 
@@ -45,7 +39,7 @@ public static class FlinqQueryExtensions_First
 			throw new InvalidOperationException("No element matches predicate.");
 		}
 
-		var elem = finalList[index];
+		var elem = finalList.array[index];
 
 		FlinqListPool<T>.Return(finalList);
 

@@ -11,17 +11,30 @@ public sealed class FlinqOperation_TakeWhile<T> : IFlinqOperation<T>
 
 	public void OnInit(Predicate<T> predicate)
 	{
+		parent = null;
 		this.predicate = predicate;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
-		int firstNotMatchingFromLeft = list.FindIndex(x => !predicate(x));
+		int firstNotMatchingFromLeft = -1;
 
+		int count = list.count;
+		var array = list.array;
+
+		for(int i = 0; i < count; ++i)
+		{
+			if(!predicate(array[i]))
+			{
+				firstNotMatchingFromLeft = i;
+				break;
+			}
+		}
+		
 		if(firstNotMatchingFromLeft < 0)
 			return;
 
-		list.RemoveRange(firstNotMatchingFromLeft, list.Count - firstNotMatchingFromLeft);
+		list.RemoveRange(firstNotMatchingFromLeft, count - firstNotMatchingFromLeft);
 	}
 }
 

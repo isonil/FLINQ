@@ -5,9 +5,11 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public interface IFlinqOperation<T>
+public abstract class IFlinqOperation<T>
 {
-	void Transform(List<T> list);
+	public IFlinqOperation<T> parent;
+
+	public abstract void Transform(FlinqList<T> list);
 }
 
 }

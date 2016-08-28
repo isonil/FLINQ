@@ -11,10 +11,11 @@ public sealed class FlinqOperation_Take<T> : IFlinqOperation<T>
 
 	public void OnInit(int count)
 	{
+		parent = null;
 		this.count = count;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		if(count <= 0)
 		{
@@ -22,7 +23,7 @@ public sealed class FlinqOperation_Take<T> : IFlinqOperation<T>
 			return;
 		}
 
-		int listCount = list.Count;
+		int listCount = list.count;
 
 		if(count >= listCount)
 			return;

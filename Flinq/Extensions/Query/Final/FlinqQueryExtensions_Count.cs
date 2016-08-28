@@ -9,12 +9,9 @@ public static class FlinqQueryExtensions_Count
 {
 	public static int Count<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -23,20 +20,18 @@ public static class FlinqQueryExtensions_Count
 
 	public static int Count<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 
 		var finalList = query.Resolve();
 
-		int listCount = finalList.Count;
+		int listCount = finalList.count;
+		var listArray = finalList.array;
 		int count = 0;
 
 		for(int i = 0; i < listCount; ++i)
 		{
-			if(predicate(finalList[i]))
+			if(predicate(listArray[i]))
 				++count;
 		}
 

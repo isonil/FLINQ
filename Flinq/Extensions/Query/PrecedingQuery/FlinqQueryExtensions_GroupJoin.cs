@@ -11,8 +11,11 @@ public static class FlinqQueryExtensions_GroupJoin
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object paramsPack)
+		private static FlinqList<TResult> Impl(object paramsPack)
 		{
+			return null;
+
+			/*
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<TOuter>)paramsArray[0];
 			var inner = (FlinqQuery<TInner>)paramsArray[1];
@@ -94,18 +97,12 @@ public static class FlinqQueryExtensions_GroupJoin
 			FlinqListPool<TOuter>.Return(finalList);
 			FlinqListPool<TInner>.Return(innerFinalList);
 
-			return newList;
+			return newList;*/
 		}
 	}
 
 	public static FlinqQuery<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(this FlinqQuery<TOuter> query, FlinqQuery<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, FlinqQuery<TInner>, TResult> resultSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
-		if(inner == null)
-			throw new ArgumentNullException("inner");
-
 		if(outerKeySelector == null)
 			throw new ArgumentNullException("outerKeySelector");
 
@@ -123,11 +120,7 @@ public static class FlinqQueryExtensions_GroupJoin
 		paramsPack[3] = innerKeySelector;
 		paramsPack[4] = resultSelector;
 
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper<TOuter, TInner, TKey, TResult>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper<TOuter, TInner, TKey, TResult>.impl, paramsPack);
 	}
 }
 

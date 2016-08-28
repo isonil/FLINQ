@@ -11,30 +11,32 @@ public sealed class FlinqOperation_Intersect<T> : IFlinqOperation<T>
 
 	public void OnInit(FlinqQuery<T> intersect)
 	{
+		parent = null;
 		this.intersect = intersect;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		var hashSet = FlinqHashSetPool<T>.Get();
 		var intersectFinalList = intersect.Resolve();
 
-		int intersectCount = intersectFinalList.Count;
+		int intersectCount = intersectFinalList.count;
+		var intersectArray = intersectFinalList.array;
 
 		for(int i = 0; i < intersectCount; ++i)
 		{
-			hashSet.Add(intersectFinalList[i]);
+			hashSet.Add(intersectArray[i]);
 		}
 
 		FlinqListPool<T>.Return(intersectFinalList);
 
-		int count = list.Count;
+		int count = list.count;
 
 		var hashSet2 = FlinqHashSetPool<T>.Get();
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = list[i];
+			var elem = list.array[i]; // list.array can change
 
 			if(!hashSet.Contains(elem))
 				continue;

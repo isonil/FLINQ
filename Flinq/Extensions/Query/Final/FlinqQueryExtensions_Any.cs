@@ -9,12 +9,9 @@ public static class FlinqQueryExtensions_Any
 {
 	public static bool Any<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		bool any = finalList.Count != 0;
+		bool any = finalList.count != 0;
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -23,9 +20,6 @@ public static class FlinqQueryExtensions_Any
 
 	public static bool Any<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 

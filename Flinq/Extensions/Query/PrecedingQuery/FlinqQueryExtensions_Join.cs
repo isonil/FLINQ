@@ -11,7 +11,7 @@ public static class FlinqQueryExtensions_Join
 	{
 		public static readonly FlinqQuery<TResult>.PrecedingQuery impl = Impl;
 
-		private static List<TResult> Impl(object paramsPack)
+		private static FlinqList<TResult> Impl(object paramsPack)
 		{
 			var paramsArray = (object[])paramsPack;
 			var query = (FlinqQuery<TOuter>)paramsArray[0];
@@ -22,15 +22,16 @@ public static class FlinqQueryExtensions_Join
 
 			var finalList = query.Resolve();
 
-			var dict = FlinqDictionaryPool<TKey, List<int>>.Get();
+			var dict = FlinqDictionaryPool<TKey, FlinqList<int>>.Get();
 
-			int count = finalList.Count;
+			int count = finalList.count;
+			var array = finalList.array;
 
-			List<int> list;
+			FlinqList<int> list;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var key = outerKeySelector(finalList[i]);
+				var key = outerKeySelector(array[i]);
 
 				if(dict.TryGetValue(key, out list))
 					list.Add(i);
@@ -42,7 +43,7 @@ public static class FlinqQueryExtensions_Join
 				}
 			}
 
-			var matching = FlinqListPool<List<TInner>>.Get();
+			var matching = FlinqListPool<FlinqList<TInner>>.Get();
 
 			for(int i = 0; i < count; ++i)
 			{
@@ -52,51 +53,55 @@ public static class FlinqQueryExtensions_Join
 
 			var innerFinalList = inner.Resolve();
 
-			count = innerFinalList.Count;
+			count = innerFinalList.count;
+			var innerArray = innerFinalList.array;
+			var matchingArray = matching.array;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var innerElem = innerFinalList[i];
+				var innerElem = innerArray[i];
 				var key = innerKeySelector(innerElem);
 
 				if(dict.TryGetValue(key, out list))
 				{
-					int count2 = list.Count;
+					int count2 = list.count;
+					var array2 = list.array;
 
 					for(int j = 0; j < count2; ++j)
 					{
-						matching[list[j]].Add(innerElem);
+						matchingArray[array2[j]].Add(innerElem);
 					}
 				}
 			}
 
 			var newList = FlinqListPool<TResult>.Get();
 
-			count = matching.Count;
+			count = matching.count;
 
 			for(int i = 0; i < count; ++i)
 			{
-				var outerElem = finalList[i];
-				var singleMatching = matching[i];
+				var outerElem = array[i];
+				var singleMatching = matchingArray[i];
 
-				int matchingCount = singleMatching.Count;
+				int singleMatchingCount = singleMatching.count;
+				var singleMatchingArray = singleMatching.array;
 
-				for(int j = 0; j < matchingCount; ++j)
+				for( int j = 0; j < singleMatchingCount; ++j )
 				{
-					newList.Add(resultSelector(outerElem, singleMatching[j]));
+					newList.Add(resultSelector(outerElem, singleMatchingArray[j]));
 				}
 
 				FlinqListPool<TInner>.Return(singleMatching);
 			}
 
-			FlinqListPool<List<TInner>>.Return(matching);
+			FlinqListPool<FlinqList<TInner>>.Return(matching);
 
 			foreach(var elem in dict)
 			{
 				FlinqListPool<int>.Return(elem.Value);
 			}
 
-			FlinqDictionaryPool<TKey, List<int>>.Return(dict);
+			FlinqDictionaryPool<TKey, FlinqList<int>>.Return(dict);
 
 			FlinqListPool<TOuter>.Return(finalList);
 			FlinqListPool<TInner>.Return(innerFinalList);
@@ -107,12 +112,6 @@ public static class FlinqQueryExtensions_Join
 
 	public static FlinqQuery<TResult> Join<TOuter, TInner, TKey, TResult>(this FlinqQuery<TOuter> query, FlinqQuery<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, TInner, TResult> resultSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
-		if(inner == null)
-			throw new ArgumentNullException("inner");
-
 		if(outerKeySelector == null)
 			throw new ArgumentNullException("outerKeySelector");
 
@@ -130,11 +129,7 @@ public static class FlinqQueryExtensions_Join
 		paramsPack[3] = innerKeySelector;
 		paramsPack[4] = resultSelector;
 
-		var newQuery = FlinqQueryPool<TResult>.Get();
-
-		newQuery.OnInit(ImplWrapper<TOuter, TInner, TKey, TResult>.impl, paramsPack);
-
-		return newQuery;
+		return new FlinqQuery<TResult>(ImplWrapper<TOuter, TInner, TKey, TResult>.impl, paramsPack);
 	}
 }
 

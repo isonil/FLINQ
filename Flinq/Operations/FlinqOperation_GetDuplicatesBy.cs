@@ -11,18 +11,19 @@ public sealed class FlinqOperation_GetDuplicatesBy<T, TCompareBy> : IFlinqOperat
 
 	public void OnInit(Func<T, TCompareBy> selector)
 	{
+		parent = null;
 		this.selector = selector;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		var hashSet = FlinqHashSetPool<TCompareBy>.Get();
 
-		int count = list.Count;
+		int count = list.count;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = list[i];
+			var elem = list.array[i]; // list.array can change
 
 			if(!hashSet.Add(selector(elem)))
 				list.Add(elem);

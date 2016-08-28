@@ -9,23 +9,25 @@ public static class FlinqQueryExtensions_Aggregate
 {
 	public static T Aggregate<T>(this FlinqQuery<T> query, Func<T, T, T> func)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(func == null)
 			throw new ArgumentNullException("func");
 
 		var finalList = query.Resolve();
 
-		if(finalList.Count == 0)
-			throw new InvalidOperationException("No elements.");
+		int count = finalList.count;
 
-		T final = finalList[0];
-		int count = finalList.Count;
+		if(count == 0)
+		{
+			FlinqListPool<T>.Return(finalList);
+			throw new InvalidOperationException("No elements.");
+		}
+
+		var array = finalList.array;
+		T final = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			final = func(final, finalList[i]);
+			final = func(final, array[i]);
 		}
 
 		FlinqListPool<T>.Return(finalList);
@@ -35,20 +37,18 @@ public static class FlinqQueryExtensions_Aggregate
 
 	public static TAccumulate Aggregate<T, TAccumulate>(this FlinqQuery<T> query, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(func == null)
 			throw new ArgumentNullException("func");
 
 		var finalList = query.Resolve();
 
 		TAccumulate final = seed;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final = func(final, finalList[i]);
+			final = func(final, array[i]);
 		}
 
 		FlinqListPool<T>.Return(finalList);
@@ -58,9 +58,6 @@ public static class FlinqQueryExtensions_Aggregate
 
 	public static TResult Aggregate<T, TAccumulate, TResult>(this FlinqQuery<T> query, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func, Func<TAccumulate, TResult> resultSelector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(func == null)
 			throw new ArgumentNullException("func");
 
@@ -70,11 +67,12 @@ public static class FlinqQueryExtensions_Aggregate
 		var finalList = query.Resolve();
 
 		TAccumulate final = seed;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final = func(final, finalList[i]);
+			final = func(final, array[i]);
 		}
 
 		FlinqListPool<T>.Return(finalList);

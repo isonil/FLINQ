@@ -11,16 +11,13 @@ public static class FlinqHashSetExtensions
 	{
 		public static readonly FlinqQuery<T>.PrecedingQuery impl = Impl;
 
-		private static List<T> Impl(object param)
+		private static FlinqList<T> Impl(object param)
 		{
 			var hashSet = (HashSet<T>)param;
 
 			var newList = FlinqListPool<T>.Get();
 
-			foreach(var elem in hashSet)
-			{
-				newList.Add(elem);
-			}
+			newList.CopyFrom(hashSet);
 
 			return newList;
 		}
@@ -31,11 +28,7 @@ public static class FlinqHashSetExtensions
 		if(hashSet == null)
 			return FlinqQuery<T>.Empty;
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(ImplWrapper<T>.impl, hashSet);
-
-		return query;
+		return new FlinqQuery<T>(ImplWrapper<T>.impl, hashSet);
 	}
 }
 

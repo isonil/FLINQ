@@ -8,22 +8,21 @@ public static class FlinqQueryExtensions_MinBy
 {
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, decimal> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		decimal minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		decimal minElem = selector(array[0]);
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 			{
@@ -32,7 +31,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -41,22 +40,21 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, Nullable<decimal>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
+
+		var array = finalList.array;
 
 		decimal minElem = 0;
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue && elem < minElem)
 			{
@@ -65,7 +63,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -74,22 +72,21 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, double> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		double minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		double minElem = selector(array[0]);
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 			{
@@ -98,7 +95,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -107,22 +104,21 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, Nullable<double>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
+
+		var array = finalList.array;
 
 		double minElem = 0.0;
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue && elem < minElem)
 			{
@@ -131,7 +127,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -140,22 +136,21 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, int> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		int minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		int minElem = selector(array[0]);
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 			{
@@ -164,7 +159,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -173,22 +168,21 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, Nullable<int>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
+
+		var array = finalList.array;
 
 		int minElem = 0;
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue && elem < minElem)
 			{
@@ -197,7 +191,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -206,22 +200,21 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, long> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		long minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		long minElem = selector(array[0]);
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 			{
@@ -230,7 +223,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -239,22 +232,21 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, Nullable<long>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
+
+		var array = finalList.array;
 
 		long minElem = 0;
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue && elem < minElem)
 			{
@@ -263,7 +255,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -272,22 +264,21 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, float> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		float minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		float minElem = selector(array[0]);
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem < minElem)
 			{
@@ -296,7 +287,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -305,22 +296,21 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T>(this FlinqQuery<T> query, Func<T, Nullable<float>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
+
+		var array = finalList.array;
 
 		float minElem = 0f;
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue && elem < minElem)
 			{
@@ -329,7 +319,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -338,25 +328,24 @@ public static class FlinqQueryExtensions_MinBy
 
 	public static T MinBy<T, TMinBy>(this FlinqQuery<T> query, Func<T, TMinBy> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		TMinBy minElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		TMinBy minElem = selector(array[0]);
 		int minIndex = 0;
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem != null)
 			{
@@ -380,7 +369,7 @@ public static class FlinqQueryExtensions_MinBy
 			}
 		}
 
-		var ret = finalList[minIndex];
+		var ret = array[minIndex];
 
 		FlinqListPool<T>.Return(finalList);
 

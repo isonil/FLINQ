@@ -9,16 +9,14 @@ public static class FlinqQueryExtensions_ForEach
 {
 	public static void ForEach<T>(this FlinqQuery<T> query, Action<T> action)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		for(int i = 0; i < count; ++i)
 		{
-			action(finalList[i]);
+			action(array[i]);
 		}
 
 		// we don't return anything to pool if there's an exception thrown,

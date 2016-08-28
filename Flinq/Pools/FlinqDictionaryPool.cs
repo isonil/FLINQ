@@ -7,7 +7,7 @@ namespace Flinq
 
 public static class FlinqDictionaryPool<TKey, TElement>
 {
-	private static List<Dictionary<TKey, TElement>> pool = new List<Dictionary<TKey, TElement>>();
+	private static FlinqList<Dictionary<TKey, TElement>> pool = new FlinqList<Dictionary<TKey, TElement>>();
 	private static int freeIndex;
 
 	static FlinqDictionaryPool()
@@ -26,11 +26,11 @@ public static class FlinqDictionaryPool<TKey, TElement>
 	public static Dictionary<TKey, TElement> Get()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex >= pool.Count)
+		if(freeIndex >= pool.count)
 			pool.Add(new Dictionary<TKey, TElement>());
 
 		int index = freeIndex++;
-		var ret = pool[index];
+		var ret = pool.array[index];
 
 		if(ret.Count != 0)
 		{
@@ -47,9 +47,11 @@ public static class FlinqDictionaryPool<TKey, TElement>
 	public static void Return(Dictionary<TKey, TElement> dict)
 	{
 #if !NO_FLINQ_POOLS
+		var poolArray = pool.array;
+
 		for(int i = freeIndex - 1; i >= 0; --i)
 		{
-			var elem = pool[i];
+			var elem = poolArray[i];
 
 			if(elem == dict)
 			{
@@ -57,8 +59,8 @@ public static class FlinqDictionaryPool<TKey, TElement>
 
 				if(i != freeIndex - 1)
 				{
-					pool[i] = pool[freeIndex - 1];
-					pool[freeIndex - 1] = elem;
+					poolArray[i] = poolArray[freeIndex - 1];
+					poolArray[freeIndex - 1] = elem;
 				}
 
 				--freeIndex;
@@ -74,9 +76,11 @@ public static class FlinqDictionaryPool<TKey, TElement>
 	public static void ReturnAllObjects()
 	{
 #if !NO_FLINQ_POOLS
+		var poolArray = pool.array;
+
 		for(int i = 0; i < freeIndex; ++i)
 		{
-			pool[i].Clear();
+			poolArray[i].Clear();
 		}
 
 		freeIndex = 0;

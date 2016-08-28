@@ -9,11 +9,9 @@ public static class FlinqQueryExtensions_RandomElement
 {
 	public static T RandomElement<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -22,7 +20,7 @@ public static class FlinqQueryExtensions_RandomElement
 		}
 
 		int index = FlinqRandomNumberGenerator.IntRangeInclusive(0, count - 1);
-		var element = finalList[index];
+		var element = finalList.array[index];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -31,11 +29,12 @@ public static class FlinqQueryExtensions_RandomElement
 
 	public static T RandomElement<T>(this FlinqQuery<T> query, Func<int, int, int> intRangeInclusive)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
+		if(intRangeInclusive == null)
+			throw new ArgumentNullException("intRangeInclusive");
+
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -44,7 +43,7 @@ public static class FlinqQueryExtensions_RandomElement
 		}
 
 		int index = intRangeInclusive(0, count - 1);
-		var element = finalList[index];
+		var element = finalList.array[index];
 
 		FlinqListPool<T>.Return(finalList);
 

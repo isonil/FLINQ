@@ -9,21 +9,18 @@ public static class FlinqQueryExtensions_ElementAt
 {
 	public static T ElementAt<T>(this FlinqQuery<T> query, int index)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(index < 0)
 			throw new ArgumentOutOfRangeException("index");
 
 		var finalList = query.Resolve();
 
-		if(index >= finalList.Count)
+		if(index >= finalList.count)
 		{
 			FlinqListPool<T>.Return(finalList);
 			throw new ArgumentOutOfRangeException("index");
 		}
 
-		var element = finalList[index];
+		var element = finalList.array[index];
 
 		FlinqListPool<T>.Return(finalList);
 

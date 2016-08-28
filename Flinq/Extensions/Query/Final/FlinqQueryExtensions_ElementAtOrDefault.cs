@@ -9,9 +9,6 @@ public static class FlinqQueryExtensions_ElementAtOrDefault
 {
 	public static T ElementAtOrDefault<T>(this FlinqQuery<T> query, int index)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(index < 0)
 			return default(T);
 
@@ -19,8 +16,8 @@ public static class FlinqQueryExtensions_ElementAtOrDefault
 
 		T element = default(T);
 
-		if(index < finalList.Count)
-			element = finalList[index];
+		if(index < finalList.count)
+			element = finalList.array[index];
 
 		FlinqListPool<T>.Return(finalList);
 

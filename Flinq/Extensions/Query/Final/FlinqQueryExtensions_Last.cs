@@ -9,12 +9,9 @@ public static class FlinqQueryExtensions_Last
 {
 	public static T Last<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -22,7 +19,7 @@ public static class FlinqQueryExtensions_Last
 			throw new InvalidOperationException("No elements.");
 		}
 
-		var last = finalList[count - 1];
+		var last = finalList.array[count - 1];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -31,9 +28,6 @@ public static class FlinqQueryExtensions_Last
 
 	public static T Last<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 
@@ -47,7 +41,7 @@ public static class FlinqQueryExtensions_Last
 			throw new InvalidOperationException("No element matches predicate.");
 		}
 
-		var elem = finalList[index];
+		var elem = finalList.array[index];
 
 		FlinqListPool<T>.Return(finalList);
 

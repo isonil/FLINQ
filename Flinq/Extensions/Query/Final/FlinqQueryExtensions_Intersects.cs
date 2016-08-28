@@ -9,33 +9,29 @@ public static class FlinqQueryExtensions_Intersects
 {
 	public static bool Intersects<T>(this FlinqQuery<T> query, FlinqQuery<T> other)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
-		if(other == null)
-			throw new ArgumentNullException("other");
-
 		var finalList = query.Resolve();
 
 		var otherFinalList = other.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		var hashSet = FlinqHashSetPool<T>.Get();
 
 		for(int i = 0; i < count; ++i)
 		{
-			hashSet.Add(finalList[i]);
+			hashSet.Add(array[i]);
 		}
 
 		FlinqListPool<T>.Return(finalList);
 
-		count = otherFinalList.Count;
+		count = otherFinalList.count;
+		var otherArray = otherFinalList.array;
 
 		bool intersects = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			if(hashSet.Contains(otherFinalList[i]))
+			if(hashSet.Contains(otherArray[i]))
 			{
 				intersects = true;
 				break;

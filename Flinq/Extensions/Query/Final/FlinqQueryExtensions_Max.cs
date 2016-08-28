@@ -8,21 +8,20 @@ public static class FlinqQueryExtensions_Max
 {
 	public static decimal Max(this FlinqQuery<decimal> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		decimal maxElem = finalList[0];
+		var array = finalList.array;
+
+		decimal maxElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -35,19 +34,17 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<decimal> Max(this FlinqQuery<Nullable<decimal>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		decimal maxElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -71,21 +68,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static double Max(this FlinqQuery<double> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		double maxElem = finalList[0];
+		var array = finalList.array;
+
+		double maxElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -98,19 +94,17 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<double> Max(this FlinqQuery<Nullable<double>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		double maxElem = 0.0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -134,21 +128,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static int Max(this FlinqQuery<int> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		int maxElem = finalList[0];
+		var array = finalList.array;
+
+		int maxElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -161,19 +154,17 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<int> Max(this FlinqQuery<Nullable<int>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		int maxElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -197,21 +188,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static long Max(this FlinqQuery<long> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		long maxElem = finalList[0];
+		var array = finalList.array;
+
+		long maxElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -224,19 +214,17 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<long> Max(this FlinqQuery<Nullable<long>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		long maxElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -260,21 +248,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static float Max(this FlinqQuery<float> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		float maxElem = finalList[0];
+		var array = finalList.array;
+
+		float maxElem = array[0];
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -287,19 +274,17 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<float> Max(this FlinqQuery<Nullable<float>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		float maxElem = 0f;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem.HasValue)
 			{
@@ -323,19 +308,17 @@ public static class FlinqQueryExtensions_Max
 
 	public static T Max<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		T maxElem = default(T);
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = finalList[i];
+			var elem = array[i];
 
 			if(elem != null)
 			{
@@ -377,22 +360,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static TResult Max<T, TResult>(this FlinqQuery<T> query, Func<T, TResult> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		TResult maxElem = default(TResult);
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem != null)
 			{
@@ -434,24 +415,23 @@ public static class FlinqQueryExtensions_Max
 
 	public static decimal Max<T>(this FlinqQuery<T> query, Func<T, decimal> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		decimal maxElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		decimal maxElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -464,22 +444,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<decimal> Max<T>(this FlinqQuery<T> query, Func<T, Nullable<decimal>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		decimal maxElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{
@@ -503,24 +481,23 @@ public static class FlinqQueryExtensions_Max
 
 	public static double Max<T>(this FlinqQuery<T> query, Func<T, double> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		double maxElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		double maxElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -533,22 +510,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<double> Max<T>(this FlinqQuery<T> query, Func<T, Nullable<double>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		double maxElem = 0.0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{
@@ -572,24 +547,23 @@ public static class FlinqQueryExtensions_Max
 
 	public static int Max<T>(this FlinqQuery<T> query, Func<T, int> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		int maxElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		int maxElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -602,22 +576,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<int> Max<T>(this FlinqQuery<T> query, Func<T, Nullable<int>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		int maxElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{
@@ -641,24 +613,23 @@ public static class FlinqQueryExtensions_Max
 
 	public static long Max<T>(this FlinqQuery<T> query, Func<T, long> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		long maxElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		long maxElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -671,22 +642,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<long> Max<T>(this FlinqQuery<T> query, Func<T, Nullable<long>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		long maxElem = 0;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{
@@ -710,24 +679,23 @@ public static class FlinqQueryExtensions_Max
 
 	public static float Max<T>(this FlinqQuery<T> query, Func<T, float> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 			throw new InvalidOperationException("No elements.");
 
-		float maxElem = selector(finalList[0]);
+		var array = finalList.array;
+
+		float maxElem = selector(array[0]);
 
 		for(int i = 1; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem > maxElem)
 				maxElem = elem;
@@ -740,22 +708,20 @@ public static class FlinqQueryExtensions_Max
 
 	public static Nullable<float> Max<T>(this FlinqQuery<T> query, Func<T, Nullable<float>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 
 		float maxElem = 0f;
 		bool found = false;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = selector(finalList[i]);
+			var elem = selector(array[i]);
 
 			if(elem.HasValue)
 			{

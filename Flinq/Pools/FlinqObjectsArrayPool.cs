@@ -7,10 +7,10 @@ namespace Flinq
 
 public static class FlinqObjectsArrayPool
 {
-	private static List<object[]> pool2 = new List<object[]>();
-	private static List<object[]> pool3 = new List<object[]>();
-	private static List<object[]> pool4 = new List<object[]>();
-	private static List<object[]> pool5 = new List<object[]>();
+	private static FlinqList<object[]> pool2 = new FlinqList<object[]>();
+	private static FlinqList<object[]> pool3 = new FlinqList<object[]>();
+	private static FlinqList<object[]> pool4 = new FlinqList<object[]>();
+	private static FlinqList<object[]> pool5 = new FlinqList<object[]>();
 	private static int freeIndex2, freeIndex3, freeIndex4, freeIndex5;
 
 	static FlinqObjectsArrayPool()
@@ -29,10 +29,10 @@ public static class FlinqObjectsArrayPool
 	public static object[] Get2()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex2 >= pool2.Count)
+		if(freeIndex2 >= pool2.count)
 			pool2.Add(new object[2]);
 
-		return pool2[freeIndex2++];
+		return pool2.array[freeIndex2++];
 #else
 		return new object[2];
 #endif
@@ -41,10 +41,10 @@ public static class FlinqObjectsArrayPool
 	public static object[] Get3()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex3 >= pool3.Count)
+		if(freeIndex3 >= pool3.count)
 			pool3.Add(new object[3]);
 
-		return pool3[freeIndex3++];
+		return pool3.array[freeIndex3++];
 #else
 		return new object[3];
 #endif
@@ -53,10 +53,10 @@ public static class FlinqObjectsArrayPool
 	public static object[] Get4()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex4 >= pool4.Count)
+		if(freeIndex4 >= pool4.count)
 			pool4.Add(new object[4]);
 
-		return pool4[freeIndex4++];
+		return pool4.array[freeIndex4++];
 #else
 		return new object[4];
 #endif
@@ -65,10 +65,10 @@ public static class FlinqObjectsArrayPool
 	public static object[] Get5()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex5 >= pool5.Count)
+		if(freeIndex5 >= pool5.count)
 			pool5.Add(new object[5]);
 
-		return pool5[freeIndex5++];
+		return pool5.array[freeIndex5++];
 #else
 		return new object[5];
 #endif
@@ -77,24 +77,32 @@ public static class FlinqObjectsArrayPool
 	public static void ReturnAllObjects()
 	{
 #if !NO_FLINQ_POOLS
+		var pool2Array = pool2.array;
+
 		for(int i = 0; i < freeIndex2; ++i)
 		{
-			Array.Clear(pool2[i], 0, 2);
+			Array.Clear(pool2Array[i], 0, 2);
 		}
+
+		var pool3Array = pool3.array;
 		
 		for(int i = 0; i < freeIndex3; ++i)
 		{
-			Array.Clear(pool3[i], 0, 3);
+			Array.Clear(pool3Array[i], 0, 3);
 		}
+
+		var pool4Array = pool4.array;
 		
 		for(int i = 0; i < freeIndex4; ++i)
 		{
-			Array.Clear(pool4[i], 0, 4);
+			Array.Clear(pool4Array[i], 0, 4);
 		}
+
+		var pool5Array = pool5.array;
 		
 		for(int i = 0; i < freeIndex5; ++i)
 		{
-			Array.Clear(pool5[i], 0, 5);
+			Array.Clear(pool5Array[i], 0, 5);
 		}
 
 		freeIndex2 = 0;

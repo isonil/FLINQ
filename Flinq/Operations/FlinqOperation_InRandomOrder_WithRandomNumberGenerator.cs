@@ -11,20 +11,22 @@ public sealed class FlinqOperation_InRandomOrder_WithRandomNumberGenerator<T> : 
 
 	public void OnInit(Func<int, int, int> intRangeInclusive)
 	{
+		parent = null;
 		this.intRangeInclusive = intRangeInclusive;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
-		int count = list.Count;
+		int count = list.count;
+		var array = list.array;
 
 		for(int i = 0; i < count - 1; ++i)
 		{
 			int rand = intRangeInclusive(i, count - 1);
-
-			var tmp = list[i];
-			list[i] = list[rand];
-			list[rand] = tmp;
+			
+			var tmp = array[i];
+			array[i] = array[rand];
+			array[rand] = tmp;
 		}
 	}
 }

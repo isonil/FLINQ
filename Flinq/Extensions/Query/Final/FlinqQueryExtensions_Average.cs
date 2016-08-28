@@ -9,11 +9,8 @@ public static class FlinqQueryExtensions_Average
 {
 	public static decimal Average(this FlinqQuery<decimal> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -21,11 +18,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		decimal final = 0;
 		
 		for(int i = 0; i < count; ++i)
 		{
-			final += finalList[i];
+			final += array[i];
 		}
 
 		FlinqListPool<decimal>.Return(finalList);
@@ -35,18 +34,16 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<decimal> Average(this FlinqQuery<Nullable<decimal>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
 		decimal final = 0;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = finalList[i];
+			var element = array[i];
 
 			if(element.HasValue)
 			{
@@ -65,11 +62,8 @@ public static class FlinqQueryExtensions_Average
 
 	public static double Average(this FlinqQuery<double> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -77,11 +71,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		double final = 0.0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final += finalList[i];
+			final += array[i];
 		}
 
 		FlinqListPool<double>.Return(finalList);
@@ -91,18 +87,16 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<double> Average(this FlinqQuery<Nullable<double>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
 		double final = 0.0;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = finalList[i];
+			var element = array[i];
 
 			if(element.HasValue)
 			{
@@ -121,11 +115,8 @@ public static class FlinqQueryExtensions_Average
 
 	public static double Average(this FlinqQuery<int> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -133,11 +124,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		int final = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final += finalList[i];
+			final += array[i];
 		}
 
 		FlinqListPool<int>.Return(finalList);
@@ -147,18 +140,16 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<double> Average(this FlinqQuery<Nullable<int>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
 		int final = 0;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = finalList[i];
+			var element = array[i];
 
 			if(element.HasValue)
 			{
@@ -177,11 +168,8 @@ public static class FlinqQueryExtensions_Average
 
 	public static double Average(this FlinqQuery<long> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -189,11 +177,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		long final = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final += finalList[i];
+			final += array[i];
 		}
 
 		FlinqListPool<long>.Return(finalList);
@@ -203,18 +193,16 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<double> Average(this FlinqQuery<Nullable<long>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
 		long final = 0;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = finalList[i];
+			var element = array[i];
 
 			if(element.HasValue)
 			{
@@ -233,11 +221,8 @@ public static class FlinqQueryExtensions_Average
 
 	public static float Average(this FlinqQuery<float> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -245,11 +230,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		float final = 0f;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final += finalList[i];
+			final += array[i];
 		}
 
 		FlinqListPool<float>.Return(finalList);
@@ -259,18 +246,16 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<float> Average(this FlinqQuery<Nullable<float>> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
 
 		float final = 0f;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = finalList[i];
+			var element = array[i];
 
 			if(element.HasValue)
 			{
@@ -291,14 +276,11 @@ public static class FlinqQueryExtensions_Average
 
 	public static decimal Average<T>(this FlinqQuery<T> query, Func<T, decimal> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -306,11 +288,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		decimal final = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final += selector(finalList[i]);
+			final += selector(array[i]);
 		}
 
 		FlinqListPool<T>.Return(finalList);
@@ -320,21 +304,19 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<decimal> Average<T>(this FlinqQuery<T> query, Func<T, Nullable<decimal>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
 		decimal final = 0;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = selector(finalList[i]);
+			var element = selector(array[i]);
 
 			if(element.HasValue)
 			{
@@ -353,14 +335,11 @@ public static class FlinqQueryExtensions_Average
 
 	public static double Average<T>(this FlinqQuery<T> query, Func<T, double> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -368,11 +347,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		double final = 0.0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final += selector(finalList[i]);
+			final += selector(array[i]);
 		}
 
 		FlinqListPool<T>.Return(finalList);
@@ -382,21 +363,19 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<double> Average<T>(this FlinqQuery<T> query, Func<T, Nullable<double>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
 		double final = 0.0;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = selector(finalList[i]);
+			var element = selector(array[i]);
 
 			if(element.HasValue)
 			{
@@ -415,14 +394,11 @@ public static class FlinqQueryExtensions_Average
 
 	public static double Average<T>(this FlinqQuery<T> query, Func<T, int> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -430,11 +406,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		int final = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final += selector(finalList[i]);
+			final += selector(array[i]);
 		}
 
 		FlinqListPool<T>.Return(finalList);
@@ -444,21 +422,19 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<double> Average<T>(this FlinqQuery<T> query, Func<T, Nullable<int>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
 		int final = 0;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = selector(finalList[i]);
+			var element = selector(array[i]);
 
 			if(element.HasValue)
 			{
@@ -477,14 +453,11 @@ public static class FlinqQueryExtensions_Average
 
 	public static double Average<T>(this FlinqQuery<T> query, Func<T, long> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -492,11 +465,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		long final = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final += selector(finalList[i]);
+			final += selector(array[i]);
 		}
 
 		FlinqListPool<T>.Return(finalList);
@@ -506,21 +481,19 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<double> Average<T>(this FlinqQuery<T> query, Func<T, Nullable<long>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
 		long final = 0;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = selector(finalList[i]);
+			var element = selector(array[i]);
 
 			if(element.HasValue)
 			{
@@ -539,14 +512,11 @@ public static class FlinqQueryExtensions_Average
 
 	public static float Average<T>(this FlinqQuery<T> query, Func<T, float> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
 		if(count == 0)
 		{
@@ -554,11 +524,13 @@ public static class FlinqQueryExtensions_Average
 			throw new InvalidOperationException("No elements.");
 		}
 
+		var array = finalList.array;
+
 		float final = 0f;
 
 		for(int i = 0; i < count; ++i)
 		{
-			final += selector(finalList[i]);
+			final += selector(array[i]);
 		}
 
 		FlinqListPool<T>.Return(finalList);
@@ -568,21 +540,19 @@ public static class FlinqQueryExtensions_Average
 
 	public static Nullable<float> Average<T>(this FlinqQuery<T> query, Func<T, Nullable<float>> selector)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(selector == null)
 			throw new ArgumentNullException("selector");
 
 		var finalList = query.Resolve();
 
 		float final = 0f;
-		int count = finalList.Count;
+		int count = finalList.count;
+		var array = finalList.array;
 		int realCount = 0;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var element = selector(finalList[i]);
+			var element = selector(array[i]);
 
 			if(element.HasValue)
 			{

@@ -12,11 +12,7 @@ public static class FlinqListExtensions
 		if(list == null)
 			return FlinqQuery<T>.Empty;
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list);
-
-		return query;
+		return new FlinqQuery<T>(list);
 	}
 
 	// Operations:
@@ -30,11 +26,7 @@ public static class FlinqListExtensions
 
 		op.OnInit(element);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 
 	public static FlinqQuery<T> Concat<T>(this List<T> list, FlinqQuery<T> otherQuery)
@@ -42,18 +34,11 @@ public static class FlinqListExtensions
 		if(list == null)
 			throw new ArgumentNullException("list");
 		
-		if(otherQuery == null)
-			throw new ArgumentNullException("otherQuery");
-
 		var op = FlinqOperationPool<FlinqOperation_Concat<T>>.Get();
 
 		op.OnInit(otherQuery);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 	
 	public static FlinqQuery<T> DefaultIfEmpty<T>(this List<T> list)
@@ -65,11 +50,7 @@ public static class FlinqListExtensions
 
 		op.OnInit();
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 
 	public static FlinqQuery<T> DefaultIfEmpty<T>(this List<T> list, T defaultValue)
@@ -81,11 +62,7 @@ public static class FlinqListExtensions
 
 		op.OnInit(defaultValue);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 	
 	public static FlinqQuery<T> Distinct<T>(this List<T> list)
@@ -97,11 +74,7 @@ public static class FlinqListExtensions
 
 		op.OnInit();
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 	
 	public static FlinqQuery<T> Except<T>(this List<T> list, FlinqQuery<T> except)
@@ -109,18 +82,11 @@ public static class FlinqListExtensions
 		if(list == null)
 			throw new ArgumentNullException("list");
 
-		if(except == null)
-			throw new ArgumentNullException("except");
-
 		var op = FlinqOperationPool<FlinqOperation_Except<T>>.Get();
 
 		op.OnInit(except);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 	
 	public static FlinqQuery<T> ExistIn<T>(this List<T> list, FlinqQuery<T> intersect)
@@ -128,18 +94,11 @@ public static class FlinqListExtensions
 		if(list == null)
 			throw new ArgumentNullException("list");
 
-		if(intersect == null)
-			throw new ArgumentNullException("intersect");
-
 		var op = FlinqOperationPool<FlinqOperation_ExistIn<T>>.Get();
 
 		op.OnInit(intersect);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 	
 	public static FlinqQuery<T> GetDuplicates<T>(this List<T> list)
@@ -151,11 +110,7 @@ public static class FlinqListExtensions
 
 		op.OnInit();
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 	
 	public static FlinqQuery<T> GetDuplicatesBy<T, TCompareBy>(this List<T> list, Func<T, TCompareBy> selector)
@@ -170,11 +125,7 @@ public static class FlinqListExtensions
 
 		op.OnInit(selector);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 	
 	public static FlinqQuery<T> InRandomOrder<T>(this List<T> list)
@@ -186,11 +137,7 @@ public static class FlinqListExtensions
 
 		op.OnInit();
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 	
 	public static FlinqQuery<T> InRandomOrder<T>(this List<T> list, Func<int, int, int> intRangeInclusive)
@@ -205,11 +152,7 @@ public static class FlinqListExtensions
 
 		op.OnInit(intRangeInclusive);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 
 	///////
@@ -226,11 +169,7 @@ public static class FlinqListExtensions
 
 		op.OnInit(predicate);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 
 	public static FlinqQuery<T> Take<T>(this List<T> list, int count)
@@ -242,11 +181,7 @@ public static class FlinqListExtensions
 
 		op.OnInit(count);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 
 	public static FlinqQuery<T> TakeWhile<T>(this List<T> list, Predicate<T> predicate)
@@ -261,11 +196,7 @@ public static class FlinqListExtensions
 
 		op.OnInit(predicate);
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 
 	public static FlinqQuery<T> Reversed<T>(this List<T> list)
@@ -277,11 +208,7 @@ public static class FlinqListExtensions
 
 		op.OnInit();
 
-		var query = FlinqQueryPool<T>.Get();
-
-		query.OnInit(list, op);
-
-		return query;
+		return new FlinqQuery<T>(list, op);
 	}
 
 	// TODO: rest

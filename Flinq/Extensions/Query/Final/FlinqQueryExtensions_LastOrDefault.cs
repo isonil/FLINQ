@@ -9,13 +9,10 @@ public static class FlinqQueryExtensions_LastOrDefault
 {
 	public static T LastOrDefault<T>(this FlinqQuery<T> query)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		var finalList = query.Resolve();
-		int count = finalList.Count;
+		int count = finalList.count;
 
-		var last = count == 0 ? default(T) : finalList[count - 1];
+		var last = count == 0 ? default(T) : finalList.array[count - 1];
 
 		FlinqListPool<T>.Return(finalList);
 
@@ -24,9 +21,6 @@ public static class FlinqQueryExtensions_LastOrDefault
 
 	public static T LastOrDefault<T>(this FlinqQuery<T> query, Predicate<T> predicate)
 	{
-		if(query == null)
-			throw new ArgumentNullException("query");
-
 		if(predicate == null)
 			throw new ArgumentNullException("predicate");
 

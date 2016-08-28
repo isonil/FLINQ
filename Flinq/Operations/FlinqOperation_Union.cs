@@ -11,18 +11,19 @@ public sealed class FlinqOperation_Union<T> : IFlinqOperation<T>
 
 	public void OnInit(FlinqQuery<T> query)
 	{
+		parent = null;
 		this.query = query;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
 		var hashSet = FlinqHashSetPool<T>.Get();
 
-		int count = list.Count;
+		int count = list.count;
 
 		for(int i = 0; i < count; ++i)
 		{
-			var elem = list[i];
+			var elem = list.array[i]; // list.array can change
 
 			if(hashSet.Add(elem))
 				list.Add(elem);
@@ -30,11 +31,12 @@ public sealed class FlinqOperation_Union<T> : IFlinqOperation<T>
 
 		var queryFinalList = query.Resolve();
 
-		int count2 = queryFinalList.Count;
+		int queryFinalCount = queryFinalList.count;
+		var queryFinalArray = queryFinalList.array;
 
-		for(int i = 0; i < count2; ++i)
+		for(int i = 0; i < queryFinalCount; ++i)
 		{
-			var elem = queryFinalList[i];
+			var elem = queryFinalArray[i];
 
 			if(hashSet.Add(elem))
 				list.Add(elem);

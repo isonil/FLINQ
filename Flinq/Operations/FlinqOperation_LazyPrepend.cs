@@ -11,12 +11,13 @@ public sealed class FlinqOperation_LazyPrepend<T> : IFlinqOperation<T>
 
 	public void OnInit(Func<T> elementGetter)
 	{
+		parent = null;
 		this.elementGetter = elementGetter;
 	}
 
-	public void Transform(List<T> list)
+	public override void Transform(FlinqList<T> list)
 	{
-		list.Insert(0, elementGetter());
+		list.Prepend(elementGetter());
 	}
 }
 

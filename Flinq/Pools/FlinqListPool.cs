@@ -7,7 +7,7 @@ namespace Flinq
 
 public static class FlinqListPool<T>
 {
-	private static List<List<T>> pool = new List<List<T>>();
+	private static FlinqList<FlinqList<T>> pool = new FlinqList<FlinqList<T>>();
 	private static int freeIndex;
 	private static int maxFreeIndexThisFrame;
 
@@ -18,7 +18,7 @@ public static class FlinqListPool<T>
 #if !NO_FLINQ_POOLS
 		FlinqPools.AddReturnAllObjectsAction(() =>
 			{
-				//Console.WriteLine("Pool of type: List<" + typeof(T).Name + ">, Total: " + pool.Count + ", Releasing " + freeIndex);
+				//Console.WriteLine("Pool of type: FlinqList<" + typeof(T).Name + ">, Total: " + pool.Count + ", Releasing " + freeIndex);
 				ReturnAllObjects();
 			});
 
@@ -26,23 +26,23 @@ public static class FlinqListPool<T>
 #endif
 	}
 
-	public static List<T> Get()
+	public static FlinqList<T> Get()
 	{
 #if !NO_FLINQ_POOLS
-		if(freeIndex >= pool.Count)
-			pool.Add(new List<T>());
+		if(freeIndex >= pool.count)
+			pool.Add(new FlinqList<T>());
 
 		int index = freeIndex++;
 
 		if(freeIndex > maxFreeIndexThisFrame)
 			maxFreeIndexThisFrame = freeIndex;
 
-		var ret = pool[index];
+		var ret = pool.array[index];
 
-		if(ret.Count != 0)
+		if(ret.count != 0)
 		{
 			ret.Clear();
-			throw new InvalidOperationException("List from pool has been used after being returned.");
+			throw new InvalidOperationException("FlinqList from pool has been used after being returned.");
 		}
 
 		return ret;
@@ -51,12 +51,14 @@ public static class FlinqListPool<T>
 #endif
 	}
 
-	public static void Return(List<T> list)
+	public static void Return(FlinqList<T> list)
 	{
 #if !NO_FLINQ_POOLS
+		var poolArray = pool.array;
+
 		for(int i = freeIndex - 1; i >= 0; --i)
 		{
-			var elem = pool[i];
+			var elem = poolArray[i];
 
 			if(elem == list)
 			{
@@ -64,8 +66,8 @@ public static class FlinqListPool<T>
 
 				if(i != freeIndex - 1)
 				{
-					pool[i] = pool[freeIndex - 1];
-					pool[freeIndex - 1] = elem;
+					poolArray[i] = poolArray[freeIndex - 1];
+					poolArray[freeIndex - 1] = elem;
 				}
 
 				--freeIndex;
@@ -74,25 +76,27 @@ public static class FlinqListPool<T>
 			}
 		}
 
-		throw new InvalidOperationException("Could not return element of type List<" + typeof(T).Name + ">, because it's not here.");
+		throw new InvalidOperationException("Could not return element of type FlinqList<" + typeof(T).Name + ">, because it's not here.");
 #endif
 	}
 
 	public static void ReturnAllObjects()
 	{
 #if !NO_FLINQ_POOLS
-		int count = pool.Count;
+		int count = pool.count;
+		var poolArray = pool.array;
 
 		for(int i = 0; i < maxFreeIndexThisFrame; )
 		{
-			var elem = pool[i];
+			var elem = poolArray[i];
 
 			if(elem.Capacity > MaxListCapacity)
 			{
-				pool[i] = pool[count - 1];
-				pool[count - 1] = elem;
+				poolArray[i] = poolArray[count - 1];
+				poolArray[count - 1] = elem;
 
 				pool.RemoveAt(count - 1);
+				poolArray = pool.array; // could change
 
 				--count;
 
