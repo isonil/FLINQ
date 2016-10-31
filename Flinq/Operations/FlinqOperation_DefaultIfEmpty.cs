@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_DefaultIfEmpty<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_DefaultIfEmpty<T> : FlinqOperation<T>
 {
 	public void OnInit()
 	{

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_GetDuplicates<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_GetDuplicates<T> : FlinqOperation<T>
 {
 	public void OnInit()
 	{

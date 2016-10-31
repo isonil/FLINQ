@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_Distinct<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_Distinct<T> : FlinqOperation<T>
 {
 	public void OnInit()
 	{

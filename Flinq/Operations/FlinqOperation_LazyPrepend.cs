@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_LazyPrepend<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_LazyPrepend<T> : FlinqOperation<T>
 {
 	private Func<T> elementGetter;
 

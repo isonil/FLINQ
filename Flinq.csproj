@@ -107,7 +107,7 @@
     <Compile Include="Flinq\FlinqQueryResult.cs" />
     <Compile Include="Flinq\FlinqRandomNumberGenerator.cs" />
     <Compile Include="Flinq\Operations\FlinqOperation_GetDuplicatesBy.cs" />
-    <Compile Include="Flinq\Operations\IFlinqOperation.cs" />
+    <Compile Include="Flinq\Operations\FlinqOperation.cs" />
     <Compile Include="Flinq\Operations\FlinqOperation_Appended.cs" />
     <Compile Include="Flinq\Operations\FlinqOperation_Concat.cs" />
     <Compile Include="Flinq\Operations\FlinqOperation_DefaultIfEmpty.cs" />

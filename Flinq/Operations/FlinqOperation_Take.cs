@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_Take<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_Take<T> : FlinqOperation<T>
 {
 	private int count;
 

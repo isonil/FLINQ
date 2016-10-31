@@ -7,7 +7,7 @@ namespace Flinq
 
 // it's basically the same as Intersect but allows duplicates
 
-public sealed class FlinqOperation_ExistIn<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_ExistIn<T> : FlinqOperation<T>
 {
 	private FlinqQuery<T> intersect;
 

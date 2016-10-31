@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_Prepended<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_Prepended<T> : FlinqOperation<T>
 {
 	private T element;
 

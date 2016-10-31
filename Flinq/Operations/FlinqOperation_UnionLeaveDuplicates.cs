@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_UnionLeaveDuplicates<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_UnionLeaveDuplicates<T> : FlinqOperation<T>
 {
 	private FlinqQuery<T> query;
 

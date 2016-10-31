@@ -89,7 +89,7 @@ public struct FlinqQuery<T> : IEquatable<FlinqQuery<T>>
 	//private int precedingQueryArgIndex;
 	private object precedingQueryParam;
 
-	private IFlinqOperation<T> lastOperation;
+	private FlinqOperation<T> lastOperation;
 
 	public static FlinqQuery<T> Empty
 	{
@@ -107,7 +107,7 @@ public struct FlinqQuery<T> : IEquatable<FlinqQuery<T>>
 		lastOperation = null;
 	}
 
-	internal FlinqQuery(List<T> list, IFlinqOperation<T> operation)
+	internal FlinqQuery(List<T> list, FlinqOperation<T> operation)
 	{
 		precedingQueryOrList = list;
 		//precedingQueryArgIndex = -1;
@@ -115,7 +115,7 @@ public struct FlinqQuery<T> : IEquatable<FlinqQuery<T>>
 		lastOperation = operation;
 	}
 
-	internal FlinqQuery(FlinqQuery<T> query, IFlinqOperation<T> operation)
+	internal FlinqQuery(FlinqQuery<T> query, FlinqOperation<T> operation)
 	{
 		operation.parent = query.lastOperation;
 
@@ -254,7 +254,7 @@ public struct FlinqQuery<T> : IEquatable<FlinqQuery<T>>
 		return finalList;
 	}
 
-	private static void ApplyTransformOperations(FlinqList<T> list, IFlinqOperation<T> operation)
+	private static void ApplyTransformOperations(FlinqList<T> list, FlinqOperation<T> operation)
 	{
 		if(operation == null)
 			return;

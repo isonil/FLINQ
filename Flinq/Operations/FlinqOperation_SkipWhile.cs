@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_SkipWhile<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_SkipWhile<T> : FlinqOperation<T>
 {
 	private Predicate<T> predicate;
 

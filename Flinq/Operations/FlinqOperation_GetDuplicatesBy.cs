@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_GetDuplicatesBy<T, TCompareBy> : IFlinqOperation<T>
+public sealed class FlinqOperation_GetDuplicatesBy<T, TCompareBy> : FlinqOperation<T>
 {
 	private Func<T, TCompareBy> selector;
 

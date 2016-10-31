@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_InRandomOrder_WithRandomNumberGenerator<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_InRandomOrder_WithRandomNumberGenerator<T> : FlinqOperation<T>
 {
 	public Func<int, int, int> intRangeInclusive;
 

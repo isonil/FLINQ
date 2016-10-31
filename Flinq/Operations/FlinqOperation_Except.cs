@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Flinq
 {
 
-public sealed class FlinqOperation_Except<T> : IFlinqOperation<T>
+public sealed class FlinqOperation_Except<T> : FlinqOperation<T>
 {
 	private FlinqQuery<T> except;
 
