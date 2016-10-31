@@ -1,32 +1,38 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Flinq
 {
 
 // this list's purpose is to give direct access to the internal array when needed
-public sealed class FlinqList<T>
+public sealed class FlinqList<T> : IDisposable
 {
 	internal T[] array;
 	internal int count;
 
 	private const int InitialCapacity = 8;
 
-	public int Capacity { get { return array.Length; } }
+	internal int Capacity { get { return array.Length; } }
 
-	public FlinqList()
+	// for non-internal use only! //
+	public T this[int index] { get { return array[index]; } }
+	public int Count { get { return count; } }
+	////////////////////////////////
+
+	internal FlinqList()
 	{
 		array = new T[InitialCapacity];
 	}
 
-	public void Add(T elem)
+	internal void Add(T elem)
 	{
 		EnsureCapacity(count + 1);
 
 		array[count++] = elem;
 	}
 
-	public void Prepend(T elem)
+	internal void Prepend(T elem)
 	{
 		EnsureCapacity(count + 1);
 
@@ -35,7 +41,7 @@ public sealed class FlinqList<T>
 		array[0] = elem;
 	}
 
-	public void AddRange(FlinqList<T> list)
+	internal void AddRange(FlinqList<T> list)
 	{
 		int listCount = list.count;
 
@@ -46,7 +52,7 @@ public sealed class FlinqList<T>
 		count += listCount;
 	}
 
-	public void RemoveAt(int index)
+	internal void RemoveAt(int index)
 	{
 		--count;
 
@@ -54,7 +60,7 @@ public sealed class FlinqList<T>
 			Array.Copy(array, index + 1, array, index, count - index);
 	}
 
-	public void RemoveRange(int index, int removeCount)
+	internal void RemoveRange(int index, int removeCount)
 	{
 		if(removeCount > 0)
 		{
@@ -65,12 +71,12 @@ public sealed class FlinqList<T>
 		}
 	}
 
-	public void Clear()
+	internal void Clear()
 	{
 		count = 0;
 	}
 
-	public void Reverse()
+	internal void Reverse()
 	{
 		int i = 0;
 		int j = count - 1;
@@ -86,17 +92,17 @@ public sealed class FlinqList<T>
 		}
 	}
 
-	public void Sort<TKey>(FlinqList<TKey> keys)
+	internal void Sort<TKey>(FlinqList<TKey> keys)
 	{
 		throw new NotImplementedException();
 	}
 
-	public void SortDescending<TKey>(FlinqList<TKey> keys)
+	internal void SortDescending<TKey>(FlinqList<TKey> keys)
 	{
 		throw new NotImplementedException();
 	}
 
-	public void CopyFrom(List<T> list)
+	internal void CopyFrom(List<T> list)
 	{
 		int listCount = list.Count;
 
@@ -107,7 +113,7 @@ public sealed class FlinqList<T>
 		count = listCount;
 	}
 
-	public void CopyFrom(T[] arr)
+	internal void CopyFrom(T[] arr)
 	{
 		int arrLength = arr.Length;
 
@@ -118,7 +124,7 @@ public sealed class FlinqList<T>
 		count = arrLength;
 	}
 
-	public void CopyFrom(FlinqList<T> list)
+	internal void CopyFrom(FlinqList<T> list)
 	{
 		int listCount = list.count;
 
@@ -129,7 +135,7 @@ public sealed class FlinqList<T>
 		count = listCount;
 	}
 
-	public void CopyFrom(ICollection<T> collection)
+	internal void CopyFrom(ICollection<T> collection)
 	{
 		int collectionCount = collection.Count;
 
@@ -140,7 +146,7 @@ public sealed class FlinqList<T>
 		count = collectionCount;
 	}
 
-	public void CopyFrom(IEnumerable<T> enumerable)
+	internal void CopyFrom(IEnumerable<T> enumerable)
 	{
 		var collection = enumerable as ICollection<T>;
 
@@ -157,7 +163,7 @@ public sealed class FlinqList<T>
 		}
 	}
 
-	public void CopyFrom<TKey>(Dictionary<TKey, T> dictionary)
+	internal void CopyFrom<TKey>(Dictionary<TKey, T> dictionary)
 	{
 		EnsureCapacity(dictionary.Count);
 
@@ -170,12 +176,12 @@ public sealed class FlinqList<T>
 		}
 	}
 
-	public bool Exists(Predicate<T> predicate)
+	internal bool Exists(Predicate<T> predicate)
 	{
 		return FindIndex(predicate) != -1;
 	}
 
-	public T Find(Predicate<T> predicate)
+	internal T Find(Predicate<T> predicate)
 	{
 		for(int i = 0; i < count; ++i)
 		{
@@ -188,12 +194,12 @@ public sealed class FlinqList<T>
 		return default(T);
 	}
 
-	public int FindIndex(Predicate<T> predicate)
+	internal int FindIndex(Predicate<T> predicate)
 	{
 		return FindIndex(0, predicate);
 	}
 
-	public int FindIndex(int startFrom, Predicate<T> predicate)
+	internal int FindIndex(int startFrom, Predicate<T> predicate)
 	{
 		for(int i = startFrom; i < count; ++i)
 		{
@@ -206,7 +212,7 @@ public sealed class FlinqList<T>
 		return -1;
 	}
 
-	public T FindLast(Predicate<T> predicate)
+	internal T FindLast(Predicate<T> predicate)
 	{
 		for(int i = count; i >= 0; --i)
 		{
@@ -219,12 +225,12 @@ public sealed class FlinqList<T>
 		return default(T);
 	}
 
-	public int FindLastIndex(Predicate<T> predicate)
+	internal int FindLastIndex(Predicate<T> predicate)
 	{
 		return FindLastIndex(count - 1, predicate);
 	}
 
-	public int FindLastIndex(int startFrom, Predicate<T> predicate)
+	internal int FindLastIndex(int startFrom, Predicate<T> predicate)
 	{
 		for(int i = startFrom; i >= 0; --i)
 		{
@@ -237,7 +243,7 @@ public sealed class FlinqList<T>
 		return -1;
 	}
 
-	public bool Contains(T elem)
+	internal bool Contains(T elem)
 	{
 		var comparer = EqualityComparer<T>.Default;
 
@@ -250,7 +256,7 @@ public sealed class FlinqList<T>
 		return false;
 	}
 
-	public bool TrueForAll(Predicate<T> predicate)
+	internal bool TrueForAll(Predicate<T> predicate)
 	{
 		for(int i = 0; i < count; ++i)
 		{
@@ -261,7 +267,7 @@ public sealed class FlinqList<T>
 		return true;
 	}
 
-	public void KeepWhere(Predicate<T> predicate)
+	internal void KeepWhere(Predicate<T> predicate)
 	{
 		int free = 0;
 
@@ -288,8 +294,8 @@ public sealed class FlinqList<T>
 
 		count = free;
 	}
-	
-	public void KeepWhere(Func<T, int, bool> predicate)
+
+	internal void KeepWhere(Func<T, int, bool> predicate)
 	{
 		int free = 0;
 
@@ -317,7 +323,7 @@ public sealed class FlinqList<T>
 		count = free;
 	}
 
-	public void KeepWhereHashSetContains(HashSet<T> hashSet)
+	internal void KeepWhereHashSetContains(HashSet<T> hashSet)
 	{
 		int free = 0;
 
@@ -345,7 +351,7 @@ public sealed class FlinqList<T>
 		count = free;
 	}
 
-	public void RemoveWhereHashSetContains(HashSet<T> hashSet)
+	internal void RemoveWhereHashSetContains(HashSet<T> hashSet)
 	{
 		int free = 0;
 
@@ -371,6 +377,11 @@ public sealed class FlinqList<T>
 		}
 
 		count = free;
+	}
+
+	public void Dispose()
+	{
+		FlinqListPool<T>.Return(this);
 	}
 
 	private void EnsureCapacity(int size)

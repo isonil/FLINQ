@@ -172,6 +172,57 @@ class Program
 		Console.WriteLine("FLINQ: " + stopwatch.ElapsedMilliseconds + " (" + sum4 + ") (ReturnAllObjects: " + (timePerReturn / TimeSpan.TicksPerMillisecond) + ")");
 
 
+
+		FlinqPools.Reset();
+
+		stopwatch.Restart();
+		for( int i = 0; i < 1000; i++ )
+		{
+			for( int n = 0; n < 100; n++ )
+			{
+				foreach( var elem in list.AsFlinqQuery() )
+				{
+					if( i == int.MinValue )
+						i = 0;
+				}
+			}
+
+			//stopwatch2.Restart();
+			FlinqPools.ReturnAllObjects();
+			//timePerReturn += stopwatch2.ElapsedTicks;
+		}
+		Console.WriteLine("foreach on FLINQ: " + stopwatch.ElapsedMilliseconds + " (" + sum4 + ") (ReturnAllObjects: " + (timePerReturn / TimeSpan.TicksPerMillisecond) + ")");
+
+
+
+
+		FlinqPools.Reset();
+
+		stopwatch.Restart();
+		for( int i = 0; i < 1000; i++ )
+		{
+			for( int n = 0; n < 100; n++ )
+			{
+				using( var result = list.AsFlinqQuery().GetResult() )
+				{
+					for( int j = 0, count = result.Count; j < count; j++ )
+					{
+						if( result[j].x == int.MinValue )
+							i = 0;
+					}
+				}
+			}
+
+			//stopwatch2.Restart();
+			FlinqPools.ReturnAllObjects();
+			//timePerReturn += stopwatch2.ElapsedTicks;
+		}
+		Console.WriteLine("for on FLINQ: " + stopwatch.ElapsedMilliseconds + " (" + sum4 + ") (ReturnAllObjects: " + (timePerReturn / TimeSpan.TicksPerMillisecond) + ")");
+
+
+
+
+
 		stopwatch.Restart();
 		int sumx = 0;
 

@@ -104,7 +104,6 @@
     <Compile Include="Flinq\FlinqPools.cs" />
     <Compile Include="Flinq\FlinqQuery.cs" />
     <Compile Include="Flinq\FlinqQueryEnumerator.cs" />
-    <Compile Include="Flinq\FlinqQueryResult.cs" />
     <Compile Include="Flinq\FlinqRandomNumberGenerator.cs" />
     <Compile Include="Flinq\Operations\FlinqOperation_GetDuplicatesBy.cs" />
     <Compile Include="Flinq\Operations\FlinqOperation.cs" />

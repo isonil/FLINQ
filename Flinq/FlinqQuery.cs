@@ -208,15 +208,12 @@ public struct FlinqQuery<T> : IEquatable<FlinqQuery<T>>
 		return this == other;
 	}
 
-	public FlinqQueryResult<T> GetResult()
+	public FlinqList<T> GetResult()
 	{
-		var finalList = Resolve();
+		// the public GetResult() method now just returns the FlinqList from Resolve,
+		// the user just has to remember about using "using"
 
-		var result = new FlinqQueryResult<T>(finalList);
-
-		FlinqListPool<T>.Return(finalList);
-
-		return result;
+		return Resolve();
 	}
 
 	public FlinqQueryEnumerator<T> GetEnumerator()
