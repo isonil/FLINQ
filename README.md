@@ -5,7 +5,7 @@ FLINQ usually beats LINQ performance-wise if the query's complexity is at least 
 
 FlinqPools.ReturnAllObjects() must be called each frame, or you can define NO_FLINQ_POOLS to disable object pooling.
 
-The project has not beed fully tested yet and may contain bugs.
+The project has not been fully tested yet and may contain bugs.
 
 # FLINQ enumerator
 
