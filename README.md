@@ -1,5 +1,5 @@
 # About
-FLINQ is a LINQ replacement suitable for realtime applications due to object pooling. FLINQ only supports immediate execution.
+FLINQ is a LINQ replacement suitable for realtime applications thanks to object pooling. FLINQ only supports immediate execution.
 
 FLINQ usually beats LINQ performance-wise if the query's complexity is at least linear (if it's not, then LINQ is much faster because of  its deferred execution). In game development, in most cases you want to iterate over all the elements anyway which makes FLINQ a better choice, especially that no memory allocations take place.
 
