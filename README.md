@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/8492408/124279972-66937480-db48-11eb-920e-7b8bde114025.png">
+</p>
+
 # About
 FLINQ is a LINQ replacement suitable for realtime applications thanks to object pooling. FLINQ only supports immediate execution.
 
